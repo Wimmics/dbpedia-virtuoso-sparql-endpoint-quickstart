@@ -84,7 +84,7 @@ run_virtuoso_cmd "registry_set ('dbp_decode_iri', 'on');"
 
 echo "[INFO] Setting dynamic !!!!"
 run_virtuoso_cmd "registry_set ('dbp_DynamicLocal', 'on');"
-run_virtuoso_cmd "registry_set ('dbp_lhost', ':80');"
+run_virtuoso_cmd "registry_set ('dbp_lhost', ':8890');"
 run_virtuoso_cmd "registry_set ('dbp_vhost', '${DOMAIN}');"
 
 echo "[INFO] Setting 'dbp_domain' registry entry to ${DOMAIN}"
