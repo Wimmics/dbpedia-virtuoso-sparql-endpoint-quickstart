@@ -24,7 +24,7 @@ services:
       fileUPDT: ${fileUPDT}
       DBP_LANG: ${DBP_LANG}
       DBP_CATEGORY: ${DBP_CATEGORY}
-      CREATE_GRAPH: ${CREATE_GRAPH}
+      COMPUTE_STAT: ${COMPUTE_STAT}
     volumes:
       - ${DATA_DIR}:/root/data
       - ${VIRTUOSO_DATABASE_DIR}:/opt/virtuoso-opensource/database
