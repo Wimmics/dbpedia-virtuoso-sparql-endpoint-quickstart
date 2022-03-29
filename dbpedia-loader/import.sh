@@ -7,6 +7,7 @@ if [ -z ${COMPUTE_STATS+x} ]; then COMPUTE_STATS=1; fi
 #lastUpdate=`head -n 1 $current_fileUPDT`;
 echo "============== TEST VERSION";
 echo "============== STATS ? ${COMPUTE_STATS}";
+echo "other ex : ${DBP_CATEGORY}"
 touch /opt/virtuoso-opensource/database/loader_locker.lck;
 
 if [ -f "/opt/virtuoso-opensource/database/loader_locker.lck" ]; then  
