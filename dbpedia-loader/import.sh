@@ -241,7 +241,7 @@ checkpoint_interval(60);
 EOF`
 run_virtuoso_cmd "$load_cmds";
 
-if [[ COMPUTE_STATS == 1 ]] ; then
+if [ COMPUTE_STATS == 1 ] ; then
  echo "[STATS TIME]"
  echo "----GENERAL STATS"
  run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <${DOMAIN}> void:entities ?no . } WHERE { SELECT COUNT(distinct ?s) AS ?no { ?s a [] } };"
