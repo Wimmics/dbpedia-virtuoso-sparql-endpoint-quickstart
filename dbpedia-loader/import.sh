@@ -6,7 +6,7 @@ user="dba"
 if [ -z ${COMPUTE_STATS+x} ]; then COMPUTE_STATS=1; fi
 #lastUpdate=`head -n 1 $current_fileUPDT`;
 echo "============== TEST VERSION";
-
+echo "============== STATS ? ${COMPUTE_STATS}";
 touch /opt/virtuoso-opensource/database/loader_locker.lck;
 
 if [ -f "/opt/virtuoso-opensource/database/loader_locker.lck" ]; then  
@@ -240,8 +240,9 @@ log_enable(1);
 checkpoint_interval(60);
 EOF`
 run_virtuoso_cmd "$load_cmds";
-echo "[STATS TIME]"
+
 if [[ COMPUTE_STATS == 1 ]] ; then
+ echo "[STATS TIME]"
  echo "----GENERAL STATS"
  run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <${DOMAIN}> void:entities ?no . } WHERE { SELECT COUNT(distinct ?s) AS ?no { ?s a [] } };"
  run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <${DOMAIN}> void:classes ?no . } WHERE { SELECT COUNT(distinct ?o) AS ?no { ?s rdf:type ?o } };"
