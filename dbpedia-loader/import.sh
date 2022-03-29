@@ -5,7 +5,7 @@ port=$STORE_ISQL_PORT
 user="dba"
 if [ -z ${COMPUTE_STATS+x} ]; then COMPUTE_STATS=1; fi
 #lastUpdate=`head -n 1 $current_fileUPDT`;
-#echo "============== WE GET THE LAST UPDATE : $lastUpdate";
+echo "============== TEST VERSION";
 
 touch /opt/virtuoso-opensource/database/loader_locker.lck;
 
