@@ -3,16 +3,10 @@ bin="isql-vt"
 host="store"
 port=$STORE_ISQL_PORT
 user="dba"
-#lastUpdate=`head -n 1 $current_fileUPDT`;
-#echo "============== WE GET THE LAST UPDATE : $lastUpdate";
+lastUpdate=`head -n 1 $current_fileUPDT`;
+echo "============== WE GET THE LAST UPDATE : $lastUpdate";
 
-touch /opt/virtuoso-opensource/database/loader_locker.lck;
-
-if [ -f "/opt/virtuoso-opensource/database/loader_locker.lck" ]; then  
-echo "/opt/virtuoso-opensource/database/loader_locker.lck exist "  
-else
-echo "/opt/virtuoso-opensource/database/loader_locker.lck PB"
-fi  
+touch ${VIRTUOSO_DATABASE_DIR}/loader_locker.lck;
 
 run_virtuoso_cmd () {
  VIRT_OUTPUT=`echo "$1" | "$bin" -H "$host" -S "$port" -U "$user" -P "$STORE_DBA_PASSWORD" 2>&1`
@@ -29,7 +23,7 @@ run_virtuoso_cmd () {
 }
 
 wait_for_download() {
-  sleep 100
+  sleep 10
   while [ -f "${DATA_DIR}/download.lck" ]; do
     sleep 1
   done
@@ -61,31 +55,28 @@ test_connection () {
 echo "[INFO] Waiting for download to finish..."
 wait_for_download
 
+
 echo "will use ISQL port $STORE_ISQL_PORT to connect"
 echo "[INFO] Waiting for store to come online (${STORE_CONNECTION_TIMEOUT}s)"
-: ${STORE_CONNECTION_TIMEOUT:=100}
+: ${STORE_CONNECTION_TIMEOUT:=60}
 test_connection "${STORE_CONNECTION_TIMEOUT}"
 if [ $? -eq 2 ]; then
    echo "[ERROR] store not reachable"
    exit 1
 fi
 
-
-## CREATE SUBGRAPHS
-run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_CREATE ('${DOMAIN}',1);"
-run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/metadata');"
-
-
-echo "[INFO] ADD META DATA"
-run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
-
 echo "[INFO] Setting 'dbp_decode_iri' registry entry to 'on'"
 run_virtuoso_cmd "registry_set ('dbp_decode_iri', 'on');"
 
-echo "[INFO] Setting dynamic !!!!"
-run_virtuoso_cmd "registry_set ('dbp_DynamicLocal', 'on');"
-run_virtuoso_cmd "registry_set ('dbp_lhost', ':8890');"
-run_virtuoso_cmd "registry_set ('dbp_vhost', '${DOMAIN}');"
+echo "[INFO] CREATE DEFAULT GRAPH AND LIVE SUBGRAPHS'"
+run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_CREATE ('${DOMAIN}',1);"
+
+run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/metadata');"
+echo "[INFO] ADD META DATA"
+run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/meta/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
+rm -rf ${STORE_DATA_DIR}/meta/
+rm -rf ${DATA_DIR}/meta/
+
 
 echo "[INFO] Setting 'dbp_domain' registry entry to ${DOMAIN}"
 run_virtuoso_cmd "registry_set ('dbp_domain', '${DOMAIN}');"
@@ -161,8 +152,6 @@ do
              final_name="${level1}_${level2}_${level3}";
      fi
      echo "> final name is : ${final_name}"
-     
-     run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
      run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name}');"
      
     if  [[ $entry =~ $pat3 ]] &&  [[ ! $entry =~ $pat4 ]]; then
@@ -209,6 +198,7 @@ do
        
 
         
+        run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
         run_virtuoso_cmd "SPARQL INSERT INTO <${DOMAIN}/graph/metadata> {  <${DOMAIN}/graph/${final_name}> void:dataDump <http://prod-dbpedia.inria.fr/dumps/lastUpdate/$fn> };"
         fi
     fi;
@@ -253,17 +243,14 @@ resp=$(run_virtuoso_cmd "$get_named_graph");
 graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
 echo "---->>> COMPUTE FOR EACH GRAPH STATS"
 pat4='metadata'
-pat5='wikidata'
 for graph in ${graph_list[@]}; do
-    echo "<$graph>"
-    echo "----  GRAPH STATS";
-    run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:triples ?no . } WHERE { SELECT (COUNT(*) AS ?no)  FROM <$graph>  { ?s ?p ?o } };"
-    run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:entities ?no .} WHERE { SELECT COUNT(distinct ?s) AS ?no  FROM <$graph> { ?s a [] } };"
-    run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:classes ?no .} WHERE { SELECT COUNT(distinct ?o) AS ?no  FROM <$graph> { ?s rdf:type ?o } };"
-    run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:properties ?no .} WHERE { SELECT COUNT(distinct ?p) AS ?no  FROM <$graph> { ?s ?p ?o } };"
-        
-     if [[ ! $graph =~ $pat4 ]] &&  [[ ! $graph =~ $pat5 ]]; then
-       
+     if [[ ! $graph =~ $pat4 ]]; then
+        echo "<$graph>"
+        echo "----  GRAPH STATS";
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:triples ?no . } WHERE { SELECT (COUNT(*) AS ?no) { ?s ?p ?o } };"
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:entities ?no .} WHERE { SELECT COUNT(distinct ?s) AS ?no  FROM <$graph> { ?s a [] } };"
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:classes ?no .} WHERE { SELECT COUNT(distinct ?o) AS ?no  FROM <$graph> { ?s rdf:type ?o } };"
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:properties ?no .} WHERE { SELECT COUNT(distinct ?p) AS ?no  FROM <$graph> { ?s ?p ?o } };"
         echo "---- CLASS PARTITIONS stats";
         echo "- classes";
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> {<$graph> void:classPartition [void:class ?c ] . } WHERE {SELECT DISTINCT(?c) FROM <$graph>  { ?s a ?c . } };"
@@ -290,8 +277,7 @@ for graph in ${graph_list[@]}; do
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> {<$graph> void:propertyPartition [void:property ?p ; void:distinctSubjects ?x ] . } WHERE {{ SELECT (COUNT(DISTINCT ?s) AS ?x) ?p FROM <$graph> WHERE { ?s ?p ?o } GROUP BY ?p } };"
         echo "- nb distinct Objects by prop";
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> {<$graph> void:propertyPartition [void:property ?p ; void:distinctObjects ?x ] . } WHERE {{ SELECT (COUNT(DISTINCT ?o) AS ?x) ?p FROM <$graph> WHERE { ?s ?p ?o } GROUP BY ?p } };"
-
-     fi
+   fi
 done
 echo ">>>>>>>>> END NAMED GRAPH STATS COMPUTATION"
 echo "[INFO] making checkpoint..."
@@ -309,7 +295,6 @@ echo "[INFO] bulk load done; terminating loader"
 echo "[INFO] update of lookup tables"
 run_virtuoso_cmd 'urilbl_ac_init_db();'
 run_virtuoso_cmd 's_rank();'
-echo "[INFO] End of process"
-rm "/opt/virtuoso-opensource/database/loader_locker.lck";
 
-echo "[INFO] LOCKER DELETED... SEE YOU !"
+rm "${VIRTUOSO_DATABASE_DIR}/loader_locker.lck";
+
