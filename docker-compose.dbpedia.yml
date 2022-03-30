@@ -15,10 +15,10 @@ services:
      - /bin/bash
      - -c
      - |
-     - echo "DOWNLOAD AND MAKE CUSTOM DAV";
-     - apt-get update
-     - apt-get install -y git python
-     - cd /opt
-     - git clone https://github.com/datalogism/dbpedia-vad
-     - cd dbpedia-vad
+     - echo "DOWNLOAD AND MAKE CUSTOM DAV"; &&
+     - apt-get update  &&
+     - apt-get install -y git python  &&
+     - cd /opt  &&
+     - git clone https://github.com/datalogism/dbpedia-vad  &&
+     - cd dbpedia-vad  &&
      - ./build.sh
