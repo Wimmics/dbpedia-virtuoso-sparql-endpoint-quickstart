@@ -16,6 +16,7 @@ services:
      - /bin/bash
      - -c
      - |
+     - echo "DOWNLOAD AND MAKE CUSTOM DAV";
      - apt-get update
      - apt-get install -y git python
      - cd /opt
