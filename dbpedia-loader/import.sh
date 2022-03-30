@@ -243,6 +243,18 @@ log_enable(1);
 checkpoint_interval(60);
 EOF`
 run_virtuoso_cmd "$load_cmds";
+echo "[CLEAN WIKIDATA] BEGIN";
+get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s sd:namedGraph ?o. FILTER( ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> AND STRSTARTS(STR(?o), "http://fr.dbpedia.org/graph/dbpedia_wikidata_"))};'
+resp=$(run_virtuoso_cmd "$get_named_graph");
+graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
+echo ">> now clean graph by graph";
+for graph in ${graph_list[@]}; do
+  echo "<$graph>"
+  run_virtuoso_cmd "SPARQL WITH <$graph> DELETE {  ?s ?p ?o. } INSERT { ?y ?p ?o. } WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } }. {SELECT ?s ?p ?o FROM <$graph> WHERE {?s ?p ?o } } };"
+done
+echo ">> and now clean same as links";
+run_virtuoso_cmd "SPARQL WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE {  ?s owl:sameAs ?y. } INSERT { ?y owl:sameAs ?s. } WHERE {SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } };"
+echo "[CLEAN WIKIDATA] END";
 
 if [ COMPUTE_STATS == 1 ] ; then
  echo "[STATS TIME]"
@@ -253,7 +265,7 @@ if [ COMPUTE_STATS == 1 ] ; then
  run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <${DOMAIN}> void:properties ?no . } WHERE { SELECT COUNT(distinct ?p) AS ?no  { ?s ?p ?o } };"
 
  echo "---->>> ASK FIRST THE LIST OF NAMED GRAPH"
- get_named_graph='SPARQL SELECT DISTINCT(?graphName) WHERE {GRAPH ?graphName {?s ?p ?o } } GROUP BY ?graphName ;'
+ get_named_graph='SPARQL SELECT ?o  FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s  sd:namedGraph ?o } ;'
  resp=$(run_virtuoso_cmd "$get_named_graph");
  graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
  echo "---->>> COMPUTE FOR EACH GRAPH STATS"
