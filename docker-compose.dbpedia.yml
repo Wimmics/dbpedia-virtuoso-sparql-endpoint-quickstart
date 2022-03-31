@@ -2,15 +2,9 @@ version: '3'
 services:
 
   store:
-<<<<<<< HEAD
     build :
             context: ./virtuoso
             dockerfile: Dockerfile
-=======
-    image: openlink/virtuoso-opensource-7
-    hostname: fr.dbpedia.org
-    domainname: fr.dbpedia.org
->>>>>>> ff177794474d94f4480b0f5d95b11c44682b393e
     ports: ["${VIRTUOSO_HTTP_PORT}:8890","127.0.0.1:${VIRTUOSO_ISQL_PORT}:1111"]
     environment:
             DBA_PASSWORD: ${VIRTUOSO_ADMIN_PASSWD}
