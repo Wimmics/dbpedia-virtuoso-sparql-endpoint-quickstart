@@ -25,7 +25,6 @@ db_fr:sparql-service
     a                    sd:Service, dcat:DataService, prov:Entity ;
     sd:supportedLanguage sd:SPARQL10Query, sd:SPARQL11Query;
     sd:endpoint          <http://fr.dbpedia.org/sparql>;      
-    dcat:endpointURL     <https://covidontheweb.inria.fr/sparql>;
     dcat:endpointURL     <http://fr.dbpedia.org/sparql>;
     sd:resultFormat <http://www.w3.org/ns/formats/Turtle>, <http://www.w3.org/ns/formats/RDF_XML>, <http://www.w3.org/ns/formats/N3>, <http://www.w3.org/ns/formats/N-Triples> ;
     sd:feature sd:DereferencesURIs, sd:UnionDefaultGraph ;
