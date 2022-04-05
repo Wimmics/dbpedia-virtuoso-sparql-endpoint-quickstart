@@ -6,5 +6,4 @@ RUN apt-get update
 RUN apt-get -y install git python 
 CMD git clone https://github.com/datalogism/dbpedia-vad 
 WORKDIR /opt/dbpedia-vad  
-RUN chmod +x ./build.sh
 RUN bash ./build.sh
