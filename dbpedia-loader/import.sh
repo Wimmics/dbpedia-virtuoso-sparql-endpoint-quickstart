@@ -251,10 +251,18 @@ graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
 echo ">> now clean graph by graph";
 for graph in ${graph_list[@]}; do
    echo "<$graph>"
-   run_virtuoso_cmd "SPARQL WITH <$graph> DELETE {  ?s ?p ?o. } INSERT { ?y ?p ?o. } WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } }. {SELECT ?s ?p ?o FROM <$graph> WHERE {?s ?p ?o } } };"
+   echo ">insert"
+   run_virtuoso_cmd "SPARQL WITH <$graph> INSERT { ?y ?p ?o. } WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } }. {SELECT ?s ?p ?o FROM <$graph> WHERE {?s ?p ?o } } };"
+   echo ">delete"
+   run_virtuoso_cmd "SPARQL WITH <$graph> DELETE {  ?s ?p ?o. } WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } }. {SELECT ?s ?p ?o FROM <$graph> WHERE {?s ?p ?o } } };"
+
 done
 echo ">> and now clean same as links";
-run_virtuoso_cmd "SPARQL WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE {  ?s owl:sameAs ?y. } INSERT { ?y owl:sameAs ?s. } WHERE {SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } };"
+echo ">insert"
+run_virtuoso_cmd "SPARQL WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> INSERT { ?y owl:sameAs ?s. } WHERE {SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } };"
+echo ">delete"
+run_virtuoso_cmd "SPARQL WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE {  ?s owl:sameAs ?y. }  WHERE {SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } };"
+
 echo "[CLEAN WIKIDATA] END";
 
 if [ COMPUTE_STATS == 1 ] ; then
