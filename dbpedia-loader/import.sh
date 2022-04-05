@@ -4,10 +4,11 @@ host="store"
 port=$STORE_ISQL_PORT
 user="dba"
 stats=$COMPUTE_STATS
+echo "============== TEST VERSION";
+echo "============== STATS ? ${stats}";
 if [ -z ${COMPUTE_STATS+x} ]; then COMPUTE_STATS=1; fi
 #lastUpdate=`head -n 1 $current_fileUPDT`;
-echo "============== TEST VERSION";
-echo "============== STATS ? ${COMPUTE_STATS}";
+
 echo "stats ex : ${stats}"
 echo "other ex : ${DBP_CATEGORY}"
 touch /opt/virtuoso-opensource/database/loader_locker.lck;
