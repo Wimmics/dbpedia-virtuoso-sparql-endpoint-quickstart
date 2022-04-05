@@ -9,6 +9,8 @@ services:
     environment:
             DBA_PASSWORD: ${VIRTUOSO_ADMIN_PASSWD}
             VIRT_Parameters_DirsAllowed: ${VIRT_Parameters_DirsAllowed}
+            VIRT_PARAMETERS_NUMBEROFBUFFERS: ${VIRT_PARAMETERS_NUMBEROFBUFFERS}
+            VIRT_PARAMETERS_MAXDIRTYBUFFERS: ${VIRT_PARAMETERS_MAXDIRTYBUFFERS}
     image: custom:1
     restart: always
     volumes:
