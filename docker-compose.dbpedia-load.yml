@@ -10,7 +10,7 @@ services:
             VIRT_Parameters_DirsAllowed: ${VIRT_Parameters_DirsAllowed}
             VIRT_PARAMETERS_NUMBEROFBUFFERS: ${VIRT_PARAMETERS_NUMBEROFBUFFERS}
             VIRT_PARAMETERS_MAXDIRTYBUFFERS: ${VIRT_PARAMETERS_MAXDIRTYBUFFERS}
-    image: custom:1
+    image: custom:7
     restart: always
     volumes:
       - ${VIRTUOSO_DATABASE_DIR}:/opt/virtuoso-opensource/database
