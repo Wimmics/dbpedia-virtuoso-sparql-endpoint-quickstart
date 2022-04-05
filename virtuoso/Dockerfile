@@ -7,4 +7,3 @@ RUN apt-get -y install git python
 CMD git clone https://github.com/datalogism/dbpedia-vad 
 WORKDIR /opt/dbpedia-vad  
 RUN ./build.sh
-ENTRYPOINT "echo Hello"
