@@ -4,6 +4,6 @@ USER root
 WORKDIR /opt/
 RUN apt-get update
 RUN apt-get -y install git python 
-RUN git clone https://github.com/datalogism/dbpedia-vad 
+CMD git clone https://github.com/datalogism/dbpedia-vad 
 WORKDIR /opt/dbpedia-vad  
 RUN ./build.sh
