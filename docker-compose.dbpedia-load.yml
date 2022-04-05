@@ -14,6 +14,7 @@ services:
     restart: always
     volumes:
       - ${VIRTUOSO_DATABASE_DIR}:/opt/virtuoso-opensource/database
+      - ${DATA_DIR}:/usr/share/proj
   load:
     build :
        context: ./dbpedia-loader
