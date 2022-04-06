@@ -166,9 +166,9 @@ do
      fi
      echo "> final name is : ${final_name}"
      
-     if [[ $final_name =~ "dbpedia_wikidata_sameas-all-wikis" ]]; then
-       run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name}_clean_fr');"
-     fi
+   #  if [[ $final_name =~ "dbpedia_wikidata_sameas-all-wikis" ]]; then
+      # run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name}_clean_fr');"
+     #fi
      
      #run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
      run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name}');"
