@@ -117,7 +117,7 @@ pat1='.*\.(nt|nq|owl|rdf|trig|ttl|xml|gz|bz2)$' # IF ENDING BY ACCEPTED EXTENSIO
 pat2='([a-z\-]+)_'
 pat3='.*\.bz2$'
 pat4='metadata'
-
+pat5='wikidata'
 for entry in "${DATA_DIR}"/*
 do
   echo "$entry";
@@ -168,7 +168,10 @@ do
      
      #run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
      run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name}');"
-     
+    if [[ $graph =~ $pat5 ]]; then
+        final_name2="${level1}_${level2}_${level3}_cleaned_fr";
+        run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name2}');"
+    fi
     if  [[ $entry =~ $pat3 ]] &&  [[ ! $entry =~ $pat4 ]]; then
         echo "count nb lines and get date of prod";
         #nb_lines=$( bzcat $entry | wc -l );
@@ -279,7 +282,7 @@ if [ COMPUTE_STATS == 1 ] ; then
  # graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
  # echo "---->>> COMPUTE FOR EACH GRAPH STATS"
  # pat4='metadata'
- # pat5='wikidata'
+ #
  # for graph in ${graph_list[@]}; do
  #     echo "<$graph>"
  #     echo "----  GRAPH STATS";
