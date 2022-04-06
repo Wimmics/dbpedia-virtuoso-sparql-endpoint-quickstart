@@ -168,10 +168,7 @@ do
      
      #run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
      run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name}');"
-    if [[ $graph =~ $pat5 ]]; then
-        final_name2="${level1}_${level2}_${level3}_cleaned_fr";
-        run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name2}');"
-    fi
+  
     if  [[ $entry =~ $pat3 ]] &&  [[ ! $entry =~ $pat4 ]]; then
         echo "count nb lines and get date of prod";
         #nb_lines=$( bzcat $entry | wc -l );
