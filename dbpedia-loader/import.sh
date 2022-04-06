@@ -252,16 +252,16 @@ echo ">> now clean graph by graph";
 for graph in ${graph_list[@]}; do
    echo "<$graph>"
    echo ">insert"
-   run_virtuoso_cmd "SPARQL WITH <$graph> INSERT { ?y ?p ?o. } WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } }. {SELECT ?s ?p ?o FROM <$graph> WHERE {?s ?p ?o } } };"
+   #run_virtuoso_cmd "SPARQL WITH <$graph> INSERT { ?y ?p ?o. } WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } }. {SELECT ?s ?p ?o FROM <$graph> WHERE {?s ?p ?o } } };"
    echo ">delete"
-   run_virtuoso_cmd "SPARQL WITH <$graph> DELETE {  ?s ?p ?o. } WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } }. {SELECT ?s ?p ?o FROM <$graph> WHERE {?s ?p ?o } } };"
+   #run_virtuoso_cmd "SPARQL WITH <$graph> DELETE {  ?s ?p ?o. } WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } }. {SELECT ?s ?p ?o FROM <$graph> WHERE {?s ?p ?o } } };"
 
 done
 echo ">> and now clean same as links";
 echo ">insert"
-run_virtuoso_cmd "SPARQL WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> INSERT { ?y owl:sameAs ?s. } WHERE {SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } };"
+#run_virtuoso_cmd "SPARQL WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> INSERT { ?y owl:sameAs ?s. } WHERE {SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } };"
 echo ">delete"
-run_virtuoso_cmd "SPARQL WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE {  ?s owl:sameAs ?y. }  WHERE {SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } };"
+#run_virtuoso_cmd "SPARQL WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE {  ?s owl:sameAs ?y. }  WHERE {SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs ?y. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } };"
 
 echo "[CLEAN WIKIDATA] END";
 
