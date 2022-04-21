@@ -4,7 +4,7 @@ host="store"
 port=$STORE_ISQL_PORT
 user="dba"
 stats=$COMPUTE_STATS
-echo "============== TEST VERSION 21 April 2022";
+echo "============== TEST VERSION 21 April 2022 V2";
 echo "============== STATS ? ${stats}";
 if [ -z ${COMPUTE_STATS+x} ]; then COMPUTE_STATS=1; fi
 #lastUpdate=`head -n 1 $current_fileUPDT`;
