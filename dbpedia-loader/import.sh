@@ -252,7 +252,7 @@ echo "[CLEAN WIKIDATA] BEGIN";
 resp=$(run_virtuoso_cmd "SPARQL PREFIX ex: <http://example.org/> SELECT DISTINCT COUNT(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE { ?s ?p ?y} ;");
 nb=$(echo $resp |  awk '{print $4}');
 #max=1000000
-limit=500000
+limit=100000
 nb_loop_0=$(( $nb / $limit ));
 nb_loop_1=$(( $nb_loop_0 + 1 )) 
 
