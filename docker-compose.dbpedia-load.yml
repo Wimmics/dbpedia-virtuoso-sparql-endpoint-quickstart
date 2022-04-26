@@ -10,6 +10,8 @@ services:
             VIRT_Parameters_DirsAllowed: ${VIRT_Parameters_DirsAllowed}
             VIRT_PARAMETERS_NUMBEROFBUFFERS: ${VIRT_PARAMETERS_NUMBEROFBUFFERS}
             VIRT_PARAMETERS_MAXDIRTYBUFFERS: ${VIRT_PARAMETERS_MAXDIRTYBUFFERS}
+            VIRT_Client_SQL_UTF8_EXECS: ${VIRT_Client_SQL_UTF8_EXECS}
+            VIRT_Parameters_MaxVectorSize: ${VIRT_Parameters_MaxVectorSize}
     image: custom:7
     restart: always
     volumes:
