@@ -4,7 +4,7 @@ host="store"
 port=$STORE_ISQL_PORT
 user="dba"
 stats=$COMPUTE_STATS
-echo "============== TEST VERSION 22 April ";
+echo "============== TEST VERSION 28 April ";
 echo "============== STATS ? ${stats}";
 if [ -z ${COMPUTE_STATS+x} ]; then COMPUTE_STATS=1; fi
 #lastUpdate=`head -n 1 $current_fileUPDT`;
@@ -255,7 +255,7 @@ nb=$(echo $resp |  awk '{print $4}');
 limit=100000
 nb_loop_0=$(( $nb / $limit ));
 nb_loop_1=$(( $nb_loop_0 + 1 )) 
-
+limit_2=$(( $limit / 2 ));
 get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s sd:namedGraph ?o. FILTER( ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> AND STRSTARTS(STR(?o), "http://fr.dbpedia.org/graph/dbpedia_wikidata_"))};'
 resp=$(run_virtuoso_cmd "$get_named_graph");
 graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
@@ -272,8 +272,10 @@ do
         #echo "resp4: $resp4";
         #resp5=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3 PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE {?s owl:sameAs ?o_fr. ?s owl:sameAs ?o_other} WHERE {SELECT  ?s ?o_fr ?o_other FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE { ?s owl:sameAs ?o_fr. ?s owl:sameAs ?o_other. FILTER EXISTS { ?s rdf:type ex:wiki_dbfr_equiv }. FILTER ( ?o_other != ?o_fr). FILTER(STRSTARTS(STR(?o_fr), 'http://fr.dbpedia.org/'))} . FILTER(STRSTARTS(STR(?o_fr), 'http://fr.dbpedia.org/') ) } LIMIT $limit };")   
         #echo "resp5: $resp5";
-        resp45=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3 PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> INSERT { ?o_fr  owl:sameAs  ?s. ?o_fr dbo:wikiPageInterLanguageLink ?o_other. } DELETE {?s owl:sameAs ?o_fr. ?s owl:sameAs ?o_other} WHERE {SELECT  ?s ?o_fr ?o_other FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE { ?s owl:sameAs ?o_fr. ?s owl:sameAs ?o_other. FILTER EXISTS { ?s rdf:type ex:wiki_dbfr_equiv }. FILTER ( ?o_other != ?o_fr). FILTER(STRSTARTS(STR(?o_fr), 'http://fr.dbpedia.org/'))} LIMIT $limit };")   
-        echo "resp45: $resp45";
+        resp4=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3 PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> INSERT { ?o_fr  owl:sameAs  ?s. ?o_fr dbo:wikiPageInterLanguageLink ?o_other. } DELETE {?s owl:sameAs ?o_fr. ?s owl:sameAs ?o_other} WHERE {SELECT  ?s ?o_fr ?o_other FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE { ?s owl:sameAs ?o_fr. ?s owl:sameAs ?o_other. FILTER EXISTS { ?s rdf:type ex:wiki_dbfr_equiv }. FILTER ( ?o_other != ?o_fr). FILTER(STRSTARTS(STR(?o_fr), 'http://fr.dbpedia.org/'))} LIMIT $limit2 };")
+        echo "resp4: $resp4";
+        resp5=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3 PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> INSERT { ?o_fr  owl:sameAs  ?s. ?o_fr dbo:wikiPageInterLanguageLink ?o_other. } DELETE {?s owl:sameAs ?o_fr. ?s owl:sameAs ?o_other} WHERE {SELECT  ?s ?o_fr ?o_other FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE { ?s owl:sameAs ?o_fr. ?s owl:sameAs ?o_other. FILTER EXISTS { ?s rdf:type ex:wiki_dbfr_equiv }. FILTER ( ?o_other != ?o_fr). FILTER(STRSTARTS(STR(?o_fr), 'http://fr.dbpedia.org/'))} LIMIT $limit2 };")   
+        echo "resp5: $resp5";
 done
 echo '[STEP 2] CLEAN EACH NAMED GRAPH'
 for graph in ${graph_list[@]}; do
