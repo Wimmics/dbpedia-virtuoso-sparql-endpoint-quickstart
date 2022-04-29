@@ -272,7 +272,7 @@ do
           echo "$graph resp3: $resp3"
       done
 
-      resp5=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3 PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> INSERT { ?o_fr dbo:wikiPageInterLanguageLink ?o_other. ?s rdf:type ex:wiki_dbfr_equiv_ok} DELETE { ?s owl:sameAs ?o_other. ?s rdf:type ex:wiki_dbfr_equiv_to_do} WHERE {SELECT  ?s ?o_fr ?o_other FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE {?o_fr owl:sameAs ?s. ?s owl:sameAs ?o_other. FILTER EXISTS { ?s rdf:type ex:wiki_dbfr_equiv_to_do } } }; ");
+      resp5=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3 PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE { ?s owl:sameAs ?o_other. ?s rdf:type ex:wiki_dbfr_equiv_to_do. } INSERT { ?o_fr dbo:wikiPageInterLanguageLink ?o_other. ?s rdf:type ex:wiki_dbfr_equiv_ok. } WHERE {SELECT  ?s ?o_fr ?o_other FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE {?o_fr owl:sameAs ?s. ?s owl:sameAs ?o_other. FILTER EXISTS { ?s rdf:type ex:wiki_dbfr_equiv_to_do } } }; ");
       echo "resp5: $resp5";
 done
 
