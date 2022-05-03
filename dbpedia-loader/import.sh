@@ -4,7 +4,6 @@ host="store"
 port=$STORE_ISQL_PORT
 user="dba"
 stats=$COMPUTE_STATS
-echo "============== TEST VERSION 29 April V3";
 echo "============== STATS ? ${stats}";
 if [ -z ${COMPUTE_STATS+x} ]; then COMPUTE_STATS=1; fi
 #lastUpdate=`head -n 1 $current_fileUPDT`;
@@ -75,10 +74,6 @@ if [ $? -eq 2 ]; then
    exit 1
 fi
 
-
-## META DATA
-#run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_CREATE ('${DOMAIN}',1);"
-#run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/metadata');"
 echo "[INFO] ADD META DATA"
 run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
 
@@ -165,21 +160,11 @@ do
              final_name="${level1}_${level2}_${level3}";
      fi
      echo "> final name is : ${final_name}"
-     
-   #  if [[ $final_name =~ "dbpedia_wikidata_sameas-all-wikis" ]]; then
-      # run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name}_clean_fr');"
-     #fi
-     
-     #run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
+ 
      run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name}');"
   
     if  [[ $entry =~ $pat3 ]] &&  [[ ! $entry =~ $pat4 ]]; then
-        echo "count nb lines and get date of prod";
-        #nb_lines=$( bzcat $entry | wc -l );
-        # BEFORE WE USED DATE FROM FIRST LINE... 
-        #last_line=$( bzcat $entry | tail -1 );
-        #if [[  ${#date} != 10 ]];then
-        
+         
         #### NOW WE USED THE DATE FROM FILE NAME
         date=$(echo $entry  | grep -Eo '[[:digit:]]{4}.[[:digit:]]{2}.[[:digit:]]{2}');         
         echo ">>>>>>>>>>>>>> DATE : $date"; 
@@ -192,47 +177,12 @@ do
         if [ "$nb" -eq "0" ];then
            run_virtuoso_cmd "SPARQL INSERT INTO <${DOMAIN}/graph/metadata> {  <${DOMAIN}/graph/${final_name}> prov:wasGeneratedAtTime '${date}'^^xsd:date . <${DOMAIN}/graph/${final_name}>  schema:datePublished '${date}'^^xsd:date . };"
         fi
-        
-        #echo [[ $nb_lines > 2 ]];
-        
-        #echo ">>>>>>>>>>>>> nb lines : $nb_lines";
-        #if [[ $nb_lines > 2 ]];then 
-        
-         #   nbline=$(($nb_lines-2));
-          #  resp=$(run_virtuoso_cmd "SPARQL SELECT ?nb FROM <${DOMAIN}/graph/metadata> WHERE { <${DOMAIN}/graph/${final_name}> void:triples ?nb};" )
-           # echo "==========="
-            #echo $resp
-            #echo "==========="
-            #nb=$(echo $resp |  awk '{print $5}')
-            
-            #echo " INSIDE ? ${nb}"
-            #if [ "$nb" -eq "0" ];then
-            #   nbline=$(($nb_lines-2));
-            #   run_virtuoso_cmd "SPARQL INSERT INTO <${DOMAIN}/graph/metadata> { <${DOMAIN}/graph/${final_name}> void:triples '${nbline}'^^xsd:integer };"
-            #else
-            #   new=$(($nbline+$nb))
-            #   run_virtuoso_cmd  "SPARQL WITH <${DOMAIN}/graph/metadata> DELETE { <${DOMAIN}/graph/${final_name}> void:triples ${nb}. } INSERT { <${DOMAIN}/graph/${final_name}> void:triples ${new}. } WHERE { <${DOMAIN}/graph/${final_name}> void:triples ${nb}. };"
-            #fi
-        #fi
-       
-
-        
+ 
         run_virtuoso_cmd "SPARQL INSERT INTO <${DOMAIN}/graph/metadata> {  <${DOMAIN}/graph/${final_name}> void:dataDump <http://prod-dbpedia.inria.fr/dumps/lastUpdate/$fn> };"
         fi
     fi;
 done
 
-######################################################### OLD PROCESS
-# > load every data inside the default graph 
-
-#ensure that all supported formats get into the load list
-#(since we have to excluse graph-files *.* won't do the trick
-### COMMENTED
-#echo "[INFO] registring RDF documents for import"
-#for ext in nt nq owl rdf trig ttl xml gz bz2; do
-# echo "[INFO] ${STORE_DATA_DIR}.${ext} for import"
- #run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '*.${ext}', '${DOMAIN}');"
-#done
 
 echo "[INFO] deactivating auto-indexing"
 run_virtuoso_cmd "DB.DBA.VT_BATCH_UPDATE ('DB.DBA.RDF_OBJ', 'ON', NULL);"
@@ -248,47 +198,6 @@ log_enable(1);
 checkpoint_interval(60);
 EOF`
 run_virtuoso_cmd "$load_cmds";
-echo "[CLEAN WIKIDATA] BEGIN";
-resp=$(run_virtuoso_cmd "SPARQL PREFIX ex: <http://example.org/> SELECT DISTINCT COUNT(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE { ?s ?p ?y} ;");
-nb=$(echo $resp |  awk '{print $4}');
-#max=1000000
-limit=100000
-nb_loop_0=$(( $nb / $limit ));
-nb_loop_1=$(( $nb_loop_0 + 1 )) 
-limit_2=$(( $limit / 2 ));
-get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s sd:namedGraph ?o. FILTER( ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> AND STRSTARTS(STR(?o), "http://fr.dbpedia.org/graph/dbpedia_wikidata_"))};'
-resp=$(run_virtuoso_cmd "$get_named_graph");
-graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
-echo '[STEP 1] FIRST WIKIDATA FLAG AND UPDATE'
-for (( c=1; c<=$nb_loop_1; c++ ))
-do
-      
-      resp2=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3  PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE { ?s owl:sameAs ?y. } INSERT { ?s rdf:type ex:wiki_dbfr_equiv_to_do.  ?y owl:sameAs ?s. } WHERE {SELECT ?s ?y  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s owl:sameAs  ?y . FILTER NOT EXISTS { ?s rdf:type ex:wiki_dbfr_equiv_ok }. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } LIMIT $limit};");
-      echo "$graph resp2: $resp2"
-      for graph in ${graph_list[@]}; do
-          resp3=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3  PREFIX ex: <http://example.org/> WITH <$graph> DELETE { ?s ?p ?o. } INSERT { ?y ?p ?o. } WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?y owl:sameAs ?s. FILTER EXISTS { ?s rdf:type ex:wiki_dbfr_equiv_to_do }} }. {SELECT ?s ?p ?o FROM <$graph> WHERE {?s ?p ?o } } };");
-          echo "$graph resp3: $resp3"
-      done
-
-      resp5=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3 PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE { ?s owl:sameAs ?o_other. ?s rdf:type ex:wiki_dbfr_equiv_to_do. } INSERT { ?o_fr dbo:wikiPageInterLanguageLink ?o_other. ?s rdf:type ex:wiki_dbfr_equiv_ok. } WHERE {SELECT  ?s ?o_fr ?o_other FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE {?o_fr owl:sameAs ?s. ?s owl:sameAs ?o_other. FILTER EXISTS { ?s rdf:type ex:wiki_dbfr_equiv_to_do } } }; ");
-      echo "resp5: $resp5";
-done
-
-echo '[STEP 2] CLEAN EACH NAMED GRAPH'
-for graph in ${graph_list[@]}; do
-       resp6=$( run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3 PREFIX ex: <http://example.org/> WITH <$graph> DELETE { ?s ?p ?o. }{{SELECT ?s ?p ?o FROM <$graph> WHERE { ?s ?p ?o} }. {SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s owl:sameAs ?o_sameAs FILTER NOT EXISTS { ?s rdf:type ex:wiki_dbfr_equiv_ok } } } };")
-       echo "$graph resp6: $resp6";
-done
-
-echo '[STEP 3] CLEAN SAMEAS NAMED GRAPH'
-resp7=$( run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3  PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE { ?s ?p ?o. }{{SELECT ?s ?p ?o FROM <$graph> WHERE { ?s ?p ?o } }. {SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s owl:sameAs ?o_sameAs FILTER NOT EXISTS { ?s rdf:type ex:wiki_dbfr_equiv_ok } } } };")
-echo "resp7 : $resp7";
-echo '[STEP 4] DELETE FLAG'
-resp8=$( run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3  PREFIX ex: <http://example.org/> WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> DELETE { ?s rdf:type ex:wiki_dbfr_equiv_ok. }{{SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s rdf:type ex:wiki_dbfr_equiv  } } };")
-echo "resp8 : $resp8";
-#### TO DO :
-# Delete flag ?
-# interwiki links ?
 
 echo "[CLEAN WIKIDATA] END";
 
