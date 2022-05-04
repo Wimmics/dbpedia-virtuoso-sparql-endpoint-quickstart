@@ -298,16 +298,15 @@ do
     nb_todo=1;
     while [ $nb_todo -ne 0 ]
     do
-        echo $nb_todo;
         resp4=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  DELETE { ?s owl:sameAs ?p. } INSERT { ?y owl:sameAs ?p. } WHERE { SELECT ?s ?y ?p FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?y rdf:type dbo:frResource. ?s owl:sameAs ?y. ?s owl:sameAs ?p. FILTER (?y != ?p ) } LIMIT $limit };");
         resp_todo=$(run_virtuoso_cmd "SPARQL SELECT COUNT(*) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?y rdf:type dbo:frResource. ?s owl:sameAs ?y. ?s owl:sameAs ?p. FILTER (?y != ?p ) };");
         nb_todo=$(echo $resp_todo | awk '{print $4}');
+        echo $nb_todo;
     done
     echo ">>>>>> INVERSE SAME AS"
     nb_todo2=1;
     while [ $nb_todo2 -ne 0 ]
     do
-        echo $nb_todo2;
         resp5=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  DELETE { ?s owl:sameAs ?y. } INSERT { ?y owl:sameAs ?s. } WHERE { SELECT ?y ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?y rdf:type dbo:frResource. ?s owl:sameAs ?y } LIMIT $limit };");
         resp_todo2=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?y rdf:type dbo:frResource. ?s owl:sameAs ?y. };");
         nb_todo2=$(echo $resp_todo2 | awk '{print $4}');
