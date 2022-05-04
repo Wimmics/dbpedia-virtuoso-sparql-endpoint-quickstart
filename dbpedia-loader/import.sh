@@ -77,8 +77,6 @@ fi
 
 
 ## META DATA
-#run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_CREATE ('${DOMAIN}',1);"
-#run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/metadata');"
 echo "[INFO] ADD META DATA"
 run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
 
@@ -106,8 +104,8 @@ echo "[INFO] Installing VAD package 'fct_dav.vad'"
 run_virtuoso_cmd "vad_install('/opt/virtuoso-opensource/vad/fct_dav.vad', 0);"
 
 echo "[DATA IMPORT] HERE WE ENTERING IN THE CUSTOM PART"
-# > we get the data_artefact name and we load it into a named graph based on 
-# REGEXPR 
+
+
 echo "============================"
 echo "graph mode : ${GRAPH_MODE}"
 echo "data dir : ${DATA_DIR}"
@@ -285,7 +283,7 @@ do
 
     echo ">>>>>> UPDATE EACH GRAPH";
     for graph in ${graph_list[@]}; do
-        nb_todo0=0;
+        nb_todo0=1;
         while [ $nb_todo0 -ne 0 ]
         do
             resp_updategraph=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3  PREFIX ex: <http://example.org/> WITH <$graph> DELETE { ?y ?p ?o. } INSERT { ?s ?p ?o. } WHERE { SELECT ?s ?p ?o ?y WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?y owl:sameAs ?s. FILTER EXISTS { ?s rdf:type  dbo:frResource }} } . {SELECT ?y ?p ?o FROM <$graph> WHERE {?y ?p ?o } } }  LIMIT $limit };");
@@ -297,7 +295,7 @@ do
     done
     resp3=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  INSERT { ?y owl:sameAs ?s. } WHERE { SELECT ?y ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s owl:sameAs ?y. FILTER EXISTS { ?y rdf:type dbo:frResource }} LIMIT $limit};");
     echo ">>>>>> LINK TO FR RESSOURCE";
-    nb_todo=0;
+    nb_todo=1;
     while [ $nb_todo -ne 0 ]
     do
         echo $nb_todo;
