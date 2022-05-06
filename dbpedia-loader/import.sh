@@ -202,7 +202,7 @@ echo "[CLEAN WIKIDATA] BEGIN";
 ## DEPENDS OF VIRTUOSO CAPACITIES 
 limit=500000;
 
-get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s sd:namedGraph ?o. FILTER( ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> AND STRSTARTS(STR(?o), "http://fr.dbpedia.org/graph/dbpedia_wikidata_"))};'
+get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s sd:namedGraph ?o. FILTER( ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> AND ?o != <http://fr.dbpedia.org/graph/dbpedia_generic_interlanguage-links> AND STRSTARTS(STR(?o), "http://fr.dbpedia.org/graph/dbpedia_wikidata_"))};'
 resp=$(run_virtuoso_cmd "$get_named_graph");
 graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
 
@@ -232,7 +232,7 @@ do
     resp2=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  INSERT { ?y rdf:type dbo:frResource. } WHERE { SELECT ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s owl:sameAs ?y. FILTER NOT EXISTS { ?y rdf:type dbo:frResource }. FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) } LIMIT $limit};");
     resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?s) FROM  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s rdf:type dbo:frResource };");
     nb_global=$(echo $resp_count | awk '{print $4}');
-    echo ">>>>>> UPDATE EACH GRAPH";
+    echo ">>>>>> UPDATE EACH GRAPH SUBJECTS";
     for graph in ${graph_list[@]}; do
         nb_todo0=1;
         while [ $nb_todo0 -ne 0 ]
@@ -240,7 +240,19 @@ do
             resp_updategraph=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3  PREFIX ex: <http://example.org/> WITH <$graph> DELETE { ?y ?p ?o. } INSERT { ?s ?p ?o. } WHERE { SELECT ?s ?p ?o ?y WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?y owl:sameAs ?s. FILTER EXISTS { ?s rdf:type  dbo:frResource }} } . {SELECT ?y ?p ?o FROM <$graph> WHERE {?y ?p ?o } } }  LIMIT $limit };");
             resp_todo0=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?y) WHERE {{SELECT ?s ?y FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?y owl:sameAs ?s. FILTER EXISTS { ?s rdf:type  dbo:frResource }} } . {SELECT ?y ?p ?o FROM <$graph> WHERE {?y ?p ?o } } };");
             nb_todo0=$(echo $resp_todo0 | awk '{print $4}');
-            echo "$graph need to do : $nb_todo0";
+            echo "$graph need to change Subjects : $nb_todo";
+        done
+    done
+    echo ">>>>>> UPDATE EACH GRAPH OBJECTS";
+    for graph in ${graph_list[@]}; do
+        nb_todo0=1;
+        while [ $nb_todo0 -ne 0 ]
+        do
+            resp_updategraph=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 3  PREFIX ex: <http://example.org/> WITH <$graph> DELETE { ?s ?p ?wkd. } INSERT { ?s ?p ?dbfr. } WHERE {SELECT ?dbfr ?p ?s ?wkd WHERE {{SELECT ?dbfr ?wkd FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?wkd owl:sameAs ?dbfr. FILTER EXISTS { ?dbfr rdf:type  dbo:frResource }} } . {SELECT ?s ?p ?wkd FROM <$graph> WHERE {?s ?p ?wkd } } }  LIMIT $limit };");
+
+			resp_todo0=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?wkd) WHERE {{SELECT ?dbfr ?wkd FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?wkd owl:sameAs ?dbfr. FILTER EXISTS { ?dbfr rdf:type  dbo:frResource }} } . {SELECT ?s ?p ?wkd FROM <$graph> WHERE {?s ?p ?wkd } } };");
+			nb_todo0=$(echo $resp_todo0 | awk '{print $4}');
+			echo "$graph need to change objects : $nb_todo";
         done
     done
     resp3=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  INSERT { ?y owl:sameAs ?s. } WHERE { SELECT ?y ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s owl:sameAs ?y. FILTER EXISTS { ?y rdf:type dbo:frResource }} LIMIT $limit};");
@@ -286,7 +298,8 @@ for graph in ${graph_list[@]}; do
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:classes ?no .} WHERE { SELECT COUNT(distinct ?o) AS ?no  FROM <$graph> { ?s rdf:type ?o } };"
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:properties ?no .} WHERE { SELECT COUNT(distinct ?p) AS ?no  FROM <$graph> { ?s ?p ?o } };"
         
-     if [[ ! $graph =~ $pat4 ]] &&  [[ ! $graph =~ $pat5 ]]; then
+     #if [[ ! $graph =~ $pat4 ]] &&  [[ ! $graph =~ $pat5 ]]; then
+     if [[ ! $graph =~ $pat4 ]]; then
        
         echo "---- CLASS PARTITIONS stats";
         echo "- classes";
