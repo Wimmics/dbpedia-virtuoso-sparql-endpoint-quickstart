@@ -140,6 +140,4 @@ checkpoint_interval(60);
 EOF`
 run_virtuoso_cmd "$load_cmds";
 
-create_dump=$(<../virtuoso_proc/create_dump)
-echo "$create_dump"
-run_virtuoso_cmd "${create_dump}";
+echo "END OF LOAD"
