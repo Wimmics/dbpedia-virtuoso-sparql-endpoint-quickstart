@@ -57,20 +57,21 @@ test_connection () {
 get_answer_nb() {
    re='^[0-9]+$'
    resp=$1;
-   if ! [[ $nb =~ $re ]] ; then
-       nb=$(echo $resp | awk '{print $4}')
+   nb_resp_=$resp;
+   if ! [[ $nb_resp_ =~ $re ]] ; then
+       nb_resp_=$(echo $resp | awk '{print $4}')
    fi       
-   if ! [[ $nb =~ $re ]] ; then
-        nb=$(echo $resp |  awk '{print $5}')
+   if ! [[ $nb_resp_ =~ $re ]] ; then
+        nb_resp_=$(echo $resp |  awk '{print $5}')
    fi
-   if ! [[ $nb =~ $re ]] ; then
-        nb=$(echo $resp | grep -o -P '(?<=_\s)\d*(?=\s)');
+   if ! [[ $nb_resp_ =~ $re ]] ; then
+        nb_resp_=$(echo $resp | grep -o -P '(?<=_\s)\d*(?=\s)');
    fi
-   if ! [[ $nb =~ $re ]] ; then
-        nb=$(echo $resp | grep -o -P '(?<=\n\s)\d*(?=\n\s)');
+   if ! [[ $nb_resp_ =~ $re ]] ; then
+        nb_resp_=$(echo $resp | grep -o -P '(?<=\n\s)\d*(?=\n\s)');
    fi
    if ! [[ $nb =~ $re ]] ; then
      echo "$resp";
    fi
-   echo "$nb";
+   echo "$nb_resp_";
 }
