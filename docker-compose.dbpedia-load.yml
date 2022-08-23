@@ -29,6 +29,7 @@ services:
       STORE_DBA_PASSWORD: ${VIRTUOSO_ADMIN_PASSWD}
       STORE_ISQL_PORT: 1111
       DATA_DIR: /root/data
+      LOG_DIR: /appli/dbpedia_proj-data/virtuoso_process
       DOMAIN: ${DOMAIN}
       DBP_LANG: ${DBP_LANG}
       DBP_CATEGORY: ${DBP_CATEGORY}
