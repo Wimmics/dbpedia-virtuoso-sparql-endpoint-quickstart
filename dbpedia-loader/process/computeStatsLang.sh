@@ -2,6 +2,9 @@
 
 . ./virtuoso_utils.sh --source-only
 
+cd $DATA_DIR
+mkdir -p computed_stats
+cd ${DATA_DIR}/computed_stats
 mkdir dbpedia_dumps_lang_fr_related
 rm -f ./dbpedia_dumps_lang_fr_related/*
 
