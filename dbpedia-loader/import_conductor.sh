@@ -10,6 +10,7 @@ if [ -z ${PROCESS_WIKIDATA+x} ]; then PROCESS_WIKIDATA=1; fi
 if [ -z ${CLEAN_WIKIDATA+x} ]; then CLEAN_WIKIDATA=0; fi
 if [ -z ${PROCESS_MULTILANG+x} ]; then PROCESS_MULTILANG=1; fi
 if [ -z ${CLEAN_MULTILANG+x} ]; then CLEAN_MULTILANG=1; fi
+if [ -z ${COMPUTE_STATS_MULTILANG+x} ]; then COMPUTE_STATS_MULTILANG=1; fi
 if [ -z ${PROCESS_STATS+x} ]; then PROCESS_STATS=1; fi
 if [ -z ${PROCESS_DUMPS+x} ]; then PROCESS_DUMPS=1; fi
 
@@ -23,6 +24,7 @@ echo "> PROCESS_INTERLINKSAMEAS : ${PROCESS_INTERLINKSAMEAS}";
 echo "> PROCESS_WIKIDATA : ${PROCESS_WIKIDATA}";
 echo "> CLEAN_WIKIDATA : ${CLEAN_WIKIDATA}";
 echo "> PROCESS_MULTILANG : ${PROCESS_MULTILANG}";
+echo "> COMPUTE_STATS_MULTILANG : ${COMPUTE_STATS_MULTILANG}";
 echo "> CLEAN_MULTILANG : ${CLEAN_MULTILANG}";
 echo "> PROCESS_STATS : ${PROCESS_STATS}";
 echo "> PROCESS_DUMPS : ${PROCESS_DUMPS}";
@@ -113,6 +115,15 @@ else
    echo ">>> PROCESS_MULTILANG disabled"
 fi
 
+############## MIGRATE EVERY LANGUAGES LABELS TO FR RESOURCES
+if [ $COMPUTE_STATS_MULTILANG == 1 ] ; then
+   echo ">>> COMPUTE_STATS_MULTILANG unabled"
+   /bin/bash ./process/computeStatsLang.sh
+   echo "---checkpoint"
+   run_virtuoso_cmd 'checkpoint;'
+else
+   echo ">>> COMPUTE_STATS_MULTILANG  disabled"
+fi
 ############## DELETE RESSOURCES THAT HAVEN'T FR EQUIVALENT RESSOURCE
 if [ $CLEAN_MULTILANG == 1 ] ; then
    echo ">>> CLEAN_MULTILANG unabled"
