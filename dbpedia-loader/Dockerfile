@@ -5,7 +5,7 @@ LABEL org.aksw.dld=true org.aksw.dld.type="import" org.aksw.dld.require.store="v
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
-RUN apt-get install -y git virtuoso-opensource pigz pbzip2 bzip2 curl
+RUN apt-get install -y git virtuoso-opensource pigz pbzip2 bzip2 curl wget
 
 ADD virtuoso_fct.sh /
 RUN chmod +x /virtuoso_fct.sh
