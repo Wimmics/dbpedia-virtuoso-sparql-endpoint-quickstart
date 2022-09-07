@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ./virtuoso_utils.sh --source-only
+. ../virtuoso_fct.sh --source-only
 
 cd $DATA_DIR
 mkdir -p computed_stats
