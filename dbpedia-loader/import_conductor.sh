@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ./virtuoso_fct.sh --source-only
+. ./virtuoso_utils.sh --source-only
 
 #### PROCESS COMMANDS 
 if [ -z ${PROCESS_INIT+x} ]; then PROCESS_INIT=1; fi
@@ -54,11 +54,15 @@ fi
 
 ############## CREATE NAMED GRAPH STRUCTURE AND LOAD DATA 
 if [ $PROCESS_INIT == 1 ] ; then
+   start_0=`date +%s`
    echo ">>> PROCESS_INIT unabled"
    /bin/bash ./process/virtuoso_init.sh
+   end_0=`date +%s`
+   runtime_0=$((end-start))
 else
    echo ">>> PROCESS_INIT disabled"
 fi
+
 
 
 run_virtuoso_cmd "log_enable(2)";
