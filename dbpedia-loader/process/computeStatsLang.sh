@@ -9,8 +9,8 @@ mkdir dbpedia_dumps_lang_fr_related
 rm -f ./dbpedia_dumps_lang_fr_related/*
 
 ### MAYBE CHANGE IT FROM FILE USE IN LOADING
-query=$(curl -k -H "Accept:text/sparql" https://databus.dbpedia.org/cringwald/collections/dbpediabylang)
-files=$(curl -k -H "Accept: text/csv" --data-urlencode "query=${query}" https://databus.dbpedia.org/repo/sparql | tail -n+2 | sed 's/"//g')
+query=$(curl --proxy-insecure -k -H "Accept:text/sparql" https://databus.dbpedia.org/cringwald/collections/dbpediabylang)
+files=$(curl --proxy-insecure -k -H "Accept: text/csv" --data-urlencode "query=${query}" https://databus.dbpedia.org/repo/sparql | tail -n+2 | sed 's/"//g')
 while IFS= read -r file ; do wget -P ./dbpedia_dumps_lang_fr_related $file; done <<< "$files"
 
 
@@ -36,9 +36,8 @@ do
     	   nb_in_fr=$nb
     	   nb_fr=$nb
         else
-    	   echo "hey"
-	   	resp_base=$(run_virtuoso_cmd "SPARQL SELECT count(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE {?s ?p dbo:${Lang}FrResource};");
-		nb_in_fr=$(get_answer_nb "${resp_base}");
+	   resp_base=$(run_virtuoso_cmd "SPARQL SELECT count(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE {?s ?p dbo:${Lang}FrResource};");
+	   nb_in_fr=$(get_answer_nb "${resp_base}");
   	fi
     echo "${lang};${nb};${nb_in_fr}" >> "./${title}"
   fi;
