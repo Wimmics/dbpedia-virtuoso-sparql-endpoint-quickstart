@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-. ./virtuoso_utils.sh --source-only
+. ./virtuoso_fct.sh --source-only
 
 #### PROCESS COMMANDS 
 if [ -z ${PROCESS_INIT+x} ]; then PROCESS_INIT=1; fi
