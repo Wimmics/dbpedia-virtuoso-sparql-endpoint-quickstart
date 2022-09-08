@@ -9,8 +9,8 @@ mkdir dbpedia_dumps_lang_fr_related
 rm -f ./dbpedia_dumps_lang_fr_related/*
 
 ### MAYBE CHANGE IT FROM FILE USE IN LOADING
-query=$(curl --sslv3 -H "Accept:text/sparql" https://databus.dbpedia.org/cringwald/collections/dbpediabylang)
-files=$(curl --sslv3 -H "Accept: text/csv" --data-urlencode "query=${query}" https://databus.dbpedia.org/repo/sparql | tail -n+2 | sed 's/"//g')
+query=$(curl -sku -H "Accept:text/sparql" https://databus.dbpedia.org/cringwald/collections/dbpediabylang)
+files=$(curl -sku -H "Accept: text/csv" --data-urlencode "query=${query}" https://databus.dbpedia.org/repo/sparql | tail -n+2 | sed 's/"//g')
 echo "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
 while IFS= read -r file ; do wget -P ./dbpedia_dumps_lang_fr_related $file; done <<< "$files"
 
