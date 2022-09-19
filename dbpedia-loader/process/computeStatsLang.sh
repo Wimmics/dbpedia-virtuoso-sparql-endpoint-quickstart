@@ -20,7 +20,7 @@ rm -f "./${title}"
 
 echo "lang;nb_pages;page_in_Fr" > "./${title}"
 
-pat2='(\w{2})_ids'
+pat2='page_lang=(\w*)_ids'
 FILES="./dbpedia_dumps_lang_fr_related/*"
 nb_fr=0
 declare -A dict_lang_values
