@@ -2,20 +2,19 @@
 
 . ./virtuoso_fct.sh --source-only
 
-#### PROCESS COMMANDS 
-if [ -z ${PROCESS_INIT+x} ]; then PROCESS_INIT=1; fi
-if [ -z ${PROCESS_GEOLOC+x} ]; then PROCESS_GEOLOC=1; fi
-if [ -z ${PROCESS_INTERLINKSAMEAS+x} ]; then PROCESS_INTERLINKSAMEAS=1; fi
-if [ -z ${PROCESS_WIKIDATA+x} ]; then PROCESS_WIKIDATA=1; fi
-if [ -z ${CLEAN_WIKIDATA+x} ]; then CLEAN_WIKIDATA=0; fi
-if [ -z ${PROCESS_MULTILANG+x} ]; then PROCESS_MULTILANG=1; fi
-if [ -z ${CLEAN_MULTILANG+x} ]; then CLEAN_MULTILANG=1; fi
-if [ -z ${COMPUTE_STATS_MULTILANG+x} ]; then COMPUTE_STATS_MULTILANG=1; fi
-if [ -z ${PROCESS_STATS+x} ]; then PROCESS_STATS=1; fi
-if [ -z ${PROCESS_DUMPS+x} ]; then PROCESS_DUMPS=1; fi
+#### PROCESS LIST
+process_list=("PROCESS_INIT" "PROCESS_GEOLOC" "PROCESS_INTERLINKSAMEAS" "PROCESS_WIKIDATA" "CLEAN_WIKIDATA" "PROCESS_MULTILANG" "CLEAN_MULTILANG" "COMPUTE_STATS_MULTILANG" "PROCESS_STATS" "PROCESS_DUMPS")
+# CREATE IF NOT SETED
+for i in ${!process_list[@]};
+do
+process=$process_list[$i]
+if [ -z ${!process+x} ] ; then 
+ declare  "$process=0"
+fi   
+done
 
 echo "==========================================";
-echo " DBPEDIA LOADER VERSION of 19/09/2022-2";
+echo " DBPEDIA LOADER VERSION 3";
 echo "==========================================";
 echo "------------ Current config ------------";
 echo "> PROCESS_INIT: ${PROCESS_INIT}";
@@ -39,6 +38,24 @@ else
 echo "/opt/virtuoso-opensource/database/loader_locker.lck PB"
 fi  
 
+
+## CREATE IF NOT EXIST FORGERY FOR THIS RELEASE
+fileUPDT=${LASTRELEASE_DIR}/last_update.txt;
+lastUpdate=`head -n 1 $fileUPDT`;
+mkdir -p ${DATAFORGERY_DIR}/fr_${lastUpdate}
+process_log_file=${DATAFORGERY_DIR}/fr_${lastUpdate}/process_log.txt
+if [ ! -f $process_log_file ]
+then
+    touch $process_log_file
+    echo "process_name;nb_restart;time_begin;time_end;time_total;ended" > "${process_log_file}"
+    for i in ${!process_list[@]};
+    do
+       process=${process_list[$i]}
+       current_time=$(date +'%m-%Y')
+       echo "$process;0;$current_time;;0;0" >> "${process_log_file}"
+    done
+fi
+current_version_month=$(date +'%d-%m-%Y')
 
 echo "[INFO] Waiting for download to finish..."
 wait_for_download
