@@ -15,7 +15,7 @@ if [ -z ${PROCESS_STATS+x} ]; then PROCESS_STATS=1; fi
 if [ -z ${PROCESS_DUMPS+x} ]; then PROCESS_DUMPS=1; fi
 
 echo "==========================================";
-echo " DBPEDIA LOADER VERSION of 08/09/2022";
+echo " DBPEDIA LOADER VERSION of 19/09/2022";
 echo "==========================================";
 echo "------------ Current config ------------";
 echo "> PROCESS_INIT: ${PROCESS_INIT}";
