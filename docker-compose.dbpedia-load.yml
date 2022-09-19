@@ -32,6 +32,7 @@ services:
       DOMAIN: ${DOMAIN}
       DBP_LANG: ${DBP_LANG}
       DBP_CATEGORY: ${DBP_CATEGORY}
+      LASTRELEASE_DIR: ${LASTRELEASE_DIR}
       PROCESS_INIT: ${PROCESS_INIT}
       PROCESS_GEOLOC: ${PROCESS_GEOLOC}
       PROCESS_INTERLINKSAMEAS: ${PROCESS_INTERLINKSAMEAS}
@@ -42,7 +43,7 @@ services:
       COMPUTE_STATS_MULTILANG: ${COMPUTE_STATS_MULTILANG}
       CLEAN_MULTILANG: ${CLEAN_MULTILANG}
     volumes:
-      - ${DATA_DIR}:/root/data
+      - ${DATAFORGERY_DIR}:/root/data
       - ${VIRTUOSO_DATABASE_DIR}:/opt/virtuoso-opensource/database
       
     links:
