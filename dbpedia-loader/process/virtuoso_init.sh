@@ -116,7 +116,7 @@ do
 #       INSERT INTO <${DOMAIN}/graph/metadata> {  <${DOMAIN}/graph/${final_name}> void:dataDump <http://prod-dbpedia.inria.fr/dumps/lastUpdate/$fn> };"
 #       fi
 #    fi;
-done
+#done
 
 
 ##### HERE WE CHANGE THE DEFAULT BEHAVIOR OF THE DESCRIBE
