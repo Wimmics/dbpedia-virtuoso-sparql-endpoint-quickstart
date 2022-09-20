@@ -48,15 +48,14 @@ if [ ! -f $process_log_file ]
 then
     touch $process_log_file
     current_time=$(date)
-    echo "process_name;nb_restart;time_begin;time_end" > "${process_log_file}"
-    echo "GLOBAL;0;$current_time;" > "${process_log_file}"
+    echo "process_name;nb_restart;time_begin;time_end" >> "${process_log_file}"
+    echo "GLOBAL;0;$current_time;" >> "${process_log_file}"
     for i in ${!process_list[@]};
     do
        process=${process_list[$i]}
        echo "$process;0;;" >> "${process_log_file}"
     done
 fi
-current_version_month=$(date +'%d-%m-%Y')
 
 echo "[INFO] Waiting for download to finish..."
 wait_for_download
@@ -209,4 +208,5 @@ echo "[INFO] End of process"
 rm "/opt/virtuoso-opensource/database/loader_locker.lck";
 run_virtuoso_cmd 'log_enable(1)';
 run_virtuoso_cmd 'checkpoint_interval(60)';
+replaceInFileAfterProcess "GLOBAL" "${process_log_file}"
 echo "[INFO] LOCKER DELETED... SEE YOU !"
