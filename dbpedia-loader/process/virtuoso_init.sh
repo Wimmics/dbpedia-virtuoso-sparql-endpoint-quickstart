@@ -110,5 +110,5 @@ set isolation = 'uncommitted';
 rdf_loader_run();
 log_enable(1);
 checkpoint_interval(60);
-EOF`
+EOF`;
 run_virtuoso_cmd "$load_cmds";
