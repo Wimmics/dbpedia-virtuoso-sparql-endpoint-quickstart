@@ -11,9 +11,9 @@ SELECT count(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_interlanguage
 };");
 
 nb_interlang=$(get_answer_nb "$resp_interlang");
-if [ $nb_interlang -ne 0 ]
+if [ "$nb_interlang" -ne 0 ]
 then
-    while [ $nb_interlang -ne $nbsameAs ];
+    while [ "$nb_interlang" -ne "$nbsameAs" ];
     do
 
         ################### SPARQL - ADD SAMEAS LINKS FOR EACH INTERLANG
