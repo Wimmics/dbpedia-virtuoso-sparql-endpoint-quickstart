@@ -12,12 +12,16 @@ services:
             VIRT_Parameters_DirsAllowed: ${VIRT_Parameters_DirsAllowed}
             VIRT_PARAMETERS_NUMBEROFBUFFERS: ${VIRT_PARAMETERS_NUMBEROFBUFFERS}
             VIRT_PARAMETERS_MAXDIRTYBUFFERS: ${VIRT_PARAMETERS_MAXDIRTYBUFFERS}
-            VIRT_Client_SQL_UTF8_EXECS: ${VIRT_Client_SQL_UTF8_EXECS}
-            VIRT_Parameters_MaxVectorSize: ${VIRT_Parameters_MaxVectorSize}
+            VIRT_Client_SQL_UTF8_EXECS: ${VIRT_Client_SQL_UTF8_EXECS} 
+            VIRT_PARAMETERS_MAXVECTORSIZE: ${VIRT_PARAMETERS_MAXVECTORSIZE}
+            VIRT_HTTPSERVER_SERVERTHREADS: ${VIRT_HTTPSERVER_SERVERTHREADS}
+            VIRT_HTTPSERVER_MAXCLIENTCONNECTION: ${VIRT_HTTPSERVER_MAXCLIENTCONNECTION}
+            VIRT_HTTPSERVER_THREADSPERQUERY: ${VIRT_HTTPSERVER_THREADSPERQUERY}
+            VIRT_HTTPSERVER_ASYNCQUEUEMAXTHREADS: ${VIRT_HTTPSERVER_ASYNCQUEUEMAXTHREADS}      
     restart: always
     volumes:
       - ${VIRTUOSO_DATABASE_DIR}:/opt/virtuoso-opensource/database
-      - ${DATA_DIR}:/usr/share/proj
+      - ${DATAFORGERY_DIR}:/usr/share/proj
   load:
     build :
        context: ./dbpedia-loader
