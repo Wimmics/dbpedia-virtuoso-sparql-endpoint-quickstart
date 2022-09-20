@@ -21,7 +21,7 @@ services:
     restart: always
     volumes:
       - ${VIRTUOSO_DATABASE_DIR}:/opt/virtuoso-opensource/database
-      - ${DATAFORGERY_DIR}:/usr/share/proj
+      - ${DATA_DIR}:/usr/share/proj
   load:
     build :
        context: ./dbpedia-loader
@@ -47,7 +47,7 @@ services:
       COMPUTE_STATS_MULTILANG: ${COMPUTE_STATS_MULTILANG}
       CLEAN_MULTILANG: ${CLEAN_MULTILANG}
     volumes:
-      - ${DATAFORGERY_DIR}:/root/data
+      - ${DATA_DIR}:/root/data
       - ${VIRTUOSO_DATABASE_DIR}:/opt/virtuoso-opensource/database
       
     links:
