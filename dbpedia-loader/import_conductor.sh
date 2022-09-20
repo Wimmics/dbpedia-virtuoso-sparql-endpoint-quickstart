@@ -14,7 +14,7 @@ fi
 done
 
 echo "==========================================";
-echo " DBPEDIA LOADER VERSION 3";
+echo " DBPEDIA LOADERTEST VERSION0";
 echo "==========================================";
 echo "------------ Current config ------------";
 echo "> PROCESS_INIT: ${PROCESS_INIT}";
