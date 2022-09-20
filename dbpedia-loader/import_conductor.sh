@@ -47,12 +47,13 @@ process_log_file=${DATAFORGERY_DIR}/fr_${lastUpdate}/process_log.txt
 if [ ! -f $process_log_file ]
 then
     touch $process_log_file
-    echo "process_name;nb_restart;time_begin;time_end;time_total;ended" > "${process_log_file}"
+    current_time=$(date)
+    echo "process_name;nb_restart;time_begin;time_end" > "${process_log_file}"
+    echo "GLOBAL;0;$current_time;" > "${process_log_file}"
     for i in ${!process_list[@]};
     do
        process=${process_list[$i]}
-       current_time=$(date +'%m-%Y')
-       echo "$process;0;$current_time;;0;0" >> "${process_log_file}"
+       echo "$process;0;;" >> "${process_log_file}"
     done
 fi
 current_version_month=$(date +'%d-%m-%Y')
@@ -71,11 +72,25 @@ fi
 
 ############## CREATE NAMED GRAPH STRUCTURE AND LOAD DATA 
 if [ $PROCESS_INIT == 1 ] ; then
-   start_0=`date +%s`
+   start_time=$(date)
+   to_replace=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file})
+   actual_value=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk -F ';' '{print $3}')
+   if [ -z $actual_value ]; then 
+    replace_by=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk 'BEGIN{FS=OFS=";"} {sub($3, "$start_time", $3)} 1')
+    sed -i "s/$to_replace/$replace_by/" ${process_log_file}
+   else
+     actual_value=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk -F ';' '{print $2}')
+     new_val= $((actual_value + 1))
+     replace_by=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk 'BEGIN{FS=OFS=";"} {sub($2, "$new_val", $2)} 1')
+     sed -i "s/$to_replace/$replace_by/" ${process_log_file}
+   fi
    echo ">>> PROCESS_INIT unabled"
    /bin/bash ./process/virtuoso_init.sh
-   end_0=`date +%s`
-   runtime_0=$((end-start))
+   end_time=$(date)
+   to_replace=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file})
+   actual_value=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk -F ';' '{print $4}')
+   replace_by=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk 'BEGIN{FS=OFS=";"} {sub($4, "$end_time", $4)} 1')
+   sed -i "s/$to_replace/$replace_by/" ${process_log_file}
 else
    echo ">>> PROCESS_INIT disabled"
 fi
