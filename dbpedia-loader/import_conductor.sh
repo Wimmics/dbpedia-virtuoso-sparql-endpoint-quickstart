@@ -40,13 +40,12 @@ fi
 
 
 ## CREATE IF NOT EXIST FORGERY FOR THIS RELEASE
-fileUPDT=${LASTRELEASE_DIR}/last_update.txt;
+fileUPDT=${DATA_DIR}/last_update.txt;
 lastUpdate=`head -n 1 $fileUPDT`;
-mkdir -p ${DATAFORGERY_DIR}/${lastUpdate}_${VERSION}
-process_log_file=${DATAFORGERY_DIR}/${lastUpdate}_${VERSION}/process_log.txt
+mkdir -p ${DATA_DIR}/${lastUpdate}_${VERSION}
+process_log_file=${DATA_DIR}/${lastUpdate}_${VERSION}/process_log.txt
 if [ ! -f $process_log_file ]
 then
-    cp -r ${LASTRELEASE_DIR} ${DATAFORGERY_DIR}/${lastUpdate}_${VERSION}/
     touch $process_log_file
     current_time=$(date)
     echo "process_name;nb_restart;time_begin;time_end" > "${process_log_file}"
