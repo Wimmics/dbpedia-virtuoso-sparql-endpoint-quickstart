@@ -42,8 +42,8 @@ fi
 ## CREATE IF NOT EXIST FORGERY FOR THIS RELEASE
 fileUPDT=${LASTRELEASE_DIR}/last_update.txt;
 lastUpdate=`head -n 1 $fileUPDT`;
-mkdir -p ${DATAFORGERY_DIR}/fr_${lastUpdate}
-process_log_file=${DATAFORGERY_DIR}/fr_${lastUpdate}/process_log.txt
+mkdir -p ${DATAFORGERY_DIR}/${lastUpdate}_${VERSION}
+process_log_file=${DATAFORGERY_DIR}/${lastUpdate}_${VERSION}/process_log.txt
 if [ ! -f $process_log_file ]
 then
     touch $process_log_file
