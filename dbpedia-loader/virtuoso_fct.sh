@@ -83,7 +83,7 @@ replaceInFileBeforeProcess(){
  to_replace=$(awk -v pat="${process_name}" '$0~pat' ${file})
  actual_value=$(awk -v pat="${process_name}" '$0~pat' ${file} | awk -F ';' '{print $3}')
  echo "actual date begin : $actual_value"
- if [ -z $actual_value ]; then
+ if [ -z "$actual_value" ]; then
   replace_by=$(awk -v pat="${process_name}" '$0~pat' ${file} |  awk 'BEGIN{FS=OFS=";"} {sub($3, st, $3)} 1' st="${start_time}")
   echo "REPLACE BY : $replace_by"
   sed -i "s/$to_replace/$replace_by/" ${file}
