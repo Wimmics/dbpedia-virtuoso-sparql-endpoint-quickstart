@@ -10,7 +10,7 @@ echo "> ADD FLAG AND PROPAGATE CHANGE"
 count=0;
 nb_global=1;
 last=0;
-while [ $nb_global -ne $last ]
+while [ "$nb_global" -ne "$last" ]
 do
     echo "NEW LOOP $nb_global not equals to  $last" ;
     last=$nb_global;
@@ -36,7 +36,7 @@ do
     echo ">>>>>> UPDATE EACH GRAPH SUBJECTS";
     for graph in ${graph_list[@]}; do
         nb_todo0=1;
-        while [ $nb_todo0 -ne 0 ]
+        while [ "$nb_todo0" -ne 0 ]
         do
             ################### SPARQL - UPDATE AND CHANGE RELATIONS FROM WIKIDATA TO FRENCH RESOURCE AT SUBJECT SIDE   
             resp_updategraph=$(run_virtuoso_cmd "SPARQL \
