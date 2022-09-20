@@ -91,33 +91,6 @@ do
      run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
      run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate', '${fn}', '${DOMAIN}/graph/${final_name}');"
      
-    # if  [[ $entry =~ $pat3 ]] &&  [[ ! $entry =~ $pat4 ]]; then
-#        # count nb lines and get date of prod
-     
-#        date=$(echo $entry  | grep -Eo '[[:digit:]]{4}.[[:digit:]]{2}.[[:digit:]]{2}');  
-#        ################### SPARQL - GET NUMBER OF DATASET FROM DATE IF SUM NEEDED
-#        resp=$(run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#>  PREFIX prov: <http://www.w3.org/ns/prov#> \
-#        SELECT COUNT(?d) FROM <${DOMAIN}/graph/metadata> WHERE {\
-#        ?s prov:wasGeneratedAtTime ?d.\
-#        FILTER(?s = <${DOMAIN}/graph/${final_name}> )\
-#        } ;") 
-#           
-#        nb=$(get_answer_nb "$resp");
-#        if [ "$nb" -eq "0" ];then
-        
-        ###################  SPARQL - INSERT DATE PUBLICATION
-#           run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#>  PREFIX prov: <http://www.w3.org/ns/prov#> PREFIX schema: <http://schema.org/> \
-#           INSERT INTO <${DOMAIN}/graph/metadata> {  <${DOMAIN}/graph/${final_name}> prov:wasGeneratedAtTime '${date}'^^xsd:date .\
-#           <${DOMAIN}/graph/${final_name}>  schema:datePublished '${date}'^^xsd:date .\
-#           };"
-#        fi
-        ###################  SPARQL - INSERT DUMP FILE NAME
-#       run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#>  PREFIX prov: <http://www.w3.org/ns/prov#> \
-#       INSERT INTO <${DOMAIN}/graph/metadata> {  <${DOMAIN}/graph/${final_name}> void:dataDump <http://prod-dbpedia.inria.fr/dumps/lastUpdate/$fn> };"
-#       fi
-#    fi;
-#done
-
 
 ##### HERE WE CHANGE THE DEFAULT BEHAVIOR OF THE DESCRIBE
 # see https://community.openlinksw.com/t/how-to-change-default-describe-mode-in-faceted-browser/1691/3
@@ -139,5 +112,3 @@ log_enable(1);
 checkpoint_interval(60);
 EOF`
 run_virtuoso_cmd "$load_cmds";
-
-echo "END OF LOAD"
