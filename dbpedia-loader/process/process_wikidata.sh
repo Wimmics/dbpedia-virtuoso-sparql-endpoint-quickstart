@@ -69,7 +69,7 @@ do
     echo ">>>>>> UPDATE EACH GRAPH OBJECTS";
     for graph in ${graph_list[@]}; do
         nb_todo0=1;
-        while [ $nb_todo0 -ne 0 ]
+        while [ "$nb_todo0" -ne 0 ]
         do
        
             ################### SPARQL - UPDATE AND CHANGE RELATIONS FROM WIKIDATA TO FRENCH RESOURCE AT OBJECT SIDE 
@@ -108,7 +108,7 @@ do
     } LIMIT $limit};");
     echo ">>>>>> LINK TO FR RESSOURCE";
     nb_todo=1;
-    while [ $nb_todo -ne 0 ]
+    while [ "$nb_todo" -ne 0 ]
     do
       
       ################### SPARQL - LINK TO FRENCH RESOURCES THE OTHERS LINGUISTICS RESOURCES  IN dbpedia_wikidata_sameas-all-wikis graph
@@ -128,7 +128,7 @@ do
     done
     echo ">>>>>> INVERSE SAME AS"
     nb_todo2=1;
-    while [ $nb_todo2 -ne 0 ]
+    while [ "$nb_todo2" -ne 0 ]
     do
       
       ################### SPARQL - INVERSE SAMEAS
