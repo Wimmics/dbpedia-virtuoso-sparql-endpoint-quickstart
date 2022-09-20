@@ -72,31 +72,13 @@ fi
 
 ############## CREATE NAMED GRAPH STRUCTURE AND LOAD DATA 
 if [ $PROCESS_INIT == 1 ] ; then
-   start_time=$(date)
-   to_replace=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file})
-   actual_value=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk -F ';' '{print $3}')
-   if [ -z $actual_value ]; then 
-    replace_by=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk 'BEGIN{FS=OFS=";"} {sub($3, "$start_time", $3)} 1')
-    sed -i "s/$to_replace/$replace_by/" ${process_log_file}
-   else
-     actual_value=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk -F ';' '{print $2}')
-     new_val= $((actual_value + 1))
-     replace_by=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk 'BEGIN{FS=OFS=";"} {sub($2, "$new_val", $2)} 1')
-     sed -i "s/$to_replace/$replace_by/" ${process_log_file}
-   fi
    echo ">>> PROCESS_INIT unabled"
+   replaceInFileBeforeProcess "PROCESS_INIT" "${process_log_file}"
    /bin/bash ./process/virtuoso_init.sh
-   end_time=$(date)
-   to_replace=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file})
-   actual_value=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk -F ';' '{print $4}')
-   replace_by=$(awk -v pat="PROCESS_INIT" '$0~pat' ${process_log_file} | awk 'BEGIN{FS=OFS=";"} {sub($4, "$end_time", $4)} 1')
-   sed -i "s/$to_replace/$replace_by/" ${process_log_file}
+   replaceInFileAfterProcess "PROCESS_INIT" "${process_log_file}"
 else
    echo ">>> PROCESS_INIT disabled"
 fi
-
-
-
 run_virtuoso_cmd "log_enable(2)";
 run_virtuoso_cmd "checkpoint_interval(-1)";
 
@@ -104,7 +86,9 @@ run_virtuoso_cmd "checkpoint_interval(-1)";
 ############## CHANGE GEOLOC COORD FROM TRIPLE TO BLANK NODE
 if [ $PROCESS_GEOLOC == 1 ] ; then
    echo ">>> PROCESS_GEOLOC unabled"
+   replaceInFileBeforeProcess "PROCESS_GEOLOC" "${process_log_file}"
    /bin/bash ./process/geoloc_changes.sh
+   replaceInFileAfterProcess "PROCESS_GEOLOC" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
 else
@@ -114,7 +98,9 @@ fi
 ############## DUPLICATE INTERLINK AS SAMEAS
 if [ $PROCESS_INTERLINKSAMEAS == 1 ] ; then
    echo ">>> PROCESS_INTERLINKSAMEAS unabled"
+   replaceInFileBeforeProcess "PROCESS_INTERLINKSAMEAS" "${process_log_file}"
    /bin/bash ./process/interlink_to_sameAs.sh
+   replaceInFileAfterProcess "PROCESS_INTERLINKSAMEAS" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
 else
@@ -124,27 +110,21 @@ fi
 ############## PROCESS WIKIDATA
 if [ $PROCESS_WIKIDATA == 1 ] ; then
    echo ">>> PROCESS_WIKIDATA unabled"
+   replaceInFileBeforeProcess "PROCESS_WIKIDATA" "${process_log_file}"
    /bin/bash ./process/process_wikidata.sh
+   replaceInFileAfterProcess "PROCESS_WIKIDATA" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
 else
    echo ">>> PROCESS_WIKIDATA disabled"
 fi
 
-############## DELETE WIKIDATA RESOURCES THAT HAVN'T FR EQUIV
-if [ $CLEAN_WIKIDATA == 1 ] ; then
-   echo ">>> CLEAN_WIKIDATA unabled"
-   #/bin/bash ./process/process_wikidata2.sh
-   echo "---checkpoint"
-   run_virtuoso_cmd 'checkpoint;'
-else
-   echo ">>> CLEAN_WIKIDATA disabled"
-fi
-
 ############## MIGRATE EVERY LANGUAGES LABELS TO FR RESOURCES
 if [ $PROCESS_MULTILANG == 1 ] ; then
    echo ">>> PROCESS_MULTILANG unabled"
+   replaceInFileBeforeProcess "PROCESS_MULTILANG" "${process_log_file}"
    /bin/bash ./process/multilingual_labels.sh
+   replaceInFileAfterProcess "PROCESS_MULTILANG" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
 else
@@ -154,7 +134,9 @@ fi
 ############## MIGRATE EVERY LANGUAGES LABELS TO FR RESOURCES
 if [ $COMPUTE_STATS_MULTILANG == 1 ] ; then
    echo ">>> COMPUTE_STATS_MULTILANG unabled"
+   replaceInFileBeforeProcess "COMPUTE_STATS_MULTILANG" "${process_log_file}"
    /bin/bash ./process/computeStatsLang.sh
+   replaceInFileAfterProcess "COMPUTE_STATS_MULTILANG" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
 else
@@ -163,16 +145,34 @@ fi
 ############## DELETE RESSOURCES THAT HAVEN'T FR EQUIVALENT RESSOURCE
 if [ $CLEAN_MULTILANG == 1 ] ; then
    echo ">>> CLEAN_MULTILANG unabled"
+   replaceInFileBeforeProcess "CLEAN_MULTILANG" "${process_log_file}"
    /bin/bash ./process/clean_multilang.sh
+   replaceInFileAfterProcess "CLEAN_MULTILANG" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
 else
    echo ">>> CLEAN_MULTILANG disabled"
 fi
+
+
+############## DELETE WIKIDATA RESOURCES THAT HAVN'T FR EQUIV
+if [ $CLEAN_WIKIDATA == 1 ] ; then
+   echo ">>> CLEAN_WIKIDATA unabled"
+   replaceInFileBeforeProcess "CLEAN_WIKIDATA" "${process_log_file}"
+   #/bin/bash ./process/process_wikidata2.sh
+   replaceInFileAfterProcess "CLEAN_WIKIDATA" "${process_log_file}"
+   echo "---checkpoint"
+   run_virtuoso_cmd 'checkpoint;'
+else
+   echo ">>> CLEAN_WIKIDATA disabled"
+fi
+
 ############## COMPUTE STATS
 if [ $PROCESS_STATS == 1 ] ; then
    echo ">>> PROCESS_STATS unabled"
+   replaceInFileBeforeProcess "PROCESS_STATS" "${process_log_file}"
    /bin/bash ./process/stats_process.sh
+   replaceInFileAfterProcess "PROCESS_STATS" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
 else
@@ -183,7 +183,9 @@ fi
 ############## EXPORT NEW DATASETS
 if [ $PROCESS_DUMPS == 1 ] ; then
    echo ">>> PROCESS_DUMPS unabled"
+   replaceInFileBeforeProcess "PROCESS_DUMPS" "${process_log_file}"
    /bin/bash ./process/dumps_export.sh
+   replaceInFileAfterProcess "PROCESS_DUMPS" "${process_log_file}"
 else
    echo ">>> PROCESS_DUMPS disabled"
 fi
