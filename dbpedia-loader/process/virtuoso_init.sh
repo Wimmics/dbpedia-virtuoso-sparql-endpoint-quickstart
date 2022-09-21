@@ -40,8 +40,8 @@ pat1='.*\.(nt|nq|owl|rdf|trig|ttl|xml|gz|bz2)$' # IF ENDING BY ACCEPTED EXTENSIO
 pat2='([a-z\-]+)_'
 pat3='.*\.bz2$'
 pat4='metadata'
-
-for entry in "${STORE_DATA_DIR}/lastUpdate/*"
+echo "DATA DIR >>> ${DATA_DIR}"
+for entry in "${DATA_DIR}/lastUpdate/*"
 do
   echo "$entry";
   level1="";
