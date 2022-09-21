@@ -41,7 +41,7 @@ pat2='([a-z\-]+)_'
 pat3='.*\.bz2$'
 pat4='metadata'
 echo "DATA DIR >>> ${DATA_DIR}"
-for entry in "${DATA_DIR}/lastUpdate/*"
+for entry in "${DATA_DIR}/lastUpdate"/*
 do
   echo "$entry";
   level1="";
