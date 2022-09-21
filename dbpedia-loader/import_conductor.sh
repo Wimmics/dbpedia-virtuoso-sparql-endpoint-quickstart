@@ -7,7 +7,7 @@ process_list=("PROCESS_INIT" "PROCESS_GEOLOC" "PROCESS_INTERLINKSAMEAS" "PROCESS
 # CREATE IF NOT SETED
 for i in ${!process_list[@]};
 do
-process=$process_list[$i]
+process=${!process_list[$i]}
 if [ -z ${!process+x} ] ; then 
  declare  "$process=0"
  echo "$process : ${!process}"
