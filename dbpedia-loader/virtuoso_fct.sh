@@ -56,33 +56,14 @@ test_connection () {
 }
 get_answer_nb() {
 
-   resp=$1;
-   pat1='^[0-9]+$'
-   pat2='(?<=_\n\n)(\d+?)(?=\n)'
-   pat3='(?<=_\s)\d*(?=\s)'
-   pat4='(?<=\n\s)\d*(?=\n\s)'
-   nb_resp_=$resp;
-   #if ! [[ $nb_resp_ =~ $re ]] ; then
-   #    nb_resp_=$(echo $resp | awk '{print $4}')
-   #fi       
-   #if ! [[ $nb_resp_ =~ $re ]] ; then
-   #     nb_resp_=$(echo $resp |  awk '{print $5}')
-   #fi 
-   if ! [[ $nb_resp_ =~ $pat1 ]] ; then
-      if [[ $nb_resp_ =~ $pat2 ]] ; then
-        echo $(echo $resp | grep -o -P $pat2)
-      fi
-      if [[ $nb_resp_ =~ $pat2 ]] ; then
-        echo $(echo $resp | grep -o -P $pat3)
-      fi
-      if [[ $nb_resp_ =~ $pat2 ]] ; then
-        echo $(echo $resp | grep -o -P $pat4)
-      fi
-   fi
-   if [[ $nb_resp_ =~ $pat1 ]] ; then
-     echo "$nb_resp_";
+   nb_resp_=$1;
+   if [[ "$nb_resp_" =~ $nl ]] && [[ "$nb_resp_" == *'INTEGER'* ]]; then
+       echo "$nb_resp_" | grep -Po '^[0-9]+$'
+   else
+        echo 0   
    fi
 }
+
 
 replaceInFileBeforeProcess(){
  process_name=$1
