@@ -4,13 +4,12 @@
 
 #### PROCESS LIST
 declare -a process_list=("PROCESS_INIT" "PROCESS_GEOLOC" "PROCESS_INTERLINKSAMEAS" "PROCESS_WIKIDATA" "CLEAN_WIKIDATA" "PROCESS_MULTILANG" "CLEAN_MULTILANG" "COMPUTE_STATS_MULTILANG" "PROCESS_STATS" "PROCESS_DUMPS")
-# CREATE IF NOT SETED
+# CREATE IF NOT SET
 for process in ${process_list[@]};
 do
-echo "$process : ${!process}"
 if [ -z ${!process+x} ] ; then 
- declare  "$process=0"
- echo "$process : ${!process}"
+ declare  $process=0
+ echo "declared $process : ${!process}"
 fi   
 done
 
