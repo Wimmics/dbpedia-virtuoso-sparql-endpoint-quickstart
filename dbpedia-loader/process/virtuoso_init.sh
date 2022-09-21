@@ -9,6 +9,7 @@ run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/metad
 
 
 echo "[INFO] ADD META DATA"
+echo "FILE : ${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl"
 run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
 
 
@@ -91,6 +92,7 @@ do
      run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
      run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate', '${fn}', '${DOMAIN}/graph/${final_name}');"
      
+    echo "ADD FILE : ${STORE_DATA_DIR}/lastUpdate/${fn}"
     if  [[ $entry =~ $pat3 ]] &&  [[ ! $entry =~ $pat4 ]]; then
         # count nb lines and get date of prod
      
