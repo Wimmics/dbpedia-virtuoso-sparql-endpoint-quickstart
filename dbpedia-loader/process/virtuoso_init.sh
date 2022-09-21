@@ -105,6 +105,7 @@ do
         } ;") 
            
         nb=$(get_answer_nb "$resp");
+        echo "NB > $nb"
         if [ "$nb" -eq "0" ];then
         
         ###################  SPARQL - INSERT DATE PUBLICATION
