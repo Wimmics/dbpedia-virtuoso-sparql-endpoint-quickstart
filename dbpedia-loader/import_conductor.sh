@@ -3,11 +3,11 @@
 . ./virtuoso_fct.sh --source-only
 
 #### PROCESS LIST
-process_list=("PROCESS_INIT" "PROCESS_GEOLOC" "PROCESS_INTERLINKSAMEAS" "PROCESS_WIKIDATA" "CLEAN_WIKIDATA" "PROCESS_MULTILANG" "CLEAN_MULTILANG" "COMPUTE_STATS_MULTILANG" "PROCESS_STATS" "PROCESS_DUMPS")
+declare -a process_list=("PROCESS_INIT" "PROCESS_GEOLOC" "PROCESS_INTERLINKSAMEAS" "PROCESS_WIKIDATA" "CLEAN_WIKIDATA" "PROCESS_MULTILANG" "CLEAN_MULTILANG" "COMPUTE_STATS_MULTILANG" "PROCESS_STATS" "PROCESS_DUMPS")
 # CREATE IF NOT SETED
-for i in ${!process_list[@]};
+for process in ${process_list[@]};
 do
-process=${!process_list[$i]}
+echo "$process : ${!process}"
 if [ -z ${!process+x} ] ; then 
  declare  "$process=0"
  echo "$process : ${!process}"
