@@ -10,7 +10,7 @@ do
 process=$process_list[$i]
 if [ -z ${!process+x} ] ; then 
  declare  "$process=0"
- echo "${!process}"
+ echo "$process : ${!process}"
 fi   
 done
 
