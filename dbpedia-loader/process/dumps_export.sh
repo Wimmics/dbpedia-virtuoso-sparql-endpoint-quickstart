@@ -17,8 +17,9 @@ get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WH
 resp=$(run_virtuoso_cmd "$get_named_graph");
 graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
 for graph in ${graph_list[@]}; do
+    fn=echo "$graph" | grep -Po '\/graph\/(.*)'
     echo ">> DUMP $graph"
-    run_virtuoso_cmd "dump_one_graph_no_limits ('$graph', '${STORE_DATA_DIR}/lastUpdate/computed_dumps/${graph}_corrected');"
+    run_virtuoso_cmd "dump_one_graph_no_limits ('$graph', '${STORE_DATA_DIR}/lastUpdate/computed_dumps/${fn}_corrected');"
 done
 #echo ">>>>>>> DUMP WIKIDATA SUBCLASS OF" 
 #run_virtuoso_cmd "dump_one_graph ('http://fr.dbpedia.org/graph/dbpedia_wikidata_mappingbased-literals', '${STORE_DATA_DIR}/computed_dumps/wikidata-subclassof_computed_', 1000000000000000);"
