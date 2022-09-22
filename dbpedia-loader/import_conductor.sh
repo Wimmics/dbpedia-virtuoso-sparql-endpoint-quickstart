@@ -145,7 +145,7 @@ fi
 if [ $CLEAN_MULTILANG == 1 ] ; then
    echo ">>> CLEAN_MULTILANG unabled"
    replaceInFileBeforeProcess "CLEAN_MULTILANG" "${process_log_file}"
-   /bin/bash ./process/clean_multilang.sh
+   /bin/bash ./process/clean_multilangv2.sh
    replaceInFileAfterProcess "CLEAN_MULTILANG" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
