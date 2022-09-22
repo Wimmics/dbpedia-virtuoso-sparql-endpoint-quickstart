@@ -35,6 +35,11 @@ run_virtuoso_cmd "vad_install('/opt/virtuoso-opensource/vad/dbpedia_dav.vad', 0)
 echo "[INFO] Installing VAD package 'fct_dav.vad'"
 run_virtuoso_cmd "vad_install('/opt/virtuoso-opensource/vad/fct_dav.vad', 0);"
 
+################# CREATE USEFUL PROCEDURES
+value=`cat ../virtuoso_proc/create_dump`
+run_virtuoso_cmd  "$value"
+
+################# CREATE NAMED GRAPHS
 echo " >>>>>> structure_process : last fix 06/06/2022"
 pat1='.*\.(nt|nq|owl|rdf|trig|ttl|xml|gz|bz2)$' # IF ENDING BY ACCEPTED EXTENSIONS
 pat2='([a-z\-]+)_'
