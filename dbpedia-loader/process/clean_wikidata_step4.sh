@@ -1,4 +1,6 @@
+. ../virtuoso_fct.sh --source-only
 
+limit=500000;
 echo "============>>>> DELETE ALL THE TAGS"
 echo "----- sameas-all-wikis"
 nb_todo2=1;
