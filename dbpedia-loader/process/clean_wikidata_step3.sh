@@ -1,3 +1,6 @@
+. ../virtuoso_fct.sh --source-only
+
+limit=500000;
 
 echo "============>>>> DELETE USELESS WIKIDATA IN FLAGED GRAPHS"
 nb_todo1=1;
