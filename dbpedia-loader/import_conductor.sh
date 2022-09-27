@@ -158,7 +158,7 @@ fi
 if [ $CLEAN_WIKIDATA == 1 ] ; then
    echo ">>> CLEAN_WIKIDATA unabled"
    replaceInFileBeforeProcess "CLEAN_WIKIDATA" "${process_log_file}"
-   #/bin/bash ./process/process_wikidata2.sh
+   /bin/bash ./process/clean_wikidata_step1.sh 
    replaceInFileAfterProcess "CLEAN_WIKIDATA" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
