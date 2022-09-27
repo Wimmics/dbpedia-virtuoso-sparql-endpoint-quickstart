@@ -45,6 +45,7 @@ services:
       PROCESS_DUMPS: ${PROCESS_DUMPS}
       COMPUTE_STATS_MULTILANG: ${COMPUTE_STATS_MULTILANG}
       CLEAN_MULTILANG: ${CLEAN_MULTILANG}
+      CLEAN_WIKIDATA: ${CLEAN_WIKIDATA}
     volumes:
       - ${DATA_DIR}:/root/data
       - ${VIRTUOSO_DATABASE_DIR}:/opt/virtuoso-opensource/database
