@@ -1,5 +1,5 @@
 . ../virtuoso_fct.sh --source-only
-echo "UPDATED"
+echo "UPDATED2"
 limit=5000000;
 echo "============>>>> DELETE USELESS WIKIDATA IN OTHER NAMED GRAPHS"
 get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s sd:namedGraph ?o. FILTER( ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> AND  ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels> AND ?o != <http://fr.dbpedia.org/graph/dbpedia_generic_interlanguage-links> AND STRSTARTS(STR(?o), "http://fr.dbpedia.org/graph/dbpedia_wikidata_") ) };'
@@ -35,7 +35,7 @@ for graph in ${graph_list[@]}; do
 				?s ?p2 ?o2. FILTER NOT EXISTS { ?s rdf:type ?t} \
 			    }  \
 			    } \
-			} LIMIT $limit;" );
+			} ;" );
 			
 		nb_todo0=$(get_answer_nb "$resp_todo0");
 		echo "$graph need to change objects : $nb_todo0";
