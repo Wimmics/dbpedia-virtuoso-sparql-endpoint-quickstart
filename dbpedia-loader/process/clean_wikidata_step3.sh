@@ -2,7 +2,7 @@
 
 limit=500000;
 
-echo "============>>>> DELETE USELESS WIKIDATA IN FLAGED GRAPHS2"
+echo "============>>>> DELETE USELESS WIKIDATA IN FLAGED GRAPHS3"
 nb_todo1=1;
 while [ "$nb_todo1" -ne 0 ]
 do
