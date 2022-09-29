@@ -14,7 +14,7 @@ fi
 done
 
 echo "==========================================";
-echo " DBPEDIA LOADERTEST VERSION04";
+echo " DBPEDIA LOADERTEST VERSION05";
 echo "==========================================";
 echo "------------ Current config ------------";
 echo "> PROCESS_INIT: ${PROCESS_INIT}";
@@ -158,7 +158,7 @@ fi
 if [ $CLEAN_WIKIDATA == 1 ] ; then
    echo ">>> CLEAN_WIKIDATA unabled"
    replaceInFileBeforeProcess "CLEAN_WIKIDATA" "${process_log_file}"
-   /bin/bash ./process/clean_wikidata_step2.sh 
+   /bin/bash ./process/clean_wikidata_step3.sh 
    replaceInFileAfterProcess "CLEAN_WIKIDATA" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
