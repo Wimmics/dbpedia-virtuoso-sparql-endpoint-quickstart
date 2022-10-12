@@ -57,8 +57,8 @@ then
     done
 fi
 
-echo "[INFO] Waiting for download to finish..."
-wait_for_download
+#echo "[INFO] Waiting for download to finish..."
+#wait_for_download
 
 echo "will use ISQL port $STORE_ISQL_PORT to connect"
 echo "[INFO] Waiting for store to come online (${STORE_CONNECTION_TIMEOUT}s)"
