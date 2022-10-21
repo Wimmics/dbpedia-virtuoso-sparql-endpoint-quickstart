@@ -18,4 +18,9 @@ We simply install this corrected VAD interface in the container
 
 ## The French DBpedia pipeline
 
-This pipeline is processed by the second container of the docker-compose.dbpedia-load.yml, called "load". This is running a [master bash script](https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/import_conductor.sh)
+This pipeline is processed by the second container of the docker-compose.dbpedia-load.yml, called "load". 
+This is running a [master bash script](https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/import_conductor.sh) shifting depending of the configuration given in the docker-compose file, the different step of the SPARQL refinment process.
+
+This one is composed of :
+* A first structuration process : this one is getting the last DBpedia release on our server, and load them into named graphs. This script also do some important stuffs as indexation configuration...
+* the second on is  
