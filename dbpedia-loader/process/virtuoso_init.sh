@@ -43,7 +43,7 @@ run_virtuoso_cmd  "$value"
 echo " >>>>>> structure_process : last fix 06/06/2022"
 pat1='.*\.(nt|nq|owl|rdf|trig|ttl|xml|gz|bz2)$' # IF ENDING BY ACCEPTED EXTENSIONS
 pat2='([a-z\-]+)_'
-pat3='.*\.bz2$'
+pat3='.*\.(bz2|gz)$'
 pat4='metadata'
 echo "DATA DIR >>> ${DATA_DIR}"
 for entry in "${DATA_DIR}/lastUpdate"/*
