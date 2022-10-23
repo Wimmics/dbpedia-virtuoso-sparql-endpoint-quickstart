@@ -6,7 +6,7 @@ cd ${DATA_DIR}/lastUpdate
 mkdir -p computed_dumps
 cd ${DATA_DIR}/lastUpdate/computed_dumps
 echo ">>>>>>> DUMP METADATA"
-run_virtuoso_cmd "dump_one_graph_no_limits ('http://fr.dbpedia.org/graph/metadata', '${STORE_DATA_DIR}/computed_dump/metadata_computed');"
+run_virtuoso_cmd "dump_one_graph_no_limits ('http://fr.dbpedia.org/graph/metadata', '${STORE_DATA_DIR}/lastUpdate/computed_dump/metadata_computed');"
 echo ">>>>>>> DUMP LABELS" 
 run_virtuoso_cmd "dump_one_graph_no_limits ('http://fr.dbpedia.org/graph/dbpedia_generic_labels', '${STORE_DATA_DIR}/lastUpdate/computed_dumps/dbpedia_generic_labels_corrected');"
 echo ">>>>>>> DUMP GEOCORRECTED" 
