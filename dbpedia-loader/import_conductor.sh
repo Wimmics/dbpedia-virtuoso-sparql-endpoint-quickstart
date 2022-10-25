@@ -160,12 +160,12 @@ if [ $CLEAN_WIKIDATA == 1 ] ; then
    replaceInFileBeforeProcess "CLEAN_WIKIDATA" "${process_log_file}"
    /bin/bash ./process/clean_wikidata_step1.sh 
    echo ">>> END >> clean_wikidata_step1"
-   /bin/bash ./process/clean_wikidata_step2.sh
-   echo ">>> END >> clean_wikidata_step2" 
-   /bin/bash ./process/clean_wikidata_step3.sh
-   echo ">>> END >> clean_wikidata_step3" 
-   /bin/bash ./process/clean_wikidata_step4.sh
-   echo ">>> END >> clean_wikidata_step4" 
+   #/bin/bash ./process/clean_wikidata_step2.sh
+   #echo ">>> END >> clean_wikidata_step2" 
+   #/bin/bash ./process/clean_wikidata_step3.sh
+   #echo ">>> END >> clean_wikidata_step3" 
+   #/bin/bash ./process/clean_wikidata_step4.sh
+   #echo ">>> END >> clean_wikidata_step4" 
    replaceInFileAfterProcess "CLEAN_WIKIDATA" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
