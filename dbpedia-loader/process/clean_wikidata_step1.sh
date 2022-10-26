@@ -3,7 +3,7 @@
 
 limit=500000;
 
-echo "============>>>> FIRST FLAG frLabels V2"
+echo "============>>>> FIRST FLAG frLabels V3"
 count=0;
 nb_global=1;
 last=0;
@@ -20,6 +20,6 @@ do
      WHERE { ?s ?p ?o. FILTER (lang(?o)= 'fr').  FILTER NOT EXISTS { ?s rdf:type dbo:WdtHaveFrLabel }} LIMIT $limit \
     };");
     resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels> \
-     WHERE { ?s rdf:type dbo:WdtHaveFrLabel };)");         
+     WHERE { ?s rdf:type dbo:WdtHaveFrLabel };");         
     nb_global=$(get_answer_nb "$resp_count");
 done
