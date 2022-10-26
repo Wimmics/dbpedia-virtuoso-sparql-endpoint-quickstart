@@ -14,7 +14,7 @@ fi
 done
 
 echo "==========================================";
-echo " DBPEDIA LOADERTEST VERSION06";
+echo " DBPEDIA LOADERTEST VERSION07";
 echo "==========================================";
 echo "------------ Current config ------------";
 echo "> PROCESS_INIT: ${PROCESS_INIT}";
@@ -60,14 +60,14 @@ fi
 #echo "[INFO] Waiting for download to finish..."
 #wait_for_download
 
-echo "will use ISQL port $STORE_ISQL_PORT to connect"
-echo "[INFO] Waiting for store to come online (${STORE_CONNECTION_TIMEOUT}s)"
-: ${STORE_CONNECTION_TIMEOUT:=100}
-test_connection "${STORE_CONNECTION_TIMEOUT}"
-if [ $? -eq 2 ]; then
-   echo "[ERROR] store not reachable"
-   exit 1
-fi
+#echo "will use ISQL port $STORE_ISQL_PORT to connect"
+#echo "[INFO] Waiting for store to come online (${STORE_CONNECTION_TIMEOUT}s)"
+#: ${STORE_CONNECTION_TIMEOUT:=100}
+#test_connection "${STORE_CONNECTION_TIMEOUT}"
+#if [ $? -eq 2 ]; then
+#   echo "[ERROR] store not reachable"
+#   exit 1
+#fi
 
 ############## CREATE NAMED GRAPH STRUCTURE AND LOAD DATA 
 if [ $PROCESS_INIT == 1 ] ; then
