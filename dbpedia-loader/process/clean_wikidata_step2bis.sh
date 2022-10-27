@@ -2,7 +2,7 @@
 echo "UPDATED2"
 limit=5000000;
 echo "============>>>> DELETE USELESS WIKIDATA IN OTHER NAMED GRAPHS"
-get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s sd:namedGraph ?o. FILTER( ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> AND  ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels> AND ?o != <http://fr.dbpedia.org/graph/dbpedia_generic_interlanguage-links> AND STRSTARTS(STR(?o), "http://fr.dbpedia.org/graph/dbpedia_wikidata_") ) };'
+get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s sd:namedGraph ?o. FILTER( ?o != <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> AND STRSTARTS(STR(?o), "http://fr.dbpedia.org/graph/dbpedia_wikidata_") ) };'
 resp=$(run_virtuoso_cmd "$get_named_graph");
 graph_list=$(echo $resp | tr " " "\n" | grep -E "\/graph\/");
 for graph in ${graph_list[@]}; do
@@ -12,11 +12,7 @@ for graph in ${graph_list[@]}; do
 		resp_delete=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
 			WITH <$graph>  DELETE { ?s ?p ?o. } WHERE {  \
 			    ?s ?p ?o. \
-			    { \
-				SELECT  ?s ?p1 ?o1 FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels>  WHERE { \
-				    ?s ?p1 ?o1. FILTER NOT EXISTS { ?s rdf:type dbo:WdtHaveFrLabel } \
-				} \
-			    }.{ \
+			    { 
 				SELECT  ?s ?p2 ?o2 FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
 				    ?s ?p2 ?o2. FILTER NOT EXISTS { ?s rdf:type ?t} \
 				}  \
@@ -27,10 +23,6 @@ for graph in ${graph_list[@]}; do
 			SELECT COUNT(?s) FROM <$graph> WHERE {  \
 			    ?s ?p ?o. \
 			    { \
-			    SELECT  ?s ?p1 ?o1 FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels>  WHERE { \
-				?s ?p1 ?o1. FILTER NOT EXISTS { ?s rdf:type dbo:WdtHaveFrLabel } \
-			    } \
-			    }.{ \
 			    SELECT  ?s ?p2 ?o2 FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
 				?s ?p2 ?o2. FILTER NOT EXISTS { ?s rdf:type ?t} \
 			    }  \
