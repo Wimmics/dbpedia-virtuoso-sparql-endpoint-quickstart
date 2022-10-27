@@ -164,6 +164,7 @@ if [ $CLEAN_WIKIDATA == 1 ] ; then
    #echo ">>> END >> clean_wikidata_step2" 
    #/bin/bash ./process/clean_wikidata_step3.sh
    #echo ">>> END >> clean_wikidata_step3" 
+   ## DO NOT DELETE TAGS IF NOT KEEPING LABELS FR DATA 
    #/bin/bash ./process/clean_wikidata_step4.sh
    #echo ">>> END >> clean_wikidata_step4" 
    replaceInFileAfterProcess "CLEAN_WIKIDATA" "${process_log_file}"
