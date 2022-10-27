@@ -11,19 +11,23 @@ while [ "$nb_global" -ne "$last" ]
 do
     echo "NEW LOOP $nb_global not equals to  $last" ;
     last=$nb_global;	
-    resp2=$(run_virtuoso_cmd "SPARQL \
-    DEFINE sql:log-enable 2 \
+    resp2=$(run_virtuoso_cmd "SPARQL    \
     WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
     INSERT { ?s rdf:type dbo:WdtHaveFrLabel. } \
     WHERE { \
-      ?s ?p2 ?o2. \
-      FILTER NOT EXISTS { ?s rdf:type ?t}. \
-      { \
-        SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels> WHERE { \
-        ?s ?p ?o . FILTER (lang(?o)= 'fr') \
-      } \
-    } \
-    LIMIT $limit \
+      SELECT  \
+      	?s ?p2 ?o2 \
+		WHERE { \
+		?s ?p2 ?o2. \
+		      FILTER NOT EXISTS { ?s rdf:type ?t}. \
+		      { \
+		        SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels> WHERE { \
+		           ?s ?p ?o . FILTER (lang(?o)= 'fr') \
+		        \
+		        } \
+		      } \
+		} \
+      LIMIT $limit \
     };");
     resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
      WHERE { ?s rdf:type dbo:WdtHaveFrLabel };");         
