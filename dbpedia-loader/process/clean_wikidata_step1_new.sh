@@ -3,7 +3,7 @@
 
 limit=500000;
 
-echo "============>>>> EXPORT TAG TO SAME AS"
+echo "============>>>> EXPORT TAG TO SAME AS new version"
 count=0;
 nb_global=1;
 last=0;
