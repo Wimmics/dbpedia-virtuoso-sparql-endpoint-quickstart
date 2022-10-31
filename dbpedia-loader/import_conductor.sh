@@ -62,13 +62,13 @@ fi
 
 ###
 ############## FILTER WIKIDATA LABELS
-if [ $PROCESS_INIT == 1 ] ; then
+if [ $FILTER_WIKIDATA_LABELS == 1 ] ; then
    echo ">>> FILTER_WIKIDATA_LABELS unabled"
    replaceInFileBeforeProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
    /bin/bash ./process/wikidata_keep_french_labels.sh
    replaceInFileAfterProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
 else
-   echo ">>> PROCESS_INIT disabled"
+   echo ">>> FILTER_WIKIDATA_LABELS disabled"
 fi
 run_virtuoso_cmd "log_enable(2)";
 run_virtuoso_cmd "checkpoint_interval(-1)";
