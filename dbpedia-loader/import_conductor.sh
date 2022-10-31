@@ -174,7 +174,7 @@ fi
 if [ $CLEAN_WIKIDATA == 1 ] ; then
    echo ">>> CLEAN_WIKIDATA unabled"
    replaceInFileBeforeProcess "CLEAN_WIKIDATA" "${process_log_file}"
-   /bin/bash ./process/clean_wikidata_step1.sh 
+   /bin/bash ./process/clean_wikidata_step1_new.sh 
    echo ">>> END >> clean_wikidata_step1"
    #/bin/bash ./process/clean_wikidata_step2.sh
    #echo ">>> END >> clean_wikidata_step2" 
