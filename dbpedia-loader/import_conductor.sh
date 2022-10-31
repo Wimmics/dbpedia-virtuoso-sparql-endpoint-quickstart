@@ -192,9 +192,12 @@ fi
 
 ############## COMPUTE STATS
 if [ $PROCESS_STATS == 1 ] ; then
-   echo ">>> PROCESS_STATS unabled"
+   echo ">>> PROCESS_STATS general"
    replaceInFileBeforeProcess "PROCESS_STATS" "${process_log_file}"
-   /bin/bash ./process/stats_process.sh
+   /bin/bash ./process/stats_process_general.sh
+   
+   echo ">>> CLEAN_WIKIDATA DBpedia"
+   /bin/bash ./process/stats_dbpediafr.sh
    replaceInFileAfterProcess "PROCESS_STATS" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
