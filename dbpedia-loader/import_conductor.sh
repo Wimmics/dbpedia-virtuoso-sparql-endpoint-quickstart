@@ -17,6 +17,7 @@ echo "==========================================";
 echo " DBPEDIA LOADERTEST VERSION07";
 echo "==========================================";
 echo "------------ Current config ------------";
+echo "> FILTER_WIKIDATA_LABELS : ${FILTER_WIKIDATA_LABELS}";
 echo "> PROCESS_INIT: ${PROCESS_INIT}";
 echo "> PROCESS_GEOLOC : ${PROCESS_GEOLOC}";
 echo "> PROCESS_INTERLINKSAMEAS : ${PROCESS_INTERLINKSAMEAS}";
@@ -39,6 +40,8 @@ echo "/opt/virtuoso-opensource/database/loader_locker.lck PB"
 fi  
 
 
+
+
 ## CREATE IF NOT EXIST FORGERY FOR THIS RELEASE
 fileUPDT=${DATA_DIR}/last_update.txt;
 lastUpdate=`head -n 1 $fileUPDT`;
@@ -56,6 +59,19 @@ then
        echo "$process;0;;" >> "${process_log_file}"
     done
 fi
+
+###
+############## FILTER WIKIDATA LABELS
+if [ $PROCESS_INIT == 1 ] ; then
+   echo ">>> FILTER_WIKIDATA_LABELS unabled"
+   replaceInFileBeforeProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
+   /bin/bash ./process/wikidata_keep_french_labels.sh
+   replaceInFileAfterProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
+else
+   echo ">>> PROCESS_INIT disabled"
+fi
+run_virtuoso_cmd "log_enable(2)";
+run_virtuoso_cmd "checkpoint_interval(-1)";
 
 #echo "[INFO] Waiting for download to finish..."
 #wait_for_download
