@@ -21,7 +21,7 @@ do
     ?s ?p ?o. FILTER NOT EXISTS { ?s rdf:type ?t}. \
     { \
        SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels> \
-       WHERE {  ?s rdf:type dbo:WdtHaveFrLabel }  \
+       WHERE {  ?s ?p ?o }  \
     } \
     } LIMIT 10 };");
     resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
