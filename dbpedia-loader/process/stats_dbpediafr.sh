@@ -13,7 +13,7 @@ for graph in ${graph_list_dbpedia[@]}; do
 
         ################### SPARQL - CLASS PARTITION - Nb of triples by entites by class  CORRECTED
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/metadata> DELETE { <$graph> void:classPartition ?bn. ?bn void:class ?class. ?bn void:entities ?count. } WHERE { <$graph> void:classPartition ?bn. ?bn void:class ?class. ?bn void:entities ?count. FILTER (isBlank(?bn)) };"
-        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:classPartition [ void:class ?class ; void:entities ?count ] . } WHERE { SELECT ?class (count(?instance) AS ?count) WHERE { SELECT DISTINCT ?class ?instance FROM <$graph> WHERE { ?instance ?p ?o. { select ?instance ?c FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { ?instance a ?class } } } } GROUP BY ?class };"
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:classPartition [ void:class ?class ; void:entities ?count ] . } WHERE { SELECT ?class (count(?instance) AS ?count) WHERE { SELECT DISTINCT ?class ?instance FROM <$graph> WHERE { ?instance ?p ?o. { select ?instance ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { ?instance a ?class } } } } GROUP BY ?class };"
         echo "- nb triplet per classes";
 
         ################### SPARQL - CLASS PARTITION - Nb of triples triples associated to a class
