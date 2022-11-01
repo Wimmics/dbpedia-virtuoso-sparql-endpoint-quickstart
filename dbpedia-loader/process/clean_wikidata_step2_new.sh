@@ -9,7 +9,8 @@ do
 	resp_delete1=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
 	    WITH  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
 	    DELETE {?s ?p2 ?o2.} WHERE { \
-	    ?s ?p2 ?o2. FILTER NOT EXISTS { ?s rdf:type ?t} };");
+	    SELECT ?s ?p2 ?o2 WHERE { \
+	    ?s ?p2 ?o2. FILTER NOT EXISTS { ?s rdf:type ?t} } LIMIT $limit };");
 	resp_todo1=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
 	SELECT COUNT(?s) FROM  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
 	?s ?p2 ?o2. FILTER NOT EXISTS { ?s rdf:type ?t} };" );
