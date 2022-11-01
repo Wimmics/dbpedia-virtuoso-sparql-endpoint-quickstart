@@ -29,18 +29,18 @@ for graph in ${graph_list_dbpedia[@]}; do
         echo "- besoin d'explications";
 
         ################### SPARQL - CLASS PARTITION - Nb of triples associated to a class
-        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/metadata> DELETE { <$graph> void:classPartition ?bn. ?bn void:class ?c. ?bn void:classes ?x } WHERE { <$graph> void:classPartition ?bn. ?bn void:class ?c. ?bn void:classes ?x FILTER (isBlank(?bn))};"
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/metadata> DELETE { <$graph> void:classPartition ?bn. ?bn void:class ?c. ?bn void:classes ?x } WHERE { <$graph> void:classPartition ?bn. ?bn void:class ?c. ?bn void:classes ?x. FILTER (isBlank(?bn))};"
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { 
                 <$graph> void:classPartition [ void:class ?c ; void:classes ?x] . } WHERE { SELECT (COUNT(DISTINCT ?d) AS ?x) ?c  FROM <$graph> WHERE { ?s ?p ?o. { select ?s ?c ?d FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE {  ?s a ?c , ?d } } } GROUP BY ?c };"
         echo "- distinct subject per classes";
 
         ################### SPARQL - CLASS PARTITION - Nb of triples distincts subjects associated to a class
-        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/metadata> DELETE { <$graph> void:classPartition  ?bn. ?bn void:class ?c. ?bn void:distinctSubjects ?x  } WHERE { <$graph> void:classPartition  ?bn. ?bn void:class ?c. ?bn void:distinctSubjects ?x FILTER (isBlank(?bn)) };"
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/metadata> DELETE { <$graph> void:classPartition  ?bn. ?bn void:class ?c. ?bn void:distinctSubjects ?x  } WHERE { <$graph> void:classPartition  ?bn. ?bn void:class ?c. ?bn void:distinctSubjects ?x. FILTER (isBlank(?bn)) };"
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph> void:classPartition [ void:class ?c ; void:distinctSubjects ?x ] . } WHERE { SELECT (COUNT(DISTINCT ?s) AS ?x) ?c FROM <$graph> WHERE { ?s ?p ?o. { select ?s ?c FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { ?s a ?c } } } GROUP BY ?c };"
         echo "- distinct object per classes";
 
          ################### SPARQL - CLASS PARTITION - Nb  of triples  distincts objects associated to a class 
-        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/metadata> DELETE { <$graph>  void:classPartition  ?bn. ?bn void:class ?c. ?bn void:distinctObjects ?x  } WHERE { <$graph>  void:classPartition  ?bn. ?bn void:class ?c. ?bn void:distinctObjects ?x FILTER (isBlank(?bn)) . };"
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/metadata> DELETE { <$graph>  void:classPartition  ?bn. ?bn void:class ?c. ?bn void:distinctObjects ?x  } WHERE { <$graph>  void:classPartition  ?bn. ?bn void:class ?c. ?bn void:distinctObjects ?x. FILTER (isBlank(?bn)) . };"
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/metadata> { <$graph>  void:classPartition [ void:class ?c ; void:distinctObjects ?x ] . } WHERE { SELECT (COUNT(DISTINCT ?o) AS ?x) ?c FROM <$graph> WHERE { ?s ?p ?o. { select ?s ?c FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { ?s a ?c } }} GROUP BY ?c };"
         echo "- nb triples by prop";
 
