@@ -15,9 +15,9 @@ for graph in ${graph_list[@]}; do
 			    { 
 				SELECT  ?s ?p2 ?o2 FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
 				    ?s ?p2 ?o2. FILTER NOT EXISTS { ?s rdf:type ?t} \
-				}  \
+				}  LIMIT $limit \
 			    } \
-			} LIMIT $limit;" );
+			} ;" );
 		
 		resp_todo0=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
 			SELECT COUNT(?s) FROM <$graph> WHERE {  \
