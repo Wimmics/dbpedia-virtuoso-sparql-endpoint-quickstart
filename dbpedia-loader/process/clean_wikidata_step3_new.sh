@@ -10,23 +10,19 @@ for graph in ${graph_list[@]}; do
         while [ "$nb_todo0" -ne 0 ]
         do
 		resp_delete=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
-			WITH <$graph>  DELETE { ?s ?p ?o. } WHERE {  \
-			    ?s ?p ?o. \
-			    { 
-				SELECT  ?s ?p2 ?o2 FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
-				    ?s ?p2 ?o2. FILTER NOT EXISTS { ?s rdf:type ?t} \
-				}  LIMIT $limit \
-			    } \
+			WITH <$graph>  DELETE { ?s ?p ?o. }  WHERE {
+			?s ?p ?o.
+ 			FILTER NOT EXISTS {
+			SELECT  DISTINCT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s ?p2 ?o2 } LIMIT $limit \
+			}\
 			} ;" );
 		
 		resp_todo0=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
 			SELECT COUNT(?s) FROM <$graph> WHERE {  \
-			    ?s ?p ?o. \
-			    { \
-			    SELECT  ?s ?p2 ?o2 FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
-				?s ?p2 ?o2. FILTER NOT EXISTS { ?s rdf:type ?t} \
-			    }  \
-			    } \
+			?s ?p ?o. \
+			FILTER NOT EXISTS {
+		        SELECT  DISTINCT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s ?p2 ?o2 } \
+			}\
 			} ;" );
 			
 		nb_todo0=$(get_answer_nb "$resp_todo0");
