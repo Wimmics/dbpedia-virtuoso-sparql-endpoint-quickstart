@@ -16,12 +16,12 @@ do
     WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
     INSERT { ?s rdf:type dbo:WdtHaveFrLabel. } \
     WHERE { \
-    SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE \
+    SELECT DISTINCT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE \
     { \
     ?s ?p ?o. FILTER NOT EXISTS { ?s rdf:type ?t}. \
     { \
        SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels> \
-       WHERE {  ?s ?p ?o }  \
+       WHERE {  ?s ?p2 ?o2 }  \
     } \
     } LIMIT $limit };");
     resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
