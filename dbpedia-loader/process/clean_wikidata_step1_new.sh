@@ -16,7 +16,7 @@ do
     WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
     INSERT { ?s rdf:type dbo:WdtHaveFrLabel. } \
     WHERE { \
-    SELECT DISTINCT ?s WHERE \
+    SELECT DISTINCT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE \
     { \
     ?s ?p ?o. FILTER NOT EXISTS { ?s rdf:type ?t}. \
     { \
