@@ -3,7 +3,7 @@
 wiki_labels_file_base=($(find  ${DATA_DIR}/lastUpdate/ -maxdepth 1 -name 'dbpedia_wikidata_labels*'))
 gunzip -d ${wiki_labels_file_base}
 wiki_labels_file_2=($(find  ${DATA_DIR}/lastUpdate/   find . -maxdepth 1 -name 'dbpedia_wikidata_labels*.ttl' ))
-awk '/@fr ./' ${wiki_labels_file_2} >> ${DATA_DIR}/lastUpdate/dbpedia_wikidata_labels_corrected_onlyfrench.ttl
+awk '/@fr \./' ${wiki_labels_file_2} >> ${DATA_DIR}/lastUpdate/dbpedia_wikidata_labels_corrected_onlyfrench.ttl
 
 mkdir ${DATA_DIR}/lastUpdate/derived_data
 mv ${wiki_labels_file_2} ${DATA_DIR}/lastUpdate/derived_data/
