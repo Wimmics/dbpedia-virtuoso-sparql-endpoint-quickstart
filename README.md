@@ -23,7 +23,7 @@ The process works on last release of databus our [databus collection](https://da
 This pipeline is processed by the second container of the docker-compose.dbpedia-load.yml, called "load". 
 This is running a [master bash script](https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/import_conductor.sh) shifting depending of the configuration given in the docker-compose file, the different step of the SPARQL refinment process.
 
-This one is composed of theses followings steps :
+This one is composed of theses followings steps, they could be enabled and disabled depending of the value given in the docker-compose.dbpedia-load.yml file :
 * FILTER_WIKIDATA_LABELS : filter the [wikidata_labels dataset](https://databus.dbpedia.org/dbpedia/wikidata/labels/) for keeping only wikidata entities that have a french label 
 * PROCESS_INIT : load the data into separate named graphs 
 * PROCESS_GEOLOC : update the shape of the [geo data](https://databus.dbpedia.org/dbpedia/generic/geo-coordinates/) triples because of their may refer to geocoordinates found into the article that are not necessarily related to the resource of the wikipedia article
