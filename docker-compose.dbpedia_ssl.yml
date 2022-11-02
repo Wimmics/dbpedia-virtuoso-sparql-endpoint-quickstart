@@ -6,7 +6,7 @@ services:
             context: ./custom_virtuoso
             dockerfile: Dockerfile
     image: virtuoso-opensource-custom_vad
-    ports: ["${VIRTUOSO_HTTP_PORT}:8890","127.0.0.1:${VIRTUOSO_ISQL_PORT}:1111","127.0.0.1:${VIRT_HTTPSERVER_SSLPORT}:4443"]
+    ports: ["${VIRTUOSO_HTTP_PORT}:8890","127.0.0.1:${VIRTUOSO_ISQL_PORT}:1111","127.0.0.1:${VIRT_PARAMETERS_SSLPORT}:4443"]
     environment:
             DBA_PASSWORD: ${VIRTUOSO_ADMIN_PASSWD}
             VIRT_Parameters_DirsAllowed: ${VIRT_Parameters_DirsAllowed}
@@ -14,11 +14,9 @@ services:
             VIRT_PARAMETERS_MAXDIRTYBUFFERS: ${VIRT_PARAMETERS_MAXDIRTYBUFFERS}
             VIRT_Client_SQL_UTF8_EXECS: ${VIRT_Client_SQL_UTF8_EXECS}
             VIRT_Parameters_MaxVectorSize: ${VIRT_Parameters_MaxVectorSize}
-            VIRT_HTTPSERVER_SSLCERTIFICATE: ${VIRT_HTTPSERVER_SSLCERTIFICATE}
-            VIRT_HTTPSERVER_SSLPRIVATEKEY: ${VIRT_HTTPSERVER_SSLPRIVATEKEY}
-            VIRT_HTTPSERVER_X509CLIENTVERIFYCAFILE: ${VIRT_HTTPSERVER_X509CLIENTVERIFYCAFILE}
-            VIRT_HTTPSERVER_X509CLIENTVERIFY: 1
-            VIRT_HTTPSERVER_X509CLIENTVERIFY: 15
+            VIRT_PARAMETERS_SSLCERTIFICATE: ${VIRT_PARAMETERS_SSLCERTIFICATE}
+            VIRT_PARAMETERS_SSLPrivateKey: ${VIRT_PARAMETERS_SSLPrivateKey}
+            VIRT_PARAMETERS_X509ClientVerifyCAFile: ${VIRT_PARAMETERS_X509ClientVerifyCAFile}
     restart: always
     volumes:
       - ${VIRTUOSO_DATABASE_DIR}:/opt/virtuoso-opensource/database
