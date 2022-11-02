@@ -18,9 +18,19 @@ We simply install this corrected VAD interface in the container
 
 ## The French DBpedia pipeline
 
+The process works on last release of databus our [databus collection](https://databus.dbpedia.org/cringwald/collections/french_chapter) downloaded via [the collection downloader](https://github.com/Wimmics/dbpedia-databus-collection-downloader)
+
 This pipeline is processed by the second container of the docker-compose.dbpedia-load.yml, called "load". 
 This is running a [master bash script](https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/import_conductor.sh) shifting depending of the configuration given in the docker-compose file, the different step of the SPARQL refinment process.
 
-This one is composed of :
-* A first structuration process : this one is getting the last DBpedia release on our server, and load them into named graphs. This script also do some important stuffs as indexation configuration...
-* the second on is  
+This one is composed of theses followings steps :
+* FILTER_WIKIDATA_LABELS : filter the [wikidata_labels dataset](https://databus.dbpedia.org/dbpedia/wikidata/labels/) for keeping only wikidata entities that have a french label 
+* PROCESS_INIT : load the data into separate named graphs 
+* PROCESS_GEOLOC : update the shape of the [geo data](https://databus.dbpedia.org/dbpedia/generic/geo-coordinates/) triples because of their may refer to geocoordinates found into the article that are not necessarily related to the resource of the wikipedia article
+* PROCESS_WIKIDATA : process the same as invertion into the [wikidata sameas wiki dataset](https://databus.dbpedia.org/dbpedia/wikidata/sameas-all-wikis/) and propagate it into all the other wikidata named graphs
+* PROCESS_MULTILANG : link to french resource labels that have wikidata sameAs relation and tags these triples depending of the language 
+* COMPUTE_STATS_MULTILANG : compute stats for allowing chapter coverage comparison
+* CLEAN_MULTILANG : delete all the labels that are not related to a french resource
+* CLEAN_WIKIDATA : delete wikidata triples without french labels and link to french resource
+* PROCESS_STATS : compute general stat for every named graphs and specifics statistics for infobox data from DBpedia and wikidata 
+* PROCESS DUMPS : save and export dumps of the produced and enriched graphs
