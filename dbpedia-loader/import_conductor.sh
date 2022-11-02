@@ -174,12 +174,12 @@ fi
 if [ $CLEAN_WIKIDATA == 1 ] ; then
    echo ">>> CLEAN_WIKIDATA unabled"
    replaceInFileBeforeProcess "CLEAN_WIKIDATA" "${process_log_file}"
-   #/bin/bash ./process/clean_wikidata_step1_new.sh 
-   #echo ">>> END >> clean_wikidata_step1"
+   /bin/bash ./process/clean_wikidata_step1_new.sh 
+   echo ">>> END >> clean_wikidata_step1"
    #/bin/bash ./process/clean_wikidata_step2_new.sh
    #echo ">>> END >> clean_wikidata_step2_new" 
-   /bin/bash ./process/clean_wikidata_step3_new.sh
-   echo ">>> END >> clean_wikidata_step3_new" 
+   #/bin/bash ./process/clean_wikidata_step3_new.sh
+   #echo ">>> END >> clean_wikidata_step3_new" 
    ## DO NOT DELETE TAGS IF NOT KEEPING LABELS FR DATA 
    #/bin/bash ./process/clean_wikidata_step4.sh
    #echo ">>> END >> clean_wikidata_step4" 
