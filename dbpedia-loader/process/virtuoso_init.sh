@@ -17,7 +17,7 @@ run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/last
 echo "[INFO] Setting 'dbp_decode_iri' registry entry to 'on'"
 run_virtuoso_cmd "registry_set ('dbp_decode_iri', 'on');"
 echo "[INFO] Setting dynamic !!!!"
-run_virtuoso_cmd "registry_set ('dbp_DynamicLocal', 'on');"
+run_virtuoso_cmd "registry_set ('dbp_DynamicLocal', 'off');"
 run_virtuoso_cmd "registry_set ('dbp_lhost', ':8890');"
 run_virtuoso_cmd "registry_set ('dbp_vhost', '${DOMAIN}');"
 echo "[INFO] Setting 'dbp_domain' registry entry to ${DOMAIN}"
