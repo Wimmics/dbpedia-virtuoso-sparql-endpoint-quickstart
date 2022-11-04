@@ -21,7 +21,7 @@ do
               SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
               ?s rdf:type dbo:WdtFrResource \
               }  \
-       } LIMIT $limit };");
+       } } LIMIT $limit };");
     resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
      WHERE { ?s rdf:type dbo:WdtHaveFrLabel };");         
     nb_global=$(get_answer_nb "$resp_count");
