@@ -13,8 +13,7 @@ do
     last=$nb_global;	
     resp2=$(run_virtuoso_cmd "SPARQL  \
     DEFINE sql:log-enable 2 \
-    WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
-    INSERT { ?s rdf:type dbo:WdtHaveFrLabel. } \
+    INSERT { GRAPH  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  {?s rdf:type dbo:WdtHaveFrLabel.} } \
     WHERE { \
     SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels> \
         WHERE {  ?s ?p2 ?o2. MINUS {  \
