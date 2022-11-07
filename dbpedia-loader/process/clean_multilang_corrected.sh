@@ -23,9 +23,10 @@ for lang in ${lang_list[@]}; do
     do
       echo "TO DELETE : $nb_todelete";
       
-      resp_delete=$(run_virtuoso_cmd "SPARQL WITH <http://fr.dbpedia.org/graph/dbpedia_generic_labels> \
+      resp_delete=$(run_virtuoso_cmd "SPARQL  DEFINE sql:log-enable 2 \
        PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
        PREFIX oa: <http://www.w3.org/ns/oa#> \
+       WITH <http://fr.dbpedia.org/graph/dbpedia_generic_labels> \      
        DELETE { ?S <http://www.w3.org/2000/01/rdf-schema#label> ?o. }  WHERE { \
       SELECT ?S ?o FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE {\
       ?S <http://www.w3.org/2000/01/rdf-schema#label> ?o .\
