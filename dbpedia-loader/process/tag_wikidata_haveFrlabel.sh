@@ -16,12 +16,12 @@ do
     DEFINE sql:log-enable 2 \
     PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
     PREFIX oa: <http://www.w3.org/ns/oa#> \
-    INSERT { GRAPH  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  { tag-fr:WdtFrResource oa:hasTarget ?s.} } \
+    INSERT { GRAPH  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  { tag-fr:WdtHaveFrLabel oa:hasTarget ?s.} } \
     WHERE { \
     SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_labels> \
         WHERE {  ?s ?p2 ?o2. MINUS {  \
               SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
-               tag-fr:WdtFrResource oa:hasTarget ?s \
+               tag-fr:WdtHaveFrLabel oa:hasTarget ?s \
               }  \
        } } LIMIT $limit };");
        
@@ -29,6 +29,6 @@ do
     PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
     PREFIX oa: <http://www.w3.org/ns/oa#> \
     SELECT COUNT(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
-     WHERE {  tag-fr:WdtFrResource oa:hasTarget ?s };");         
+     WHERE {  tag-fr:WdtHaveFrLabel oa:hasTarget ?s };");         
     nb_global=$(get_answer_nb "$resp_count");
 done
