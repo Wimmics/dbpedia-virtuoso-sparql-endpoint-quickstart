@@ -3,7 +3,7 @@
 
 limit=500000;
 
-echo "============ multilingual_labels2.sh V6 "
+echo "============ CLEAN TAG LANG "
 ################### SPARQL - GET LANG LIST
 resp=$(run_virtuoso_cmd "SPARQL SELECT DISTINCT CONCAT('lang_',?lang) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> where { ?s rdfs:label ?o. BIND (lang(?o) AS ?lang) };";);
 echo $resp;
@@ -15,7 +15,7 @@ for lang in ${lang_list[@]}; do
 
 		Lang="${lang[@]^}"
 		resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?S) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { \
-	    ?S ?p ?o . FILTER { ?s a dbo:${Lang}FrResource } };") 
+	        ?S a dbo:${Lang}FrResource };") 
 	    
 	    nb_todelete=$(get_answer_nb "$resp_count");
 	    while [ "$nb_todelete" -ne 0 ]
@@ -33,7 +33,7 @@ for lang in ${lang_list[@]}; do
 	  		};")
 	      
 	      resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?S) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { \
-	      ?S ?p ?o . FILTER { ?s a dbo:${Lang}FrResource } };") 
+	        ?S a dbo:${Lang}FrResource };") 
 	      
 	      nb_todelete=$(get_answer_nb "$resp_count");
     	done
