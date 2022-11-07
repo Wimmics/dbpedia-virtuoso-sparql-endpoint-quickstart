@@ -12,6 +12,7 @@ do
    else
       filename2=$filename
    fi
+   echo $filename2
    sed -i -e 's/dbpedia-wikidata:Q/wikidata:Q/g' ${filename2}
    sed -i -e 's/<http:\/\/wikidata\.dbpedia\.org\/resource\/Q/wikidata:Q/g' ${filename2}
    gzip  -f ${filename2}
