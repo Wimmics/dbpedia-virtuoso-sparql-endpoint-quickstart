@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+. ../virtuoso_fct.sh --source-only
 echo "[ADD CUSTOM PREFIXES"
 run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);"
 
