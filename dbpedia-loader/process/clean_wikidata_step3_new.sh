@@ -10,19 +10,23 @@ for graph in ${graph_list[@]}; do
         while [ "$nb_todo0" -ne 0 ]
         do
 		resp_delete=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
-			WITH <$graph>  DELETE { ?s ?p ?o. }  WHERE {
-			?s ?p ?o.
- 			FILTER NOT EXISTS {
-			SELECT  DISTINCT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s ?p2 ?o2 } LIMIT $limit \
-			}\
+	       		PREFIX oa: <http://www.w3.org/ns/oa#> \
+			WITH <$graph>  DELETE { ?s ?p ?o. }  WHERE { \
+			SELECT ?s ?p ?o FROM <$graph> WHERE { \
+			?s ?p ?o. \
+ 			FILTER NOT EXISTS { \
+			SELECT  ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?t oa:hasTarget ?s } \
+			} \
+			} LIMIT $limit \
 			} ;" );
 		
-		resp_todo0=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
+		resp_todo0=$(run_virtuoso_cmd "SPARQL \
+	       		PREFIX oa: <http://www.w3.org/ns/oa#> \
 			SELECT COUNT(?s) FROM <$graph> WHERE {  \
 			?s ?p ?o. \
-			FILTER NOT EXISTS {
-		        SELECT  DISTINCT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?s ?p2 ?o2 } \
-			}\
+			FILTER NOT EXISTS { \
+		        SELECT  DISTINCT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { ?t oa:hasTarget ?s } \
+			} \
 			} ;" );
 			
 		nb_todo0=$(get_answer_nb "$resp_todo0");
