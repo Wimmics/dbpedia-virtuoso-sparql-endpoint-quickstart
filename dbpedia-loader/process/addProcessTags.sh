@@ -3,6 +3,7 @@
 echo "[ADD CUSTOM PREFIXES"
 run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);"
 
+### ADD TAG FOR DBPEDIA FR RESSOURCES
 run_virtuoso_cmd " SPARQL PREFIX  prov: <http://www.w3.org/ns/prov#> \
   PREFIX oa: <http://www.w3.org/ns/oa#> \
   PREFIX void: <http://rdfs.org/ns/void#> \
@@ -16,6 +17,26 @@ run_virtuoso_cmd " SPARQL PREFIX  prov: <http://www.w3.org/ns/prov#> \
  a prov:Entity; \
  rdfs:label 'Wikidata Fr related'@en; \
  rdfs:comment 'Wikidata resource that have a corresponding DBpedia Fr resource'@en; \
+ prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/test3/dbpedia-loader/process/clean_multilang.sh>; \
+ prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/test3/dbpedia-loader/process/multilingual_labels_corrected.sh>; \
+ prov:wasAttributedTo <https://fr.dbpedia.org/>. \
+ }};"
+ 
+ 
+### ADD TAG FOR DBPEDIA FR RESSOURCES
+run_virtuoso_cmd " SPARQL PREFIX  prov: <http://www.w3.org/ns/prov#> \
+  PREFIX oa: <http://www.w3.org/ns/oa#> \
+  PREFIX void: <http://rdfs.org/ns/void#> \
+  PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
+  PREFIX prov:  <http://www.w3.org/ns/prov#> \
+  PREFIX dc: <http://purl.org/dc/elements/1.1/> \
+  prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#>  \
+  prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \
+  INSERT DATA { GRAPH <http://fr.dbpedia.org/graph/process_tags> { \
+ tag-fr:WdtHaveFrLabel  a oa:Annotation;   \
+ a prov:Entity; \
+ rdfs:label 'Wikidata Fr label'@en; \
+ rdfs:comment 'Wikidata resource that have a french label'@en; \
  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/test3/dbpedia-loader/process/clean_multilang.sh>; \
  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/test3/dbpedia-loader/process/multilingual_labels_corrected.sh>; \
  prov:wasAttributedTo <https://fr.dbpedia.org/>. \
