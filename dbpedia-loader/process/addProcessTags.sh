@@ -5,8 +5,8 @@ run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/'
 
 run_virtuoso_cmd " SPARQL PREFIX  prov: <http://www.w3.org/ns/prov#> \
   PREFIX oa: <http://www.w3.org/ns/oa#> \
-  PREFIX void: <http://rdfs.org/ns/void#> \ 
-  PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \  
+  PREFIX void: <http://rdfs.org/ns/void#> \
+  PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
   PREFIX prov:  <http://www.w3.org/ns/prov#> \
   PREFIX dc: <http://purl.org/dc/elements/1.1/> \
   prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#>  \
