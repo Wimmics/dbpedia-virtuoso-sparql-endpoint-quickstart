@@ -32,7 +32,9 @@ for lang in ${lang_list[@]}; do
 		while [ "$nb_global_wkd" -ne "$last_wkd" ]
 		do
 			last_wkd=$nb_global_wkd;
-			resp_wikilinks_flag=$(run_virtuoso_cmd "SPARQL  WITH <http://fr.dbpedia.org/graph/dbpedia_generic_labels> \
+			resp_wikilinks_flag=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
+			        PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
+    				PREFIX oa: <http://www.w3.org/ns/oa#> \  WITH <http://fr.dbpedia.org/graph/dbpedia_generic_labels> \
 				DELETE { ?s_lang rdfs:label ?o_lang. } \
 				INSERT { tag-fr:${Lang}FrResource oa:hasTarget ?s_fr. ?s_fr rdfs:label ?o_lang.} \
 				WHERE {\
@@ -45,8 +47,11 @@ for lang in ${lang_list[@]}; do
 						 . FILTER(lang(?o_lang)='$lang') \
 			    } LIMIT $limit };");
 
-			resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?s_fr) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE {\
+			resp_count=$(run_virtuoso_cmd "SPARQL PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
+                         PREFIX oa: <http://www.w3.org/ns/oa#> \
+			 SELECT COUNT(?s_fr) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE {\
 			 tag-fr:${Lang}FrResource oa:hasTarget ?s_fr };");
+			 
 			nb_global_wkd=$(get_answer_nb "$resp_count");
 			echo ">>> nb flags WKD : $nb_global_wkd";
 		done
