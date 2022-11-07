@@ -12,8 +12,7 @@ echo "[INFO] ADD META DATA"
 echo "FILE : ${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl"
 run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
 
-echo "[ADD CUSTOM PREFIXES"
-run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);"
+
 
 ############## VIRTUOSO CONFIG
 echo "[INFO] Setting 'dbp_decode_iri' registry entry to 'on'"
