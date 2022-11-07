@@ -14,8 +14,8 @@ run_virtuoso_cmd " SPARQL PREFIX  prov: <http://www.w3.org/ns/prov#> \
   INSERT DATA { GRAPH <http://fr.dbpedia.org/graph/process_tags> { \
  tag-fr:WdtFrResource  a oa:Annotation;   \
  a prov:Entity; \
- rdfs:label "Wikidata Fr related"@fr; \
- rdfs:comment "Wikidata resource that have a corresponding DBpedia Fr resource"@fr; \
+ rdfs:label 'Wikidata Fr related'@en; \
+ rdfs:comment 'Wikidata resource that have a corresponding DBpedia Fr resource'@en; \
  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/test3/dbpedia-loader/process/clean_multilang.sh>; \
  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/test3/dbpedia-loader/process/multilingual_labels_corrected.sh>; \
  prov:wasAttributedTo <https://fr.dbpedia.org/>. \
@@ -29,7 +29,7 @@ for lang in ${lang_list[@]}; do
 	if [[ $lang != 'fr' ]]; then
   
 		Lang="${lang[@]^}"
- 
+                echo "LANG >>> ${Lang}"
      run_virtuoso_cmd " SPARQL PREFIX  prov: <http://www.w3.org/ns/prov#> \
             PREFIX oa: <http://www.w3.org/ns/oa#> \
             PREFIX void: <http://rdfs.org/ns/void#> \ 
@@ -41,8 +41,8 @@ for lang in ${lang_list[@]}; do
             INSERT DATA { GRAPH <http://fr.dbpedia.org/graph/process_tags> { \
            tag-fr:${Lang}FrResource  a oa:Annotation;   \
            a prov:Entity; \
-           rdfs:label "Label in ${Lang}"@fr; \
-           rdfs:comment "Filtered labels in ${Lang} having related to a DBpedia FR resource"@fr; \
+           rdfs:label '${Lang} labels '@en; \
+           rdfs:comment 'Filtered ${Lang} labels having related to a DBpedia FR resource'@en; \
            prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/test3/dbpedia-loader/process/clean_multilang.sh>;  \
            prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/test3/dbpedia-loader/process/multilingual_labels_corrected.sh>;  \
            prov:wasAttributedTo <https://fr.dbpedia.org/>. \
