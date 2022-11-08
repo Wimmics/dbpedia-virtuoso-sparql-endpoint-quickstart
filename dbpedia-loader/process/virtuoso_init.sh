@@ -32,7 +32,7 @@ run_virtuoso_cmd "$load_cmds";
 echo "END OF LOAD"
 
 echo "XXXXXXXXXXXXXX PROCESS TAGS BEGIN XXXXXXXXXXXXXXXXXX"
-/bin/bash ./addProcessTags.sh
+/bin/bash ./process/addProcessTags.sh
 echo "XXXXXXXXXXXXXX PROCESS TAGS END XXXXXXXXXXXXXXXXXX"
 
 ############## VIRTUOSO CONFIG
