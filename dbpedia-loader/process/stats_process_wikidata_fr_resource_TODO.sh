@@ -5,7 +5,7 @@ pat_meta='metadata'
 pat_onto='ontology'
 
 ##### SPACIAL WIKIDATA STATS w
-declare -a graph_list_wikidata=("http://fr.dbpedia.org/graph/dbpedia_wikidata_mappingbased-literals" "http://fr.dbpedia.org/graph/dbpedia_wikidata_mappingbased-objects-uncleaned
+declare -a graph_list_wikidata=("http://fr.dbpedia.org/graph/dbpedia_wikidata_mappingbased-literals" "http://fr.dbpedia.org/graph/dbpedia_wikidata_mappingbased-objects-uncleaned")
 for graph in ${graph_list_wikidata[@]}; do
 
     ## CREATE SPECIFIC CLASS PARTITION
