@@ -45,9 +45,9 @@ echo "wikidata prefixes"
 echo "end wikidata prefixes"
 
 ################# TEMPO TO DELETE
-#echo "filter wikidata"
-#/bin/bash ./process/bash/wikidata-labels_filter_onlyfr.sh
-#echo "end wikidata prefixes"
+echo "filter wikidata"
+/bin/bash ./process/bash/wikidata-labels_filter_onlyfr.sh
+echo "end wikidata prefixes"
 
 ## CREATE IF NOT EXIST FORGERY FOR THIS RELEASE
 fileUPDT=${DATA_DIR}/last_update.txt;
