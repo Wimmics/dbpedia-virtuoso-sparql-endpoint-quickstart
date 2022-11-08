@@ -17,20 +17,6 @@ run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/last
 echo "[INFO] ADD CUSTOM PREFIXES"
 run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);"
 
-echo '[INFO] Starting load process...';
-
-load_cmds=`cat <<EOF
-log_enable(2);
-checkpoint_interval(-1);
-set isolation = 'uncommitted';
-rdf_loader_run();
-log_enable(1);
-checkpoint_interval(60);
-EOF`
-run_virtuoso_cmd "$load_cmds";
-
-echo "END OF LOAD"
-
 echo "XXXXXXXXXXXXXX PROCESS TAGS BEGIN XXXXXXXXXXXXXXXXXX"
 /bin/bash ./process/addProcessTags.sh
 echo "XXXXXXXXXXXXXX PROCESS TAGS END XXXXXXXXXXXXXXXXXX"
