@@ -39,10 +39,10 @@ for lang in ${lang_list[@]}; do
                 DELETE { ?s_lang rdfs:label ?o_lang. } \
                 INSERT { tag-fr:${Lang}FrResource oa:hasTarget ?s_fr. ?s_fr rdfs:label ?o_lang.} \
                 WHERE { \
-                    SELECT  ?s_fr ?s_lang ?o_lang  FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels>  WHERE {\
-                    ?s_lang rdfs:label ?o_lang.\
+                    SELECT  ?s_fr ?s_lang ?o_lang  FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels>  WHERE { \
+                    ?s_lang rdfs:label ?o_lang. \
                     { SELECT ?s_fr ?s_lang FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
-                        ?s_fr owl:sameAs ?s_lang.\
+                        ?s_fr owl:sameAs ?s_lang. \
                          ?s_fr rdf:type  dbo:WdtFrResource } } \
                          . FILTER NOT EXISTS { tag-fr:${Lang}FrResource oa:hasTarget ?s_fr } \
                          . FILTER(lang(?o_lang)='$lang') \
