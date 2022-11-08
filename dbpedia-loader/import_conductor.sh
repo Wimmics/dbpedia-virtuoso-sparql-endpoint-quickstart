@@ -41,12 +41,12 @@ fi
 
 ########## CLEAN ALL WIKIDATA PREFIXES
 echo "wikidata prefixes"
-#/bin/bash ./process/bash/clean_wikidata_prefix.sh
+/bin/bash ./process/bash/clean_wikidata_prefix.sh
 echo "end wikidata prefixes"
 
 ################# TEMPO TO DELETE
 echo "filter wikidata"
-/bin/bash ./process/bash/wikidata-labels_filter_onlyfr.sh
+#/bin/bash ./process/bash/wikidata-labels_filter_onlyfr.sh
 echo "end wikidata prefixes"
 
 ## CREATE IF NOT EXIST FORGERY FOR THIS RELEASE
