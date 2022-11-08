@@ -39,8 +39,15 @@ else
 echo "/opt/virtuoso-opensource/database/loader_locker.lck PB"
 fi  
 
+########## CLEAN ALL WIKIDATA PREFIXES
+echo "wikidata prefixes"
+#/bin/bash ./process/bash/clean_wikidata_prefix.sh
+echo "end wikidata prefixes"
 
-
+################# TEMPO TO DELETE
+#echo "filter wikidata"
+#/bin/bash ./process/bash/wikidata-labels_filter_onlyfr.sh
+#echo "end wikidata prefixes"
 
 ## CREATE IF NOT EXIST FORGERY FOR THIS RELEASE
 fileUPDT=${DATA_DIR}/last_update.txt;
@@ -65,7 +72,7 @@ fi
 if [ $FILTER_WIKIDATA_LABELS == 1 ] ; then
    echo ">>> FILTER_WIKIDATA_LABELS unabled"
    replaceInFileBeforeProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
-   /bin/bash ./process/wikidata_keep_french_labels.sh
+  # /bin/bash ./process/wikidata_keep_french_labels.sh
    replaceInFileAfterProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
 else
    echo ">>> FILTER_WIKIDATA_LABELS disabled"
@@ -97,6 +104,11 @@ fi
 run_virtuoso_cmd "log_enable(2)";
 run_virtuoso_cmd "checkpoint_interval(-1)";
 
+#### TEMPO TO DELETE 
+echo ">>>>>>>>>>>>>>>>>>>> CLEAN LANG TAGS"
+/bin/bash ./process/CLEAN_tag_lang.sh
+echo ">>>>>>>>>>>>>>>>>>>> CLEAN WIKIDATA TAGS"
+/bin/bash ./process/CLEAN_tag_wikidata.sh
 
 ############## CHANGE GEOLOC COORD FROM TRIPLE TO BLANK NODE
 if [ $PROCESS_GEOLOC == 1 ] ; then
