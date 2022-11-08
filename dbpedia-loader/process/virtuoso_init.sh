@@ -7,13 +7,33 @@ resp=$(run_virtuoso_cmd "SPARQL DROP GRAPH <${DOMAIN}/graph/metadata>;");
 run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_CREATE ('${DOMAIN}',1);"
 run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/metadata');"
 
-
 echo "[INFO] ADD META DATA"
 echo "FILE : ${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl"
 run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
 
+
+
+
 echo "[INFO] ADD CUSTOM PREFIXES"
 DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);
+
+echo '[INFO] Starting load process...';
+
+load_cmds=`cat <<EOF
+log_enable(2);
+checkpoint_interval(-1);
+set isolation = 'uncommitted';
+rdf_loader_run();
+log_enable(1);
+checkpoint_interval(60);
+EOF`
+run_virtuoso_cmd "$load_cmds";
+
+echo "END OF LOAD"
+
+echo "XXXXXXXXXXXXXX PROCESS TAGS BEGIN XXXXXXXXXXXXXXXXXX"
+/bin/bash ./addProcessTags.sh
+echo "XXXXXXXXXXXXXX PROCESS TAGS END XXXXXXXXXXXXXXXXXX"
 
 ############## VIRTUOSO CONFIG
 echo "[INFO] Setting 'dbp_decode_iri' registry entry to 'on'"
@@ -151,7 +171,3 @@ EOF`
 run_virtuoso_cmd "$load_cmds";
 
 echo "END OF LOAD"
-
-echo "XXXXXXXXXXXXXX PROCESS TAGS BEGIN XXXXXXXXXXXXXXXXXX"
-/bin/bash ./bash/addProcessTags.sh
-echo "XXXXXXXXXXXXXX PROCESS TAGS END XXXXXXXXXXXXXXXXXX"
