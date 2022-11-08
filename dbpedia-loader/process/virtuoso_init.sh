@@ -15,7 +15,7 @@ run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/last
 
 
 echo "[INFO] ADD CUSTOM PREFIXES"
-DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);
+Drun_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);"
 
 echo '[INFO] Starting load process...';
 
