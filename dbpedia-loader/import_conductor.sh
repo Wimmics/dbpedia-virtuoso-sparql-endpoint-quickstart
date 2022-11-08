@@ -86,11 +86,11 @@ echo "[INFO] Waiting for download to finish..."
 #echo "will use ISQL port $STORE_ISQL_PORT to connect"
 #echo "[INFO] Waiting for store to come online (${STORE_CONNECTION_TIMEOUT}s)"
 #: ${STORE_CONNECTION_TIMEOUT:=100}
-test_connection "${STORE_CONNECTION_TIMEOUT}"
-if [ $? -eq 2 ]; then
-   echo "[ERROR] store not reachable"
-   exit 1
-fi
+#test_connection "${STORE_CONNECTION_TIMEOUT}"
+#if [ $? -eq 2 ]; then
+#   echo "[ERROR] store not reachable"
+#   exit 1
+#fi
 
 ############## CREATE NAMED GRAPH STRUCTURE AND LOAD DATA 
 if [ $PROCESS_INIT == 1 ] ; then
