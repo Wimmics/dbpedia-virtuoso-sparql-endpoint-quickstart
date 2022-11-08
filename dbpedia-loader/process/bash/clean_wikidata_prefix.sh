@@ -19,6 +19,7 @@ do
    echo $filename2
    sed -i -e 's/dbpedia-wikidata:Q/wikidata:Q/g' ${DATA_DIR}/lastUpdate/${filename2}
    sed -i -e 's/<http:\/\/wikidata\.dbpedia\.org\/resource\/Q/wikidata:Q/g' ${DATA_DIR}/lastUpdate/${filename2}
+   sed -i -e 's/[wikidata:Q]*[>]//g' ${DATA_DIR}/lastUpdate/${filename2}
    bzip2 ${filename2}
    echo "end of replacements in file"
      
