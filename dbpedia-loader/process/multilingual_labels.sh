@@ -43,7 +43,7 @@ for lang in ${lang_list[@]}; do
                     ?s_lang rdfs:label ?o_lang. \
                     { SELECT ?s_fr ?s_lang FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
                         ?s_fr owl:sameAs ?s_lang. \
-                         ?s_fr rdf:type  dbo:WdtFrResource } } \
+                         tag-fr:WdtFrResource oa:hasTarget ?s_fr } } \
                          . FILTER NOT EXISTS { tag-fr:${Lang}FrResource oa:hasTarget ?s_fr } \
                          . FILTER(lang(?o_lang)='$lang') \
                 } LIMIT $limit };");
