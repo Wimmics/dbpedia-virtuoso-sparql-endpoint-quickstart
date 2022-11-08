@@ -10,12 +10,15 @@ do
    if [[ "$extension" ==  'gz' ]]; then
       gunzip -d ${file}
       filename2="${filename%.*}"
+   if [[ "$extension" ==  'bz2' ]]; then
+      bzip2 -d ${file}
+      filename2="${filename%.*}"
    else
       filename2=$filename
    fi
    echo $filename2
    awk '!/wikidata:/' $filename2
-   gzip  -f ${filename2}
+   bzip2 ${filename2}
    echo "end of replacements in file"
      
 done
