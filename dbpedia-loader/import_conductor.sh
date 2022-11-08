@@ -73,7 +73,7 @@ if [ $FILTER_WIKIDATA_LABELS == 1 ] ; then
    echo ">>> FILTER_WIKIDATA_LABELS unabled"
    replaceInFileBeforeProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
   # /bin/bash ./process/wikidata_keep_french_labels.sh
-   replaceInFileAfterProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
+   #replaceInFileAfterProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
 else
    echo ">>> FILTER_WIKIDATA_LABELS disabled"
 fi
