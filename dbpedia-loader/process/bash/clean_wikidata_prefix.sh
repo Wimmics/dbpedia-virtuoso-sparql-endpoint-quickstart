@@ -10,7 +10,7 @@ do
    if [[ "$extension" ==  'gz' ]]; then
       gunzip -d ${file}
       filename2="${filename%.*}"
-   if [[ "$extension" ==  'bz2' ]]; then
+   elif [[ "$extension" ==  'bz2' ]]; then
       bzip2 -d ${file}
       filename2="${filename%.*}"
    else
