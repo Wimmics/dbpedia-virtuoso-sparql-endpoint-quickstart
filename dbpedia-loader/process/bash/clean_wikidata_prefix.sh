@@ -10,13 +10,16 @@ do
    if [[ "$extension" ==  'gz' ]]; then
       gunzip -d ${file}
       filename2="${filename%.*}"
+   if [[ "$extension" ==  'bz2' ]]; then
+      bzip2 -d ${file}
+      filename2="${filename%.*}"
    else
       filename2=$filename
    fi
    echo $filename2
    sed -i -e 's/dbpedia-wikidata:Q/wikidata:Q/g' ${DATA_DIR}/lastUpdate/${filename2}
    sed -i -e 's/<http:\/\/wikidata\.dbpedia\.org\/resource\/Q/wikidata:Q/g' ${DATA_DIR}/lastUpdate/${filename2}
-   gzip  -f ${filename2}
+   bzip2 ${filename2}
    echo "end of replacements in file"
      
 done
