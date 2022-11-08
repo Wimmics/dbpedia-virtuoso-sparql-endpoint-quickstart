@@ -106,9 +106,9 @@ run_virtuoso_cmd "checkpoint_interval(-1)";
 
 #### TEMPO TO DELETE 
 echo ">>>>>>>>>>>>>>>>>>>> CLEAN LANG TAGS"
-/bin/bash ./process/CLEAN_tag_lang.sh
+#/bin/bash ./process/CLEAN_tag_lang.sh
 echo ">>>>>>>>>>>>>>>>>>>> CLEAN WIKIDATA TAGS"
-#/bin/bash ./process/CLEAN_tag_wikidata.sh
+/bin/bash ./process/CLEAN_tag_wikidata.sh
 
 ############## CHANGE GEOLOC COORD FROM TRIPLE TO BLANK NODE
 if [ $PROCESS_GEOLOC == 1 ] ; then
