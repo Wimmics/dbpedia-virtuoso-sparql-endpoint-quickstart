@@ -27,10 +27,10 @@ for lang in ${lang_list[@]}; do
 	       PREFIX oa: <http://www.w3.org/ns/oa#> \
 	       WITH <http://fr.dbpedia.org/graph/dbpedia_generic_labels> \
 	       DELETE { ?s a dbo:${Lang}FrResource. } \
-           INSERT { tag-fr:${Lang}FrResource oa:hasTarget ?s . } \
-           WHERE { \
-	      SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { ?s a dbo:${Lang}FrResource. } LIMIT $limit \
-	  		};")
+               INSERT { tag-fr:${Lang}FrResource oa:hasTarget ?s . } \
+               WHERE { \
+	       SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { ?s a dbo:${Lang}FrResource. } LIMIT $limit \
+	       };")
 	      
 	      resp_count=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?S) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { \
 	        ?S a dbo:${Lang}FrResource };") 
