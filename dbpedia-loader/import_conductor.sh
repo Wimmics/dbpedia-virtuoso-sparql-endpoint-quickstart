@@ -80,17 +80,17 @@ fi
 run_virtuoso_cmd "log_enable(2)";
 run_virtuoso_cmd "checkpoint_interval(-1)";
 
-#echo "[INFO] Waiting for download to finish..."
-#wait_for_download
+echo "[INFO] Waiting for download to finish..."
+wait_for_download
 
 #echo "will use ISQL port $STORE_ISQL_PORT to connect"
 #echo "[INFO] Waiting for store to come online (${STORE_CONNECTION_TIMEOUT}s)"
 #: ${STORE_CONNECTION_TIMEOUT:=100}
-#test_connection "${STORE_CONNECTION_TIMEOUT}"
-#if [ $? -eq 2 ]; then
-#   echo "[ERROR] store not reachable"
-#   exit 1
-#fi
+test_connection "${STORE_CONNECTION_TIMEOUT}"
+if [ $? -eq 2 ]; then
+   echo "[ERROR] store not reachable"
+   exit 1
+fi
 
 ############## CREATE NAMED GRAPH STRUCTURE AND LOAD DATA 
 if [ $PROCESS_INIT == 1 ] ; then
