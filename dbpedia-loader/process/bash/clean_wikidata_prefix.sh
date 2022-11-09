@@ -11,14 +11,17 @@ do
    filename2="${filename%.*}"
    if [[ "$extension" ==  'gz' ]]; then
       filename3="${filename%.*.*}"
+      echo "${DATA_DIR}/lastUpdate/derived_data/${filename3}_bfr_pfx_rnm.ttl.gz"
       cp $file ${DATA_DIR}/lastUpdate/derived_data/${filename3}_bfr_pfx_rnm.ttl.gz
       gunzip -d ${file}
    elif [[ "$extension" ==  'bz2' ]]; then
       filename3="${filename%.*.*}"
       cp $file ${DATA_DIR}/lastUpdate/derived_data/${filename3}_bfr_pfx_rnm.ttl.bz2
+      echo "${DATA_DIR}/lastUpdate/derived_data/${filename3}_bfr_pfx_rnm.ttl.gz"
       bzip2 -d ${file}
    else   
       cp $file ${DATA_DIR}/lastUpdate/derived_data/${filename2}_bfr_pfx_rnm.ttl
+      echo "${DATA_DIR}/lastUpdate/derived_data/${filename2}_bfr_pfx_rnm.ttl.gz"
       filename2=$filename
    fi
    
@@ -26,8 +29,7 @@ do
    sed -i -e 's/<http:\/\/wikidata\.dbpedia\.org\/resource\/Q/wikidata:Q/g' ${DATA_DIR}/lastUpdate/${filename2}
    sed -i -e 's,\(wikidata:Q[0-9]*\)>,\1,g' ${DATA_DIR}/lastUpdate/${filename2}
    #sed -i -e 's/@base < ./@base <> ./'  ${DATA_DIR}/lastUpdate/${filename2}
-   sed -i  '2i\# Revised by Wimmics at '$today' - change of wikiprefix' test2
-   ${DATA_DIR}/lastUpdate/${filename2}
+   sed -i  '2i\# Revised by Wimmics at '$today' - change of wikiprefix' ${DATA_DIR}/lastUpdate/${filename2}
    bzip2 ${filename2}
    echo "end of replacements in file" 
 done
