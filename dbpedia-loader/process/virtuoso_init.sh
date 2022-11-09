@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 . ../virtuoso_fct.sh
 
+
+
+########## CLEAN ALL WIKIDATA PREFIXES
+echo "wikidata prefixes"
+/bin/bash ./process/bash/clean_wikidata_prefix.sh
+echo "end wikidata prefixes"
+
+
 ## CLEAN METADATA GRAPH
 resp=$(run_virtuoso_cmd "SPARQL DROP GRAPH <${DOMAIN}/graph/metadata>;");
 ## CREATE SUBGRAPHS
