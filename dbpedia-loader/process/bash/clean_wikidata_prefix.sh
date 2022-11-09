@@ -30,6 +30,6 @@ do
    sed -i -e 's,\(wikidata:Q[0-9]*\)>,\1,g' ${DATA_DIR}/lastUpdate/${filename2}
    #sed -i -e 's/@base < ./@base <> ./'  ${DATA_DIR}/lastUpdate/${filename2}
    sed -i  '2i\# Revised by Wimmics at '$today' - change of wikiprefix' ${DATA_DIR}/lastUpdate/${filename2}
-   bzip2 ${filename2}
+   bzip2 ${DATA_DIR}/lastUpdate/${filename2}
    echo "end of replacements in file" 
 done
