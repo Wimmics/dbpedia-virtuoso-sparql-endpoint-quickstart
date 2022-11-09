@@ -16,12 +16,12 @@ do
       gunzip -d ${file}
    elif [[ "$extension" ==  'bz2' ]]; then
       filename3="${filename%.*.*}"
-      cp $file ${DATA_DIR}/lastUpdate/derived_data/${filename3}_bfr_pfx_rnm.ttl.bz2
       echo "${DATA_DIR}/lastUpdate/derived_data/${filename3}_bfr_pfx_rnm.ttl.gz"
+      cp $file ${DATA_DIR}/lastUpdate/derived_data/${filename3}_bfr_pfx_rnm.ttl.bz2
       bzip2 -d ${file}
    else   
-      cp $file ${DATA_DIR}/lastUpdate/derived_data/${filename2}_bfr_pfx_rnm.ttl
       echo "${DATA_DIR}/lastUpdate/derived_data/${filename2}_bfr_pfx_rnm.ttl.gz"
+      cp $file ${DATA_DIR}/lastUpdate/derived_data/${filename2}_bfr_pfx_rnm.ttl
       filename2=$filename
    fi
    
