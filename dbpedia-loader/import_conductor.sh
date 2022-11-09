@@ -39,11 +39,6 @@ else
 echo "/opt/virtuoso-opensource/database/loader_locker.lck PB"
 fi  
 
-########## CLEAN ALL WIKIDATA PREFIXES
-echo "wikidata prefixes"
-/bin/bash ./process/bash/clean_wikidata_prefix.sh
-echo "end wikidata prefixes"
-
 ################# TEMPO TO DELETE
 echo "filter wikidata"
 #/bin/bash ./process/bash/wikidata-labels_filter_onlyfr.sh
