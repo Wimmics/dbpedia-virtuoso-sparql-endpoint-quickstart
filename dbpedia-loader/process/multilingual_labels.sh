@@ -47,9 +47,7 @@ for lang in ${lang_list[@]}; do
                          . FILTER NOT EXISTS { tag-fr:${Lang}FrResource oa:hasTarget ?s_fr } \
                          . FILTER(lang(?o_lang)='$lang') \
                 } LIMIT $limit };");
-                echo "========================";
-            echo $resp_wikilinks_flag;
-                echo "========================";
+
             resp_count=$(run_virtuoso_cmd "SPARQL PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
                          PREFIX oa: <http://www.w3.org/ns/oa#> \
              SELECT COUNT(?s_fr) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { \
