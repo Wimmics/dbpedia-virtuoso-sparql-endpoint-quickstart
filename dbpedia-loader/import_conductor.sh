@@ -40,9 +40,9 @@ echo "/opt/virtuoso-opensource/database/loader_locker.lck PB"
 fi  
 
 ################# TEMPO TO DELETE
-echo "filter wikidata"
+#echo "filter wikidata"
 #/bin/bash ./process/bash/wikidata-labels_filter_onlyfr.sh
-echo "end wikidata prefixes"
+#echo "end wikidata prefixes"
 
 ## CREATE IF NOT EXIST FORGERY FOR THIS RELEASE
 fileUPDT=${DATA_DIR}/last_update.txt;
@@ -103,7 +103,7 @@ run_virtuoso_cmd "checkpoint_interval(-1)";
 echo ">>>>>>>>>>>>>>>>>>>> CLEAN LANG TAGS"
 #/bin/bash ./process/CLEAN_tag_lang.sh
 echo ">>>>>>>>>>>>>>>>>>>> CLEAN WIKIDATA TAGS"
-/bin/bash ./process/CLEAN_tag_wikidata.sh
+#/bin/bash ./process/CLEAN_tag_wikidata.sh
 
 ############## CHANGE GEOLOC COORD FROM TRIPLE TO BLANK NODE
 if [ $PROCESS_GEOLOC == 1 ] ; then
