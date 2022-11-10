@@ -13,10 +13,9 @@ for lang in ${lang_list[@]}; do
     Lang="${lang[@]^}"
     echo "============>>>>>>>>>> $lang"
     
-    resp_count=$(run_virtuoso_cmd "SPARQL PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
-    PREFIX oa: <http://www.w3.org/ns/oa#> \
+    resp_count=$(run_virtuoso_cmd "SPARQL PREFIX oa: <http://www.w3.org/ns/oa#> \
     SELECT COUNT(?S) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { \
-    ?S ?p ?o . FILTER NOT EXISTS { tag-fr:${Lang}FrResource oa:hasTarget ?S } };") 
+    ?S <http://www.w3.org/2000/01/rdf-schema#label> ?o . FILTER NOT EXISTS { ?t oa:hasTarget ?S }. FILTER(lang(?o) != 'fr') };") 
     
     nb_todelete=$(get_answer_nb "$resp_count");
     while [ "$nb_todelete" -ne 0 ]
@@ -24,18 +23,16 @@ for lang in ${lang_list[@]}; do
       echo "TO DELETE : $nb_todelete";
       
       resp_delete=$(run_virtuoso_cmd "SPARQL  DEFINE sql:log-enable 2 \
-       PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
        PREFIX oa: <http://www.w3.org/ns/oa#> \
        WITH <http://fr.dbpedia.org/graph/dbpedia_generic_labels> \
        DELETE { ?S <http://www.w3.org/2000/01/rdf-schema#label> ?o. }  WHERE { \
-      SELECT ?S ?o FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE {\
-      ?S <http://www.w3.org/2000/01/rdf-schema#label> ?o .\
-      FILTER NOT EXISTS { tag-fr:${Lang}FrResource oa:hasTarget ?S  } }  LIMIT $limit };")
+      SELECT ?S ?o FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { \
+      ?S <http://www.w3.org/2000/01/rdf-schema#label> ?o . \
+      FILTER NOT EXISTS { ?t oa:hasTarget ?S  }. FILTER(lang(?o) != 'fr')  }  LIMIT $limit };")
       
-      resp_count=$(run_virtuoso_cmd "SPARQL PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
-      PREFIX oa: <http://www.w3.org/ns/oa#> \
-      7SELECT COUNT(?S) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { \
-      ?S ?p ?o . FILTER NOT EXISTS { tag-fr:${Lang}FrResource oa:hasTarget ?S };") 
+      resp_count=$(run_virtuoso_cmd "SPARQL PREFIX oa: <http://www.w3.org/ns/oa#> \
+      SELECT COUNT(?S) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { \
+      ?S <http://www.w3.org/2000/01/rdf-schema#label> ?o . FILTER NOT EXISTS { ?t oa:hasTarget ?S }. FILTER(lang(?o) != 'fr') };")
       
       nb_todelete=$(get_answer_nb "$resp_count");
     done
