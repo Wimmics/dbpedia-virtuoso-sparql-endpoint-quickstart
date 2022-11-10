@@ -11,11 +11,11 @@ do
 	    WITH  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
 	    DELETE {?s ?p2 ?o2.} WHERE { \
 	    SELECT ?s ?p2 ?o2 FROM  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  WHERE { \
-	    ?s ?p2 ?o2. FILTER NOT EXISTS {  ?t oa:hasTarget ?s. } } LIMIT $limit };");
+	    ?s owl:sameAs ?o2. FILTER NOT EXISTS {  ?t oa:hasTarget ?s. } } LIMIT $limit };");
 	resp_todo1=$(run_virtuoso_cmd "SPARQL \
             PREFIX oa: <http://www.w3.org/ns/oa#> \
 	SELECT COUNT(?s) FROM  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE { \
-	?s ?p2 ?o2. FILTER NOT EXISTS { ?t oa:hasTarget ?s. } };" );
+	?s owl:sameAs ?o2. FILTER NOT EXISTS { ?t oa:hasTarget ?s. } };" );
 	nb_todo1=$(get_answer_nb "$resp_todo1");
 	echo "sameas-all-wikis need to delete objects : $nb_todo1";
 done
