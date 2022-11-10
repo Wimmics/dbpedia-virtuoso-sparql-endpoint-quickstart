@@ -181,15 +181,7 @@ fi
 if [ $CLEAN_WIKIDATA == 1 ] ; then
    echo ">>> CLEAN_WIKIDATA unabled"
    replaceInFileBeforeProcess "CLEAN_WIKIDATA" "${process_log_file}"
-   #/bin/bash ./process/clean_wikidata_step1_new.sh 
-   #echo ">>> END >> clean_wikidata_step1"
-   /bin/bash ./process/clean_wikidata_step2_new.sh
-   echo ">>> END >> clean_wikidata_step2_new" 
-   /bin/bash ./process/clean_wikidata_step3_new.sh
-   echo ">>> END >> clean_wikidata_step3_new" 
-   ## DO NOT DELETE TAGS IF NOT KEEPING LABELS FR DATA 
-   #/bin/bash ./process/clean_wikidata_step4.sh
-   #echo ">>> END >> clean_wikidata_step4" 
+   /bin/bash ./process/clean_wikidata.sh
    replaceInFileAfterProcess "CLEAN_WIKIDATA" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
@@ -201,10 +193,12 @@ fi
 if [ $PROCESS_STATS == 1 ] ; then
    echo ">>> PROCESS_STATS general"
    replaceInFileBeforeProcess "PROCESS_STATS" "${process_log_file}"
+   echo ">>> GENERAL STATS"
    /bin/bash ./process/stats_process_general.sh
-   
-   echo ">>> CLEAN_WIKIDATA DBpedia"
+   echo ">>> DBPEDIA FR"
    /bin/bash ./process/stats_dbpediafr.sh
+   echo ">>> WIKIDATA - DBpedia FR"
+   /bin/bash ./process/stats_process_wikidata_haveFrEquiv.sh
    replaceInFileAfterProcess "PROCESS_STATS" "${process_log_file}"
    echo "---checkpoint"
    run_virtuoso_cmd 'checkpoint;'
