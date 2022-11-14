@@ -194,7 +194,7 @@ if [ $PROCESS_STATS == 1 ] ; then
    echo ">>> PROCESS_STATS general"
    replaceInFileBeforeProcess "PROCESS_STATS" "${process_log_file}"
    echo ">>> GENERAL STATS"
-   /bin/bash ./process/stats_process_general.sh
+   #/bin/bash ./process/stats_process_general.sh
    echo ">>> DBPEDIA FR"
    /bin/bash ./process/stats_dbpediafr.sh
    echo ">>> WIKIDATA - DBpedia FR"
