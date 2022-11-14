@@ -15,7 +15,7 @@ for graph in ${graph_list_dbpedia[@]}; do
           ?bn void:class ?c. \
            FILTER (isBlank(?bn))};"
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
-         INSERT INTO <${DOMAIN}/graph/statistics> { 
+         INSERT INTO <${DOMAIN}/graph/statistics> { \
                 <$graph> void:classPartition [ void:class ?c ] . } \
                 WHERE { SELECT DISTINCT(?c) FROM <$graph> { ?s ?p ?o. \
                  { select ?s ?c FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> \
@@ -46,7 +46,7 @@ for graph in ${graph_list_dbpedia[@]}; do
           ?bn void:class ?c. ?bn void:triples ?x. \
           FILTER (isBlank(?bn)) };"
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
-         INSERT INTO <${DOMAIN}/graph/statistics> { 
+         INSERT INTO <${DOMAIN}/graph/statistics> { \
                 <$graph> void:classPartition [ void:class ?c ; void:triples ?x ] . } \
                 WHERE { SELECT (COUNT(?p) AS ?x) ?c FROM <$graph> WHERE { ?s ?p ?o. \
                  { select ?s ?c FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> \
@@ -75,7 +75,7 @@ for graph in ${graph_list_dbpedia[@]}; do
          WHERE { <$graph> void:classPartition ?bn. \
           ?bn void:class ?c. ?bn void:classes ?x. FILTER (isBlank(?bn))};"
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
-         INSERT INTO <${DOMAIN}/graph/statistics> { 
+         INSERT INTO <${DOMAIN}/graph/statistics> { \
                 <$graph> void:classPartition [ void:class ?c ; void:classes ?x] . } \
                 WHERE { SELECT (COUNT(DISTINCT ?d) AS ?x) ?c  FROM <$graph> WHERE { ?s ?p ?o. \
                  { select ?s ?c ?d FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> \
