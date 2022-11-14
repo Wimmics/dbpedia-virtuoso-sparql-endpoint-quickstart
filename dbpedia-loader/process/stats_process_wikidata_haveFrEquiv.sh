@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-.../virtuoso_fct.sh --source-only
+. ../virtuoso_fct.sh --source-only
 pat_meta='metadata'
 pat_onto='ontology'
 
