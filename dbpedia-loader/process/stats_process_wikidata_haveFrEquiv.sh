@@ -43,18 +43,18 @@ for graph in ${graph_list_wikidata[@]}; do
 
     ################### SPARQL - CLASS PARTITION - Nb of triples by entites by class X
 
-    run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#>\
+    run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
     WITH <${DOMAIN}/graph/statistics> \
-    DELETE { <$graph>  void:classPartition ?bn1.\
-     ?bn1 void:class tag-fr:WdtFrResource.\
-      ?bn1 void:classPartition ?bn2.\
+    DELETE { <$graph>  void:classPartition ?bn1. \
+     ?bn1 void:class tag-fr:WdtFrResource. \
+      ?bn1 void:classPartition ?bn2. \
        ?bn2 void:class ?c. \
        ?bn2  void:entities ?count. } \
     WHERE { <$graph>  void:classPartition ?bn1. \
-    ?bn1 void:class tag-fr:WdtFrResource.\
+    ?bn1 void:class tag-fr:WdtFrResource. \
     ?bn1 void:classPartition ?bn2. \
     ?bn2 void:class ?c. \
-    ?bn2  void:entities ?count.\
+    ?bn2  void:entities ?count. \
      FILTER (isBlank(?bn1) AND isBlank(?bn2) ) };"
 
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
@@ -72,12 +72,12 @@ for graph in ${graph_list_wikidata[@]}; do
     ################### SPARQL - CLASS PARTITION - Nb of triples triples associated to a class X
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
     DELETE { <$graph>  void:classPartition ?bn1. \
-    ?bn1 void:class tag-fr:WdtFrResource.\
+    ?bn1 void:class tag-fr:WdtFrResource. \
     ?bn1 void:classPartition ?bn2. \
     ?bn2 void:class ?c. \
     ?bn2  void:triples ?x. } \
-     WHERE { <$graph>  void:classPartition ?bn1.\
-      ?bn1 void:class tag-fr:WdtFrResource.\
+     WHERE { <$graph>  void:classPartition ?bn1. \
+      ?bn1 void:class tag-fr:WdtFrResource. \
       ?bn1 void:classPartition ?bn2. \
       ?bn2 void:class ?c. \
       ?bn2  void:triples ?x. \
@@ -85,7 +85,7 @@ for graph in ${graph_list_wikidata[@]}; do
 
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
     INSERT INTO <${DOMAIN}/graph/statistics> { 
-    <$graph> void:classPartition [ void:class tag-fr:WdtFrResource  ; void:classPartition [ void:class ?c ; void:triples ?x ] ].  
+    <$graph> void:classPartition [ void:class tag-fr:WdtFrResource  ; void:classPartition [ void:class ?c ; void:triples ?x ] ]. \
     } \
     WHERE {     SELECT (COUNT(?p) AS ?x) ?c FROM <$graph> \
     WHERE { ?s ?p ?o. \
@@ -98,12 +98,12 @@ for graph in ${graph_list_wikidata[@]}; do
    ################### SPARQL - CLASS PARTITION - Nb of triples properties associated to a class X
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
     DELETE { <$graph>  void:classPartition ?bn1. \
-    ?bn1 void:class tag-fr:WdtFrResource.\
+    ?bn1 void:class tag-fr:WdtFrResource. \
     ?bn1 void:classPartition ?bn2. \
     ?bn2 void:class ?c. \
     ?bn2  void:properties ?x. } \
      WHERE { <$graph>  void:classPartition ?bn1. \
-     ?bn1 void:class tag-fr:WdtFrResource.\
+     ?bn1 void:class tag-fr:WdtFrResource. \
      ?bn1 void:classPartition ?bn2. \
      ?bn2 void:class ?c. \
      ?bn2  void:properties ?x. \
@@ -122,12 +122,12 @@ for graph in ${graph_list_wikidata[@]}; do
     ################### SPARQL - CLASS PARTITION - Nb of triples associated to a class X
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
     DELETE { <$graph>  void:classPartition ?bn1. \
-        ?bn1 void:class tag-fr:WdtFrResource.\
+        ?bn1 void:class tag-fr:WdtFrResource. \
         ?bn1 void:classPartition ?bn2. \
         ?bn2 void:class ?c. \
         ?bn2  void:classes ?x. } \
     WHERE { <$graph>  void:classPartition ?bn1. \
-        ?bn1 void:class tag-fr:WdtFrResource.\
+        ?bn1 void:class tag-fr:WdtFrResource. \
         ?bn1 void:classPartition ?bn2. \
         ?bn2 void:class ?c. \
         ?bn2  void:classes ?x. \
@@ -146,12 +146,12 @@ for graph in ${graph_list_wikidata[@]}; do
     ################### SPARQL - CLASS PARTITION - Nb of triples distincts subjects associated to a class X
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
     DELETE { <$graph> void:classPartition ?bn1. \
-        ?bn1 void:class tag-fr:WdtFrResource.\
+        ?bn1 void:class tag-fr:WdtFrResource. \
         ?bn1 void:classPartition ?bn2. \
         ?bn2 void:class ?c. \
         ?bn2 void:distinctSubjects ?x. } \
         WHERE { <$graph> void:classPartition ?bn1. \
-            ?bn1 void:class tag-fr:WdtFrResource.\
+            ?bn1 void:class tag-fr:WdtFrResource. \
             ?bn1 void:classPartition ?bn2. \
             ?bn2 void:class ?c. \
             ?bn2  void:distinctSubjects ?x. \
@@ -170,12 +170,12 @@ for graph in ${graph_list_wikidata[@]}; do
     ################### SPARQL - CLASS PARTITION - Nb  of triples  distincts objects associated to a class X
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
     DELETE { <$graph>  void:classPartition ?bn1. \
-        ?bn1 void:class tag-fr:WdtFrResource.\
+        ?bn1 void:class tag-fr:WdtFrResource. \
         ?bn1 void:classPartition ?bn2. \
         ?bn2 void:class ?c. \
         ?bn2  void:distinctObjects ?x. } \
         WHERE { <$graph>  void:classPartition ?bn1. \
-            ?bn1 void:class tag-fr:WdtFrResource.\
+            ?bn1 void:class tag-fr:WdtFrResource. \
             ?bn1 void:classPartition ?bn2. \
             ?bn2 void:class ?c. \
             ?bn2  void:distinctObjects ?x. \
@@ -194,13 +194,13 @@ for graph in ${graph_list_wikidata[@]}; do
     ################### SPARQL - CLASS PARTITION - Nb of triple by class and properties X
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
     DELETE { <$graph>  void:classPartition ?bn1. \
-        ?bn1 void:class tag-fr:WdtFrResource.\
+        ?bn1 void:class tag-fr:WdtFrResource. \
         ?bn1 void:classPartition ?bn2. \
         ?bn2 void:class ?c. \
         ?bn2 void:propertyPartition ?bn3. \
         ?bn3 void:property ?p. ?bn3 void:triples ?x. } \
         WHERE { <$graph>  void:classPartition ?bn1. \
-            ?bn1 void:class tag-fr:WdtFrResource.\
+            ?bn1 void:class tag-fr:WdtFrResource. \
             ?bn1 void:classPartition ?bn2. \
             ?bn2 void:class ?c. \
             ?bn2 void:propertyPartition ?bn3. \
@@ -221,18 +221,17 @@ for graph in ${graph_list_wikidata[@]}; do
     ################### SPARQL - CLASS PARTITION - Nb distincts subjects by  properties -
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
     DELETE {<$graph>  void:classPartition ?bn1. \
-        ?bn1 void:class tag-fr:WdtFrResource.\
+        ?bn1 void:class tag-fr:WdtFrResource. \
         ?bn1 void:classPartition ?bn2. \
         ?bn2 void:class ?c. \
         ?bn2 void:propertyPartition ?bn3. \
         ?bn3 void:property ?p. ?bn3 void:distinctSubjects ?x. } \
         WHERE {<$graph>  void:classPartition ?bn1. \
-            ?bn1 void:class tag-fr:WdtFrResource.\
+            ?bn1 void:class tag-fr:WdtFrResource. \
             ?bn1 void:classPartition ?bn2. \
             ?bn2 void:class ?c. \
             ?bn2 void:propertyPartition ?bn3. \
-            ?bn3 void:property ?p. ?bn3 void:\
-            distinctSubjects ?x. \
+            ?bn3 void:property ?p. ?bn3 void:distinctSubjects ?x. \
             FILTER (isBlank(?bn1) AND isBlank(?bn2) AND isBlank(?bn3)) };"
 
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
@@ -249,10 +248,10 @@ for graph in ${graph_list_wikidata[@]}; do
     ################### SPARQL - PROPERTIES PARTITION - Nb distincts triples
     run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
     DELETE {<$graph>  void:classPartition ?bn1. \
-        ?bn1 void:class tag-fr:WdtFrResource.\
+        ?bn1 void:class tag-fr:WdtFrResource. \
         ?bn1 void:propertyPartition ?bn2. ?bn2 void:property ?p. ?bn2 void:triples ?x. } \
     WHERE {<$graph>  void:classPartition ?bn1. \
-        ?bn1 void:class tag-fr:WdtFrResource.\
+        ?bn1 void:class tag-fr:WdtFrResource. \
         ?bn1 void:propertyPartition ?bn2. ?bn2 void:property ?p. ?bn2 void:triples ?x. \
         FILTER (isBlank(?bn1) AND isBlank(?bn2))};
 
