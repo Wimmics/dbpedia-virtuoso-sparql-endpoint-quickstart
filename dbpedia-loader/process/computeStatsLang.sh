@@ -39,7 +39,7 @@ do
 	   resp_base=$(run_virtuoso_cmd "SPARQL PREFIX oa: <http://www.w3.org/ns/oa#> \
 	    PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
             SELECT count(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> \
-	    WHERE {?s oa:hasTarget tag-fr:${Lang}FrResource};");
+	    WHERE { tag-fr:${Lang}FrResource oa:hasTarget ?s };");
 	   nb_in_fr=$(get_answer_nb "${resp_base}");
   	fi
     echo "${lang};${nb};${nb_in_fr}" >> "./${title}"
