@@ -36,9 +36,6 @@ do
     	   nb_in_fr=$nb
     	   nb_fr=$nb
         else
-	SPARQL PREFIX oa: <http://www.w3.org/ns/oa#>
- SELECT ?t count(?s_fr) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { 
-                        ?t oa:hasTarget ?s_fr  } GROUP BY ?t;
 	   resp_base=$(run_virtuoso_cmd "SPARQL PREFIX oa: <http://www.w3.org/ns/oa#> \
 	    PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
             SELECT count(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> \
