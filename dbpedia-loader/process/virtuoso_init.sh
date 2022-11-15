@@ -24,6 +24,8 @@ run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/last
 
 echo "[INFO] ADD CUSTOM PREFIXES"
 run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);"
+run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('oa', 'http://www.w3.org/ns/oa#', 2);"
+run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('graph-fr', 'http://fr.dbpedia.org/graph/', 2);"
 
 
 ############## VIRTUOSO CONFIG
