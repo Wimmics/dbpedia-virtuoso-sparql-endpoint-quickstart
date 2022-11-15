@@ -46,7 +46,7 @@ for graph in ${graph_list_wikidata[@]}; do
     { SELECT ?s FROM  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
     WHERE {  tag-fr:WdtFrResource oa:hasTarget ?s } }. \
     { SELECT ?s ?c FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_instance-types> \
-    WHERE { ?s a ?c } } };"
+    WHERE { ?s a ?c } } }};"
     echo "- nb entities per classes";
 
 
