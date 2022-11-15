@@ -32,7 +32,7 @@ for graph in ${graph_list[@]}; do
     echo "<$graph>"
     echo "----  GRAPH STATS";
     
-    if [[ ! $graph =~ $pat_meta ]] ; then
+    #if [[ ! $graph =~ $pat_meta ]] ; then
     #&& [[ ! $graph =~ $pat_onto ]]; then
 
         ################### SPARQL - GRAPH STATS - Nb triples total
@@ -52,5 +52,5 @@ for graph in ${graph_list[@]}; do
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/statistics> { <$graph> void:properties ?no . } WHERE { SELECT COUNT(distinct ?p) AS ?no  FROM <$graph> { ?s ?p ?o } };"
         
        
-     fi
+     #fi
 done
