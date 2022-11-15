@@ -71,4 +71,12 @@ for lang in ${lang_list[@]}; do
            fi 
 done
 
-   
+ 
+### ADD TAG FOR WdtFrResource_ALL STATS
+run_virtuoso_cmd " SPARQL PREFIX  prov: <http://www.w3.org/ns/prov#> \
+  PREFIX void: <http://rdfs.org/ns/void#> \
+  prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \
+  INSERT DATA { GRAPH <http://fr.dbpedia.org/graph/process_tags> { \
+  <http://fr.dbpedia.org/abstract_dataset/dbppedia_fr> a void:Dataset.
+  <http://fr.dbpedia.org/abstract_dataset/wikidata_fr_related> a void:Dataset.
+ }};"
