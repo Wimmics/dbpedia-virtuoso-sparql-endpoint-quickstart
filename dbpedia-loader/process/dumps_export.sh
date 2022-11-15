@@ -15,7 +15,7 @@ run_virtuoso_cmd "dump_one_graph_no_limits ('http://fr.dbpedia.org/graph/statist
 echo ">>>>>>> DUMP LABELS" 
 run_virtuoso_cmd "dump_one_graph_no_limits ('http://fr.dbpedia.org/graph/dbpedia_generic_labels', '${STORE_DATA_DIR}/lastUpdate/computed_dumps/dbpedia_generic_labels_corrected_${today}');"
 echo ">>>>>>> DUMP GEOCORRECTED" 
-run_virtuoso_cmd "dump_one_graph_no_limits ('http://fr.dbpedia.org/graph/dbpedia_generic_geo-coordinates', '${STORE_DATA_DIR}/computed_dumps/dbpedia_generic_geo-coordinates_corrected_${today}');"
+run_virtuoso_cmd "dump_one_graph_no_limits ('http://fr.dbpedia.org/graph/dbpedia_generic_geo-coordinates', '${STORE_DATA_DIR}/lastUpdate/computed_dumps/dbpedia_generic_geo-coordinates_corrected_${today}');"
 
 ################### SPARQL - GET ALL NAMED WIKIDATA GRAPH
 get_named_graph='SPARQL SELECT ?o FROM <http://fr.dbpedia.org/graph/metadata> WHERE { ?s sd:namedGraph ?o. FILTER( STRSTARTS(STR(?o), "http://fr.dbpedia.org/graph/dbpedia_wikidata_") ) };'
