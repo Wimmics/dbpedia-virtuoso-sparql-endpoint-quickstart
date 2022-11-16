@@ -192,16 +192,17 @@ fi
 ############## COMPUTE STATS
 if [ $PROCESS_STATS == 1 ] ; then
    echo ">>> PROCESS_STATS general"
-   replaceInFileBeforeProcess "PROCESS_STATS" "${process_log_file}"
-   echo ">>> GENERAL STATS"
-   /bin/bash ./process/stats_process_general.sh
-   echo ">>> DBPEDIA FR"
-   /bin/bash ./process/stats_dbpediafr.sh
-   echo ">>> WIKIDATA - DBpedia FR"
-   /bin/bash ./process/stats_process_wikidata_haveFrEquiv.sh
-   replaceInFileAfterProcess "PROCESS_STATS" "${process_log_file}"
-   echo "---checkpoint"
-   run_virtuoso_cmd 'checkpoint;'
+   #replaceInFileBeforeProcess "PROCESS_STATS" "${process_log_file}"
+   #echo ">>> GENERAL STATS"
+   #/bin/bash ./process/stats_process_general.sh
+   #echo ">>> DBPEDIA FR"
+   #/bin/bash ./process/stats_dbpediafr.sh
+   #echo ">>> WIKIDATA - DBpedia FR"
+   #/bin/bash ./process/stats_process_wikidata_haveFrEquiv.sh
+   #replaceInFileAfterProcess "PROCESS_STATS" "${process_log_file}"
+   #echo "---checkpoint"
+   #run_virtuoso_cmd 'checkpoint;'
+   /bin/bash ./process/customFRstat.sh
 else
    echo ">>> PROCESS_STATS disabled"
 fi
