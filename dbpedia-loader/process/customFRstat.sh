@@ -11,13 +11,13 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:NbNotThing ?count. \
 	} WHERE { \
-		SELECT count(DISTINCT(?s)) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
+		SELECT count(DISTINCT(?s)) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
 			?s ?p ?o . \
 			FILTER EXISTS { \
 				SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types>  WHERE { \
 					?s a ?class. \
 					FILTER(?class != dbo:Thing) \
-				} \		
+				} \
 			} \
 		} \
 	};"
@@ -31,7 +31,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> prop-fr:NbNotThing ?count. \
 	} WHERE { \
-		SELECT count(DISTINCT(?s)) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
+		SELECT count(DISTINCT(?s)) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
 			?s ?p ?o . \
 			FILTER EXISTS { \
 				SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
@@ -53,7 +53,7 @@ DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:levelPart
 ?bn prop-fr:level ?level. ?bn void:entities ?count. } \
 WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:levelPartition ?bn. \
 ?bn prop-fr:level ?level. \
-?bn void:entities ?count. \  
+?bn void:entities ?count. \
 FILTER (isBlank(?bn)) };"
 
 
@@ -61,7 +61,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:levelPartition [ prop-fr:level ?level; void:entities ?count ]. \
 	} WHERE { \
-		SELECT ?depth COUNT(?s)  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_instance-types> WHERE { \
+		SELECT ?depth COUNT(?s) as ?count  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_instance-types> WHERE { \
 			?s a ?class. \
            { \
                select ?class (count(?mid)-1 as ?depth) FROM <http://fr.dbpedia.org/graph/dbpedia_ontology> WHERE { \
