@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-.../virtuoso_fct.sh --source-only
+. ../virtuoso_fct.sh --source-only
 echo "############################################################# TYPES";
 echo "################## NOT TYPED AS OWL:THING";
 echo "## FR ALL X";
