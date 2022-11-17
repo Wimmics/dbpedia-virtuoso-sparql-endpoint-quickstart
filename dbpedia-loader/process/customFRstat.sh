@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-. ../virtuoso_fct.sh --source-only
-echo "############################################################# TYPES"
-echo "################## NOT TYPED AS OWL:THING"
-echo "## FR ALL X"
+.../virtuoso_fct.sh --source-only
+echo "############################################################# TYPES";
+echo "################## NOT TYPED AS OWL:THING";
+echo "## FR ALL X";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:NbNotThing ?count. } \
 WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:NbNotThing ?count. };"
@@ -12,7 +12,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:NbNotThing ?count. \
 	} WHERE { \
 		SELECT count(DISTINCT(?s)) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			FILTER EXISTS { \
 				SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types>  WHERE { \
 					?s a ?class. \
@@ -22,7 +22,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 		} \
 	};"
 
-echo "## FR only" X
+echo "## FR only X"
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> prop-fr:NbNotThing ?count. } \
 WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> prop-fr:NbNotThing ?count. };"
@@ -32,13 +32,13 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> prop-fr:NbNotThing ?count. \
 	} WHERE { \
 		SELECT count(DISTINCT(?s)) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			FILTER EXISTS { \
 				SELECT ?s FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 					?s a ?class. \
 					FILTER(?class != dbo:Thing) \
 				} 		 \
-			} .FILTER NOT EXISTS { \
+			}.FILTER NOT EXISTS { \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_instance-types> WHERE { \
 				 ?s a ?class \
 				} \
@@ -46,8 +46,8 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 		} \
 	};"
 
-echo "################## LEVEL DISTRIB"
-echo "## FR ALL X"
+echo "################## LEVEL DISTRIB";
+echo "## FR ALL X";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:levelPartition ?bn. \
 ?bn prop-fr:level ?level. ?bn void:entities ?count. } \
@@ -65,7 +65,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 			?s a ?class. \
            { \
                select ?class (count(?mid)-1 as ?depth) FROM <http://fr.dbpedia.org/graph/dbpedia_ontology> WHERE { \
-  				?class rdfs:subClassOf* ?mid . \
+  				?class rdfs:subClassOf* ?mid. \
   				?mid rdfs:subClassOf* owl:Thing \
 				} \
             } \
@@ -73,18 +73,18 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 	};"
 
 
-echo "################### SPARQL - Nb distinct entities" 
-echo "## FR ALL X"
+echo "################### SPARQL - Nb distinct entities";
+echo "## FR ALL X";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:entities ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:entities ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:entities ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:entities ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:entities ?no. \
 	} WHERE { \
 	 	SELECT count(distinct(?s)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 				?s a ?class \
@@ -93,17 +93,17 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		} \
  	};"
 
-echo "## ONLY FR "
+echo "## ONLY FR X";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:entities ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:entities ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:entities ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:entities ?no };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:entities ?no. \
 	} WHERE { \
 	 	SELECT count(distinct(?s)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 				?s a ?class \
@@ -117,17 +117,17 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
  	};"
 
 
-echo "################### SPARQL - GLOBAL STATS - Nb distincts classes"
-echo "## FR ALL"
+echo "################### SPARQL - GLOBAL STATS - Nb distincts classes";
+echo "## FR ALL";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classes ?no. } \
 WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classes ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
-	INSERT INTO <${DOMAIN}/graph/statistics> { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classes ?no . } \
+	INSERT INTO <${DOMAIN}/graph/statistics> { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classes ?no. } \
 	WHERE { \
  		SELECT count(distinct(?class)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 					?s a ?class \
@@ -136,16 +136,16 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		} \
 	};"
 
-echo "## ONLY FR"
+echo "## ONLY FR";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classes ?no. } \
 WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classes ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
-	INSERT INTO <${DOMAIN}/graph/statistics> { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classes ?no . } \
+	INSERT INTO <${DOMAIN}/graph/statistics> { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classes ?no. } \
 	WHERE { \
  		SELECT count(distinct(?class)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 					?s a ?class \
@@ -159,18 +159,18 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	};"
 
 
-echo "################### SPARQL - Nb total triples"
-echo "## FR ALL"
+echo "################### SPARQL - Nb total triples";
+echo "## FR ALL ";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:triples ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:triples ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:triples ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:triples ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:triples ?no . \
+		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:triples ?no. \
 	} WHERE { \
 		SELECT count(?s) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			FILTER EXISTS { \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 					?s a ?class \
@@ -179,17 +179,17 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		} \
 	};"
 
-echo "## ONLY FR"
+echo "## ONLY FR";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:triples ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:triples ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:triples ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:triples ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:triples ?no . \
+		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:triples ?no. \
 	} WHERE { \
 		SELECT count(?s) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			FILTER EXISTS { \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 					?s a ?class \
@@ -202,8 +202,8 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		} \
 	};"
 
-echo "################### SPARQL - CLASS PARTITION creation"
-echo "## FR ALL"
+echo "################### SPARQL - CLASS PARTITION creation";
+echo "## FR ALL";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	    DELETE { \
 	    	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition ?bn. \
@@ -216,10 +216,10 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
         INSERT INTO <${DOMAIN}/graph/statistics> { \
-        	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition [ void:class ?class ]. \
+        	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition [ void:class ?class. ] \
         } WHERE { \
 	        SELECT distinct(?class) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-				?s ?p ?o . \
+				?s ?p ?o. \
 				{ \
 					SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 						?s a ?class \
@@ -228,7 +228,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 			} \
         };"
 
-echo "## ONLY FR"
+echo "## ONLY FR";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	    DELETE { \
 	    	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition ?bn. \
@@ -241,10 +241,10 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
         INSERT INTO <${DOMAIN}/graph/statistics> { \
-        	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition [ void:class ?class ]. \
+        	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition [ void:class ?class. ] \
         } WHERE { \
 	        SELECT distinct(?class) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-				?s ?p ?o . \
+				?s ?p ?o. \
 				{ \
 					SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 						?s a ?class \
@@ -258,8 +258,8 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
         };"
 
 
-echo "################### SPARQL - CLASS PARTITION - nb entities"
-echo "## FR ALL"
+echo "################### SPARQL - CLASS PARTITION - nb entities";
+echo "## FR ALL";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	WITH <${DOMAIN}/graph/statistics> \
 	DELETE { \
@@ -275,7 +275,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
  		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition [ void:class ?class ; void:entities ?count ].\
  	} WHERE { \
     SELECT ?class count(distinct(?s)) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-		?s ?p ?o . \
+		?s ?p ?o. \
 		{ \
 			SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 				?s a ?class \
@@ -284,7 +284,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		} GROUP BY ?class \
     };"
 
-echo "## FR only"
+echo "## FR only";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	WITH <${DOMAIN}/graph/statistics> \
 	DELETE { \
@@ -300,7 +300,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
  		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition [ void:class ?class ; void:entities ?count ].\
  	} WHERE { \
     SELECT ?class count(distinct(?s)) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-		?s ?p ?o . \
+		?s ?p ?o. \
 		{ \
 			SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 				?s a ?class \
@@ -314,8 +314,8 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
     };"
 
 
-################### SPARQL - CLASS PARTITION - NB triples
-## ONLY FR
+echo "################### SPARQL - CLASS PARTITION - NB triples";
+echo "## ONLY FR";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
          WITH <${DOMAIN}/graph/statistics> \
          DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition ?bn. \
@@ -332,7 +332,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
     	]. \
     } WHERE { 
     SELECT ?class count(?s) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-		?s ?p ?o . \
+		?s ?p ?o. \
 		{ \
 			SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 				?s a ?class \
@@ -345,7 +345,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		} GROUP BY ?class \
     };"
 
-## ALL FR
+echo "## ALL FR";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
          WITH <${DOMAIN}/graph/statistics> \
          DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition ?bn. \
@@ -359,7 +359,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
     	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition [ void:class ?class ; void:triples ?count ]. \
     } WHERE { 
     SELECT ?class count(?s) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-		?s ?p ?o . \
+		?s ?p ?o. \
 		{ \
 			SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 				?s a ?class \
@@ -367,10 +367,10 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		} \
 		} GROUP BY ?class \
     };"
-############################################################# PROP LITT
+echo "############################################################# PROP LITT";
 
-################### SPARQL - Nb distinctSubjects 
-## FR ALL 
+echo "################### SPARQL - Nb distinctSubjects ";
+echo "## FR ALL ";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctSubjects ?no. \
  	} WHERE { \
@@ -382,7 +382,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctSubjects ?no. \
 	} WHERE { \
  		SELECT COUNT(DISTINCT(?s)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-literals> { \
@@ -394,7 +394,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	    } \
  	};"
 
-echo "## FR only" pred
+echo "## FR only" 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:distinctSubjects ?no. \
  	} WHERE { \
@@ -406,7 +406,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:distinctSubjects ?no. \
 	} WHERE { \
  		SELECT COUNT(DISTINCT(?s)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-literals> { \
@@ -429,18 +429,18 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 
 
 
-################### SPARQL - Nb triples
-## FR ALL 
+echo "################### SPARQL - Nb triples";
+echo "## FR ALL ";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:triples ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:triples ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:triples ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:triples ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:triples ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:triples ?no. \
 	} WHERE { \
 		SELECT COUNT(?s) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-literals> { \
@@ -452,17 +452,17 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	    } \
 	};"
 
-## FR pred only
+echo "## FR pred only";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:triples ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:triples ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:triples ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:triples ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:triples ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:triples ?no. \
 	} WHERE { \
 		SELECT COUNT(?s) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-literals> { \
@@ -484,18 +484,18 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	};"
 
 
-################### SPARQL - Nb distinct prop
-## FR ALL
+echo "################### SPARQL - Nb distinct prop";
+echo "## FR ALL";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:properties ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:properties ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:properties ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:properties ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:properties ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:properties ?no. \
 	} WHERE { \
 		SELECT COUNT(DISTINCT(?p2)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-literals> { \
@@ -507,17 +507,17 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	    } \
 	};"
 
-## FR pred only 
+echo "## FR pred only ";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:properties ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:properties ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:properties ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:properties ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:properties ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:properties ?no. \
 	} WHERE { \
 		SELECT COUNT(DISTINCT(?p2)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-literals> { \
@@ -538,18 +538,18 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	    } \
 	};"
 
-################### SPARQL - Nb distinct subj
-## FR ALL
+echo "################### SPARQL - Nb distinct subj";
+echo "## FR ALL";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctObjects ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctObjects ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctObjects ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctObjects ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctObjects ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctObjects ?no. \
 	} WHERE { \
 		SELECT COUNT(DISTINCT(?o2)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-literals> { \
@@ -561,17 +561,17 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	    } \
 	};"
 
-echo "## FR PRED ONLY"
+echo "## FR PRED ONLY";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:distinctObjects ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:distinctObjects ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:distinctObjects ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:distinctObjects ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:distinctObjects ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr_pred_only> void:distinctObjects ?no. \
 	} WHERE { \
 		SELECT COUNT(DISTINCT(?o2)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-literals> { \
@@ -593,10 +593,10 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	};"
 
 
-echo "############################################################# PROP MAPPED"
+echo "############################################################# PROP MAPPED";
 
-echo "################### SPARQL - Nb distinctSubjects"
-echo "## FR ALL"
+echo "################### SPARQL - Nb distinctSubjects";
+echo "## FR ALL";
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	DELETE { <http://fr.dbpedia.org/abstract_graph/prop-obj_dbpediafr> void:distinctSubjects ?no. \
@@ -609,7 +609,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		<http://fr.dbpedia.org/abstract_graph/prop-obj_dbpediafr> void:distinctSubjects ?no. \
 	} WHERE { \
  		SELECT COUNT(DISTINCT(?s)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-objects-uncleaned> { \
@@ -633,7 +633,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		<http://fr.dbpedia.org/abstract_graph/prop-obj_dbpediafr_pred_only> void:distinctSubjects ?no. \
 	} WHERE { \
  		SELECT COUNT(DISTINCT(?s)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-objects-uncleaned> { \
@@ -658,15 +658,15 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 echo "################### SPARQL - Nb triples"
 echo "## FR ALL"
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:triples ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:triples ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:triples ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:triples ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:triples ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:triples ?no. \
 	} WHERE { \
 		SELECT COUNT(?s) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-objects-uncleaned> { \
@@ -680,15 +680,15 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 
 echo "## FR PRED ONLY"
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:triples ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:triples ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:triples ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:triples ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:triples ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:triples ?no. \
 	} WHERE { \
 		SELECT COUNT(?s) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-objects-uncleaned> { \
@@ -714,15 +714,15 @@ echo "################### SPARQL - Nb distinct prop"
 
 echo "# FR ALL"
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:properties ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:properties ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:properties ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:properties ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:properties ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr> void:properties ?no. \
 	} WHERE { \
 		SELECT COUNT(DISTINCT(?p2)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-objects-uncleaned> { \
@@ -736,15 +736,15 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 
 echo "# FR only"
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:properties ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:properties ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:properties ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:properties ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:properties ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:properties ?no. \
 	} WHERE { \
 		SELECT COUNT(DISTINCT(?p2)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-objects-uncleaned> { \
@@ -768,15 +768,15 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 echo "################### SPARQL - Nb distinct obj"
 echo "## FR all"
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no. \
 	} WHERE { \
 		SELECT COUNT(DISTINCT(?o2)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-objects-uncleaned> { \
@@ -790,15 +790,15 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 
 echo "## FR only"
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
-DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no . } \
-WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no . };"
+DELETE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no. } \
+WHERE { <http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no. };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no . \
+		<http://fr.dbpedia.org/abstract_graph/prop-map_dbpediafr_only> void:distinctObjects ?no. \
 	} WHERE { \
 		SELECT COUNT(DISTINCT(?o2)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-			?s ?p ?o . \
+			?s ?p ?o. \
 			{ \
 	           	SELECT ?s ?p2 ?o2 \
 	           	FROM NAMED  <http://fr.dbpedia.org/graph/dbpedia_mappings_mappingbased-objects-uncleaned> { \
@@ -853,7 +853,7 @@ for class in ${first_level_class[@]}; do
 			] \
 	    } WHERE { \
 	    	SELECT ?p2 count(?s) as ?nbtriple FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-				?s ?p ?o . \
+				?s ?p ?o. \
 				FILTER EXISTS { \
 					SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types>  WHERE { \
 						?s a ${class} \
@@ -893,7 +893,7 @@ for class in ${first_level_class[@]}; do
 			] \
 	    } WHERE { \
 	    	SELECT ?p2 count(?s) as ?nbtriple FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-				?s ?p ?o . \
+				?s ?p ?o. \
 				FILTER EXISTS { \
 					SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types>  WHERE { \
 						?s a ${class} \
@@ -939,7 +939,7 @@ for class in ${first_level_class[@]}; do
 			] \
 	    } WHERE { \
 	    	SELECT ?p2 count(?s) as ?nbtriple FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-				?s ?p ?o . \
+				?s ?p ?o. \
 				FILTER EXISTS { \
 					SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types>  WHERE { \
 						?s a ${class} \
@@ -979,7 +979,7 @@ for class in ${first_level_class[@]}; do
 			] \
 	    } WHERE { \
 	    	SELECT ?p2 count(?s) as ?nbtriple FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
-				?s ?p ?o . \
+				?s ?p ?o. \
 				FILTER EXISTS { \
 					SELECT ?s  FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types>  WHERE { \
 						?s a ${class} \
