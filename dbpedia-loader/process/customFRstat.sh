@@ -2,7 +2,7 @@
 . ../virtuoso_fct.sh --source-only
 
 echo "################### SPARQL - GLOBAL STATS - Nb distincts classes";
-echo "## FR ALL";
+echo "## FR ALL "
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classes ?no. } \
 WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classes ?no. };"
@@ -87,7 +87,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	};"
 
 echo "################### SPARQL - CLASS PARTITION creation";
-echo "## FR ALL";
+echo "## FR ALL "
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	    DELETE { \
 	    	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition ?bn. \
@@ -143,13 +143,13 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 
 
 echo "################### SPARQL - CLASS PARTITION - nb entities";
-echo "## FR ALL";
+echo "## FR ALL "
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	WITH <${DOMAIN}/graph/statistics> \
 	DELETE { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition ?bn. \
 		?bn void:class ?class. ?bn void:entities ?count. \
-	} WHERE { \ 
+	} WHERE { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition ?bn. \
 		?bn void:class ?class. ?bn void:entities ?count. FILTER (isBlank(?bn)) \
 	};"
@@ -174,7 +174,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	DELETE { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition ?bn. \
 		?bn void:class ?class. ?bn void:entities ?count. \
-	} WHERE { \ 
+	} WHERE { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition ?bn. \
 		?bn void:class ?class. ?bn void:entities ?count. FILTER (isBlank(?bn)) \
 	};"
@@ -214,7 +214,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
     		void:class ?class ; \
     	 	void:triples ?count \
     	]. \
-    } WHERE { \ 
+    } WHERE { \
     SELECT ?class count(?s) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
 		?s ?p ?o. \
 		{ \
@@ -241,7 +241,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
     	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition [ void:class ?class ; void:triples ?count ]. \
-    } WHERE { \ 
+    } WHERE { \
     SELECT ?class count(?s) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
 		?s ?p ?o. \
 		{ \
@@ -369,7 +369,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 
 
 echo "################### SPARQL - Nb distinct prop";
-echo "## FR ALL";
+echo "## FR ALL "
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:properties ?no. } \
 WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:properties ?no. };"
@@ -423,7 +423,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	};"
 
 echo "################### SPARQL - Nb distinct subj";
-echo "## FR ALL";
+echo "## FR ALL "
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 DELETE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctObjects ?no. } \
 WHERE { <http://fr.dbpedia.org/abstract_graph/prop-lit_dbpediafr> void:distinctObjects ?no. };"
@@ -480,7 +480,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 echo "############################################################# PROP MAPPED";
 
 echo "################### SPARQL - Nb distinctSubjects";
-echo "## FR ALL";
+echo "## FR ALL "
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	DELETE { <http://fr.dbpedia.org/abstract_graph/prop-obj_dbpediafr> void:distinctSubjects ?no. \
@@ -1000,4 +1000,3 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 			} \
 		} \
  	};"
-
