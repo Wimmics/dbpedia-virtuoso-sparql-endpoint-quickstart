@@ -66,11 +66,11 @@ fi
 ############## FILTER WIKIDATA LABELS
 if [ $FILTER_WIKIDATA_LABELS == 1 ] ; then
    echo ">>> FILTER_WIKIDATA_LABELS unabled"
-   replaceInFileBeforeProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
+   replaceInFileBeforeProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}";
   # /bin/bash ./process/wikidata_keep_french_labels.sh
-   #replaceInFileAfterProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}"
+   replaceInFileAfterProcess "FILTER_WIKIDATA_LABELS" "${process_log_file}";
 else
-   echo ">>> FILTER_WIKIDATA_LABELS disabled"
+   echo ">>> FILTER_WIKIDATA_LABELS disabled";
 fi
 run_virtuoso_cmd "log_enable(2)";
 run_virtuoso_cmd "checkpoint_interval(-1)";
@@ -89,10 +89,10 @@ echo "[INFO] Waiting for download to finish..."
 
 ############## CREATE NAMED GRAPH STRUCTURE AND LOAD DATA 
 if [ $PROCESS_INIT == 1 ] ; then
-   echo ">>> PROCESS_INIT unabled"
-   replaceInFileBeforeProcess "PROCESS_INIT" "${process_log_file}"
+   echo ">>> PROCESS_INIT unabled";
+   replaceInFileBeforeProcess "PROCESS_INIT" "${process_log_file}";
    /bin/bash ./process/virtuoso_init.sh
-   replaceInFileAfterProcess "PROCESS_INIT" "${process_log_file}"
+   replaceInFileAfterProcess "PROCESS_INIT" "${process_log_file}";
 else
    echo ">>> PROCESS_INIT disabled"
 fi
