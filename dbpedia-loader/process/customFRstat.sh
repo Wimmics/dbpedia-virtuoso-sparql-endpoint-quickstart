@@ -149,7 +149,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	DELETE { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition ?bn. \
 		?bn void:class ?class. ?bn void:entities ?count. \
-	} WHERE { 
+	} WHERE { \ 
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition ?bn. \
 		?bn void:class ?class. ?bn void:entities ?count. FILTER (isBlank(?bn)) \
 	};"
@@ -174,7 +174,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	DELETE { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition ?bn. \
 		?bn void:class ?class. ?bn void:entities ?count. \
-	} WHERE { 
+	} WHERE { \ 
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition ?bn. \
 		?bn void:class ?class. ?bn void:entities ?count. FILTER (isBlank(?bn)) \
 	};"
@@ -214,7 +214,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
     		void:class ?class ; \
     	 	void:triples ?count \
     	]. \
-    } WHERE { 
+    } WHERE { \ 
     SELECT ?class count(?s) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
 		?s ?p ?o. \
 		{ \
@@ -241,7 +241,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
     	<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition [ void:class ?class ; void:triples ?count ]. \
-    } WHERE { 
+    } WHERE { \ 
     SELECT ?class count(?s) as ?count FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
 		?s ?p ?o. \
 		{ \
