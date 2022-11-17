@@ -61,7 +61,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
 		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:levelPartition [ prop-fr:level ?level; void:entities ?count ]. \
 	} WHERE { \
-		SELECT ?depth COUNT(?s) as ?count  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_instance-types> WHERE { \
+		SELECT ?depth COUNT(?s) as ?count  FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 			?s a ?class. \
            { \
                select ?class (count(?mid)-1 as ?depth) FROM <http://fr.dbpedia.org/graph/dbpedia_ontology> WHERE { \
@@ -126,7 +126,7 @@ WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classes ?no. 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classes ?no . } \
 	WHERE { \
- 		SELECT count(distinct(?c)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
+ 		SELECT count(distinct(?class)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
 			?s ?p ?o . \
 			{ \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
@@ -144,7 +144,7 @@ WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classes 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classes ?no . } \
 	WHERE { \
- 		SELECT count(distinct(?c)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
+ 		SELECT count(distinct(?class)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
 			?s ?p ?o . \
 			{ \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
@@ -202,7 +202,7 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 		} \
 	};"
 
-echo "################### SPARQL - CLASS PARTITION - nb class"
+echo "################### SPARQL - CLASS PARTITION creation"
 echo "## FR ALL"
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	    DELETE { \
