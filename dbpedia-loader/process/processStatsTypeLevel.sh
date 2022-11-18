@@ -14,7 +14,7 @@ FILTER (isBlank(?bn)) };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:levelPartition [ prop-fr:level ?level; void:entities ?count ]. \
+		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr> prop-fr:levelPartition [ prop-fr:level ?depth; void:entities ?count ]. \
 	} WHERE { \
 		SELECT ?depth COUNT(?s) as ?count  FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
 			?s a ?class. \
@@ -39,7 +39,7 @@ FILTER (isBlank(?bn)) };"
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/type_wikidata> prop-fr:levelPartition [ prop-fr:level ?level; void:entities ?count ]. \
+		<http://fr.dbpedia.org/abstract_graph/type_wikidata> prop-fr:levelPartition [ prop-fr:level ?depth; void:entities ?count ]. \
 	} WHERE { \
 		SELECT ?depth COUNT(?s) as ?count  FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_instance-types> WHERE { \
 			?s a ?class. \
