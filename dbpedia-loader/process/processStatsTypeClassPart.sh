@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+. ../virtuoso_fct.sh --source-only
 echo "################### SPARQL - CLASS PARTITION creation";
 echo "## DBPEDIA FR ALL "
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> \
