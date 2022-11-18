@@ -202,7 +202,7 @@ if [ $PROCESS_STATS == 1 ] ; then
    #replaceInFileAfterProcess "PROCESS_STATS" "${process_log_file}"
    #echo "---checkpoint"
    #run_virtuoso_cmd 'checkpoint;'
-   /bin/bash ./process/processStatsType1.sh
+   /bin/bash ./process/processStatsTypeLevel.sh
 else
    echo ">>> PROCESS_STATS disabled"
 fi
