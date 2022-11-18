@@ -21,6 +21,10 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> DELETE { <${DOMAIN}> void:properties ?no . } WHERE { <${DOMAIN}> void:properties ?no . };"
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/statistics> { <${DOMAIN}> void:properties ?no . } WHERE { SELECT COUNT(distinct ?p) AS ?no  { ?s ?p ?o } };"
 
+################### SPARQL - GLOBAL STATS - Nb distincts subjects
+run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> DELETE { <${DOMAIN}> void:distinctObjects ?no . } WHERE { <${DOMAIN}> void:distinctObjects ?no . };"
+run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/statistics> { <${DOMAIN}> void:distinctObjects ?no . } WHERE { SELECT COUNT(distinct ?o) AS ?no  { ?s ?p ?o } };"
+
 echo "---->>> ASK FIRST THE LIST OF NAMED GRAPH"
 get_named_graph='SPARQL SELECT DISTINCT(?graphName) WHERE {GRAPH ?graphName {?s ?p ?o } } GROUP BY ?graphName ;'
 resp=$(run_virtuoso_cmd "$get_named_graph");
@@ -50,6 +54,10 @@ for graph in ${graph_list[@]}; do
         ################### SPARQL - GRAPH STATS - Nb distincts properties
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> DELETE { <$graph> void:properties ?no . } WHERE { <$graph> void:properties ?no };"
         run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/statistics> { <$graph> void:properties ?no . } WHERE { SELECT COUNT(distinct ?p) AS ?no  FROM <$graph> { ?s ?p ?o } };"
+        
+        ################### SPARQL - GRAPH STATS - Nb distincts properties
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}/graph/statistics> DELETE { <$graph> void:distinctObjects ?no . } WHERE { <$graph> void:distinctObjects ?no };"
+        run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> INSERT INTO <${DOMAIN}/graph/statistics> { <$graph> void:distinctObjects ?no . } WHERE { SELECT COUNT(distinct ?o) AS ?no  FROM <$graph> { ?s ?p ?o } };"
         
        
      #fi
