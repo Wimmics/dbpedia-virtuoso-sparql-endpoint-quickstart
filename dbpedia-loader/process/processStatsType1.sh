@@ -74,7 +74,7 @@ WHERE { <http://fr.dbpedia.org/abstract_graph/type_wikidata_only> void:entities 
 
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
 	INSERT INTO <${DOMAIN}/graph/statistics> { \
-		<http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:entities ?no. \
+		<http://fr.dbpedia.org/abstract_graph/type_wikidata_only> void:entities ?no. \
 	} WHERE { \
 	 	SELECT count(distinct(?s)) as ?no FROM <http://fr.dbpedia.org/graph/dbpedia_generic_page> WHERE { \
 			?s ?p ?o. \
