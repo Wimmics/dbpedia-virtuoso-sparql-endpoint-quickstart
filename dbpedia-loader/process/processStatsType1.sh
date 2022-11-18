@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 . ../virtuoso_fct.sh --source-only
 
+
 echo "############################################################# TYPES";
 
 echo "################### SPARQL - Nb distinct entities";
