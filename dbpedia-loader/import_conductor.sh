@@ -205,9 +205,7 @@ if [ $PROCESS_STATS == 1 ] ; then
    echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx processStatsTypeClassPart"
    /bin/bash ./process/processStatsTypeClassPart.sh
    echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx processStatsType2"
-   /bin/bash ./process/processStatsType2.sh
-   echo "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx processStatsType1"
-   /bin/bash ./process/processStatsType1.sh
+   /bin/bash ./process/processStatsType.sh
 else
    echo ">>> PROCESS_STATS disabled"
 fi
