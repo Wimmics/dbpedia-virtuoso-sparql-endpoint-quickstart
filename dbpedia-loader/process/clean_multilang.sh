@@ -3,7 +3,6 @@
 
 limit=500000;
 
-
 resp_count=$(run_virtuoso_cmd "SPARQL PREFIX oa: <http://www.w3.org/ns/oa#> \
 SELECT COUNT(?S) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE { \
 ?S <http://www.w3.org/2000/01/rdf-schema#label> ?o . FILTER NOT EXISTS { ?t oa:hasTarget ?S }. FILTER(lang(?o) != 'fr') };") 
