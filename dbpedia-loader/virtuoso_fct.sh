@@ -55,23 +55,43 @@ test_connection () {
    done
 }
 get_answer_nb() {
-   re='^[0-9]+$'
-   resp=$1;
-   nb_resp_=$resp;
-   if ! [[ $nb_resp_ =~ $re ]] ; then
-       nb_resp_=$(echo $resp | awk '{print $4}')
-   fi       
-   if ! [[ $nb_resp_ =~ $re ]] ; then
-        nb_resp_=$(echo $resp |  awk '{print $5}')
+
+   nb_resp_=$1;
+   if [[ "$nb_resp_" =~ $nl ]] && [[ "$nb_resp_" == *'INTEGER'* ]]; then
+       echo "$nb_resp_" | grep -Po '^[0-9]+$'
+   else
+        echo 0   
    fi
-   if ! [[ $nb_resp_ =~ $re ]] ; then
-        nb_resp_=$(echo $resp | grep -o -P '(?<=_\s)\d*(?=\s)');
-   fi
-   if ! [[ $nb_resp_ =~ $re ]] ; then
-        nb_resp_=$(echo $resp | grep -o -P '(?<=\n\s)\d*(?=\n\s)');
-   fi
-   if ! [[ $nb =~ $re ]] ; then
-     echo "$resp";
-   fi
-   echo "$nb_resp_";
+}
+
+
+replaceInFileBeforeProcess(){
+ process_name=$1
+ file=$2
+ start_time=$(date)
+ to_replace=$(awk -v pat="${process_name}" '$0~pat' ${file})
+ actual_value=$(awk -v pat="${process_name}" '$0~pat' ${file} | awk -F ';' '{print $3}')
+ echo "actual date begin : $actual_value"
+ if [ -z "$actual_value" ]; then
+  replace_by=$(awk -v pat="${process_name}" '$0~pat' ${file} |  awk 'BEGIN{FS=OFS=";"} {sub($3, st, $3)} 1' st="${start_time}")
+  echo "REPLACE BY : $replace_by"
+  sed -i "s/$to_replace/$replace_by/" ${file}
+ else
+   actual_value=$(awk -v pat="${process_name}" '$0~pat' ${file} | awk -F ';' '{print $2}')
+   echo "actual val : $actual_value"
+   new_val=$((actual_value+1))
+   echo "new_val : $new_val"
+   replace_by=$(awk -v pat="${process_name}" '$0~pat' ${file} | awk 'BEGIN{FS=OFS=";"} {sub($2, nv, $2)} 1' nv="${new_val}")
+   sed -i "s/$to_replace/$replace_by/" ${file}
+ fi
+}
+
+replaceInFileAfterProcess(){
+ process_name=$1
+ file=$2
+ end_time=$(date)
+ to_replace=$(awk -v pat="${process_name}" '$0~pat' ${file})
+ actual_value=$(awk -v pat="${process_name}" '$0~pat' ${file} | awk -F ';' '{print $4}')
+ replace_by=$(awk -v pat="${process_name}" '$0~pat' ${file} | awk 'BEGIN{FS=OFS=";"} {sub($4, nv, $4)} 1' nv="${end_time}")
+ sed -i "s/$to_replace/$replace_by/" ${file}
 }

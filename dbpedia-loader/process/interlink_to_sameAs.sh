@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 . ../virtuoso_fct.sh --source-only
 
+
+############### THIS SCRIPT WAS USED FOR SHAPING INTERLINK AS SAMEAS LINKS
+############### BUT INTERLINK COULD REDIRECT TO A ARTICLE PART IF NO WIKIPEDIA PAGE EXISTS FOR IT
+############### WE COULDN'T USE IT FOR TRANSLATION / WIKIDATA REFINEMENT SO I DELETED IT FROM THE PROCESS
+
+
 echo "> INTERLANG LINKS TRANSFORM TO SAMEAS ";
 nbsameAs=0;
 limit=500000;
@@ -11,9 +17,9 @@ SELECT count(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_interlanguage
 };");
 
 nb_interlang=$(get_answer_nb "$resp_interlang");
-if [ $nb_interlang -ne 0 ]
+if [ "$nb_interlang" -ne 0 ]
 then
-    while [ $nb_interlang -ne $nbsameAs ];
+    while [ "$nb_interlang" -ne "$nbsameAs" ];
     do
 
         ################### SPARQL - ADD SAMEAS LINKS FOR EACH INTERLANG

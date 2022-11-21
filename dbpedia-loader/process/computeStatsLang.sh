@@ -20,7 +20,7 @@ rm -f "./${title}"
 
 echo "lang;nb_pages;page_in_Fr" > "./${title}"
 
-pat2='(\w{2})_ids'
+pat2='page_lang=(\w*)_ids'
 FILES="./dbpedia_dumps_lang_fr_related/*"
 nb_fr=0
 declare -A dict_lang_values
@@ -36,17 +36,20 @@ do
     	   nb_in_fr=$nb
     	   nb_fr=$nb
         else
-	   resp_base=$(run_virtuoso_cmd "SPARQL SELECT count(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> WHERE {?s ?p dbo:${Lang}FrResource};");
+	   resp_base=$(run_virtuoso_cmd "SPARQL PREFIX oa: <http://www.w3.org/ns/oa#> \
+	    PREFIX tag-fr: <http://fr.dbpedia.org/tag/> \
+            SELECT count(?s) FROM <http://fr.dbpedia.org/graph/dbpedia_generic_labels> \
+	    WHERE { tag-fr:${Lang}FrResource oa:hasTarget ?s };");
 	   nb_in_fr=$(get_answer_nb "${resp_base}");
   	fi
     echo "${lang};${nb};${nb_in_fr}" >> "./${title}"
   fi;
 done
 
-resp_base=$(run_virtuoso_cmd "SPARQL SELECT count(DISTINCT ?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s ?p ?o};");
-nb_wikidata=$(get_answer_nb "$resp_base");
-resp_base2=$(run_virtuoso_cmd "SPARQL SELECT count(DISTINCT ?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s ?p dbo:WdtFrResource};");
-nb_wikidata_fr=$(get_answer_nb "$resp_base2");
+#resp_base=$(run_virtuoso_cmd "SPARQL SELECT count(DISTINCT ?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s ?p ?o};");
+#nb_wikidata=$(get_answer_nb "$resp_base");
+#resp_base2=$(run_virtuoso_cmd "SPARQL SELECT count(DISTINCT ?s) FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> WHERE {?s ?p dbo:WdtFrResource};");
+#nb_wikidata_fr=$(get_answer_nb "$resp_base2");
 
-echo "wikidata;${nb_wikidata};${nb_wikidata_fr}" >> "./${title}"
+#echo "wikidata;${nb_wikidata};${nb_wikidata_fr}" >> "./${title}"
 rm -rf ./dbpedia_dumps_lang_fr_related/

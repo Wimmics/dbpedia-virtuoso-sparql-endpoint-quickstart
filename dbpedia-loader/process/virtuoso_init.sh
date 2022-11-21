@@ -1,22 +1,38 @@
 #!/usr/bin/env bash
 . ../virtuoso_fct.sh
 
+
+
+########## CLEAN ALL WIKIDATA PREFIXES
+echo "wikidata prefixes"
+/bin/bash ./process/bash/clean_wikidata_prefix.sh
+echo "end wikidata prefixes"
+
+
 ## CLEAN METADATA GRAPH
 resp=$(run_virtuoso_cmd "SPARQL DROP GRAPH <${DOMAIN}/graph/metadata>;");
 ## CREATE SUBGRAPHS
 run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_CREATE ('${DOMAIN}',1);"
 run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/metadata');"
 
-
 echo "[INFO] ADD META DATA"
-run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
+echo "FILE : ${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl"
+run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
+
+
+
+
+echo "[INFO] ADD CUSTOM PREFIXES"
+run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);"
+run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('oa', 'http://www.w3.org/ns/oa#', 2);"
+run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('graph-fr', 'http://fr.dbpedia.org/graph/', 2);"
 
 
 ############## VIRTUOSO CONFIG
 echo "[INFO] Setting 'dbp_decode_iri' registry entry to 'on'"
 run_virtuoso_cmd "registry_set ('dbp_decode_iri', 'on');"
 echo "[INFO] Setting dynamic !!!!"
-run_virtuoso_cmd "registry_set ('dbp_DynamicLocal', 'on');"
+run_virtuoso_cmd "registry_set ('dbp_DynamicLocal', 'off');"
 run_virtuoso_cmd "registry_set ('dbp_lhost', ':8890');"
 run_virtuoso_cmd "registry_set ('dbp_vhost', '${DOMAIN}');"
 echo "[INFO] Setting 'dbp_domain' registry entry to ${DOMAIN}"
@@ -34,13 +50,18 @@ run_virtuoso_cmd "vad_install('/opt/virtuoso-opensource/vad/dbpedia_dav.vad', 0)
 echo "[INFO] Installing VAD package 'fct_dav.vad'"
 run_virtuoso_cmd "vad_install('/opt/virtuoso-opensource/vad/fct_dav.vad', 0);"
 
+################# CREATE USEFUL PROCEDURES
+value=`cat ../virtuoso_proc/create_dump`
+run_virtuoso_cmd  "$value"
+
+################# CREATE NAMED GRAPHS
 echo " >>>>>> structure_process : last fix 06/06/2022"
 pat1='.*\.(nt|nq|owl|rdf|trig|ttl|xml|gz|bz2)$' # IF ENDING BY ACCEPTED EXTENSIONS
 pat2='([a-z\-]+)_'
-pat3='.*\.bz2$'
+pat3='.*\.(bz2|gz)$'
 pat4='metadata'
-
-for entry in "${DATA_DIR}"/*
+echo "DATA DIR >>> ${DATA_DIR}"
+for entry in "${DATA_DIR}/lastUpdate"/*
 do
   echo "$entry";
   level1="";
@@ -89,8 +110,9 @@ do
      echo "> final name is : ${final_name}"
      
      run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
-     run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}', '${fn}', '${DOMAIN}/graph/${final_name}');"
+     run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate', '${fn}', '${DOMAIN}/graph/${final_name}');"
      
+    echo "ADD FILE : ${STORE_DATA_DIR}/lastUpdate/${fn}"
     if  [[ $entry =~ $pat3 ]] &&  [[ ! $entry =~ $pat4 ]]; then
         # count nb lines and get date of prod
      
@@ -103,6 +125,7 @@ do
         } ;") 
            
         nb=$(get_answer_nb "$resp");
+        echo "NB > $nb"
         if [ "$nb" -eq "0" ];then
         
         ###################  SPARQL - INSERT DATE PUBLICATION
@@ -141,3 +164,9 @@ EOF`
 run_virtuoso_cmd "$load_cmds";
 
 echo "END OF LOAD"
+
+echo "XXXXXXXXXXXXXX PROCESS TAGS BEGIN XXXXXXXXXXXXXXXXXX"
+/bin/bash ./process/addProcessTags.sh
+echo "XXXXXXXXXXXXXX PROCESS TAGS END XXXXXXXXXXXXXXXXXX"
+
+

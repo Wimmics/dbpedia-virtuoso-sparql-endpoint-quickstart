@@ -14,7 +14,7 @@ while [ $nb_global -ne $last ]
 do
     echo "NEW LOOP $nb_global not equals to  $last" ;
     last=$nb_global;
-    
+
     ################### SPARQL - FLAG ALL THE RESOURCE HAVING A FRENCH RESSOURCE LINKED
     resp2=$(run_virtuoso_cmd "SPARQL \
     DEFINE sql:log-enable 2 \
@@ -25,14 +25,14 @@ do
     FILTER(STRSTARTS(STR(?y), 'http://fr.dbpedia.org/') ) \
     } LIMIT $limit \
     };");
-    
+
     ################### SPARQL - COUNT FLAGGED RESOURCES
     resp_count=$(run_virtuoso_cmd "SPARQL \
     SELECT COUNT(?s) \
     FROM  <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
     WHERE { ?s rdf:type dbo:frResource };");    
     nb_global=$(get_answer_nb "$resp_count");
-    
+
     echo ">>>>>> UPDATE EACH GRAPH SUBJECTS";
     for graph in ${graph_list[@]}; do
         nb_todo0=1;
@@ -52,7 +52,7 @@ do
 	    SELECT ?y ?p ?o FROM <$graph> WHERE {?y ?p ?o } \
 	    } \
 	    } LIMIT $limit };");
-	    
+
             ################### SPARQL - COUNT SAME AS HAVING FLAG  AT SUBJECT SIDE
             resp_todo0=$(run_virtuoso_cmd "SPARQL \
 	    SELECT COUNT(?y) WHERE { \
@@ -71,7 +71,7 @@ do
         nb_todo0=1;
         while [ $nb_todo0 -ne 0 ]
         do
-	    
+
             ################### SPARQL - UPDATE AND CHANGE RELATIONS FROM WIKIDATA TO FRENCH RESOURCE AT OBJECT SIDE	
             resp_updategraph=$(run_virtuoso_cmd "SPARQL \
 	    DEFINE sql:log-enable 2  WITH <$graph> \
@@ -84,7 +84,7 @@ do
 	    } . { \
 	    SELECT ?s ?p ?wkd FROM <$graph> WHERE {?s ?p ?wkd } } \
 	    }  LIMIT $limit };");
-	    
+
             ################### SPARQL - COUNT SAME AS HAVING FLAG  AT OBJECTS SIDE
 	    resp_todo0=$(run_virtuoso_cmd "SPARQL \
 	    SELECT COUNT(?wkd) WHERE { \
@@ -97,7 +97,7 @@ do
 	    echo "$graph need to change objects : $nb_todo0";
         done
     done
-    
+
     ################### SPARQL - INVERSE SAMEAS IN dbpedia_wikidata_sameas-all-wikis graph
     resp3=$(run_virtuoso_cmd "SPARQL \
     DEFINE sql:log-enable 2 WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis> \
@@ -110,7 +110,7 @@ do
     nb_todo=1;
     while [ $nb_todo -ne 0 ]
     do
-    	
+
     	################### SPARQL - LINK TO FRENCH RESOURCES THE OTHERS LINGUISTICS RESOURCES  IN dbpedia_wikidata_sameas-all-wikis graph
         resp4=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
 	WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  \
@@ -130,7 +130,7 @@ do
     nb_todo2=1;
     while [ $nb_todo2 -ne 0 ]
     do
-    	
+
     	################### SPARQL - INVERSE SAMEAS
         resp5=$(run_virtuoso_cmd "SPARQL DEFINE sql:log-enable 2 \
 	WITH <http://fr.dbpedia.org/graph/dbpedia_wikidata_sameas-all-wikis>  \

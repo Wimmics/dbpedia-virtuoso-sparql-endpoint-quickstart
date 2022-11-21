@@ -10,7 +10,7 @@ resp_base=$(run_virtuoso_cmd "SPARQL SELECT COUNT(?s) FROM <http://fr.dbpedia.or
 nb_blank=$(get_answer_nb "$resp_base");
 echo "TO DO $nb_blank";
 
-while [ $nb_blank -ne 0 ];
+while [ "$nb_blank" -ne 0 ];
     do
 
  ################### SPARQL - ADD BLANK NODE FOR EACH RELATED PLACE
