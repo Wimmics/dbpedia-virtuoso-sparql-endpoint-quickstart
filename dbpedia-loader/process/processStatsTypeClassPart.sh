@@ -223,7 +223,7 @@ echo "## ALL DBPEDIA FR";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
          WITH <${DOMAIN}/graph/statistics> \
          DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition ?bn. \
-          ?bn void:class ?p. ?bn void:class ?c. ?bn void:triples ?x. } \
+          ?bn void:class ?c. ?bn void:triples ?x. } \
          WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr> void:classPartition ?bn. \
           ?bn void:class ?c. ?bn void:triples ?x. \
           FILTER (isBlank(?bn)) };"
@@ -246,7 +246,7 @@ echo "## ONLY DBPEDIA FR";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
          WITH <${DOMAIN}/graph/statistics> \
          DELETE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition ?bn. \
-          ?bn void:class ?p. ?bn void:class ?c. ?bn void:triples ?x. } \
+          ?bn void:class ?c. ?bn void:triples ?x. } \
          WHERE { <http://fr.dbpedia.org/abstract_graph/type_dbpediafr_only> void:classPartition ?bn. \
           ?bn void:class ?c. ?bn void:triples ?x. \
           FILTER (isBlank(?bn)) };"
@@ -276,7 +276,7 @@ echo "## ALL WIKIDATA";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
          WITH <${DOMAIN}/graph/statistics> \
          DELETE { <http://fr.dbpedia.org/abstract_graph/type_wikidata> void:classPartition ?bn. \
-          ?bn void:class ?p. ?bn void:class ?c. ?bn void:triples ?x. } \
+          ?bn void:class ?c. ?bn void:triples ?x. } \
          WHERE { <http://fr.dbpedia.org/abstract_graph/type_wikidata> void:classPartition ?bn. \
           ?bn void:class ?c. ?bn void:triples ?x. \
           FILTER (isBlank(?bn)) };"
@@ -299,7 +299,7 @@ echo "## ONLY WIKIDATA";
 run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> \
          WITH <${DOMAIN}/graph/statistics> \
          DELETE { <http://fr.dbpedia.org/abstract_graph/type_wikidata_only> void:classPartition ?bn. \
-          ?bn void:class ?p. ?bn void:class ?c. ?bn void:triples ?x. } \
+          ?bn void:class ?c. ?bn void:triples ?x. } \
          WHERE { <http://fr.dbpedia.org/abstract_graph/type_wikidata_only> void:classPartition ?bn. \
           ?bn void:class ?c. ?bn void:triples ?x. \
           FILTER (isBlank(?bn)) };"
