@@ -1,4 +1,5 @@
-
+#!/usr/bin/env bash
+. ../virtuoso_fct.sh --source-only
 echo "######################### PART CLASS AND PROP FOR FIRST LEVEL CLASS"
 
 declare -a first_level_class=("dbo:Person" "dbo:Organisation" "dbo:Place" "dbo:Work" "dbo:Event")
