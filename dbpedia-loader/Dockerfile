@@ -16,5 +16,8 @@ ADD process ./process
 RUN chmod +rx -R /process
 ADD virtuoso_proc ./virtuoso_proc
 RUN chmod +rx -R /virtuoso_proc
+ADD metadata ./metadata
+RUN chmod +rx -R /metadata
+
 
 ENTRYPOINT /bin/bash import_conductor.sh 
