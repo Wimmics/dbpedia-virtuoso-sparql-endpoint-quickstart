@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 . ../virtuoso_fct.sh
 
-
+mkdir ${STORE_DATA_DIR}/test
+cp  -R ../metatada/* ${STORE_DATA_DIR}/test/
 
 ########## CLEAN ALL WIKIDATA PREFIXES
 echo "wikidata prefixes"
@@ -26,6 +27,7 @@ echo "[INFO] ADD CUSTOM PREFIXES"
 run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('tag-fr', 'http://fr.dbpedia.org/tag/', 2);"
 run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('oa', 'http://www.w3.org/ns/oa#', 2);"
 run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('graph-fr', 'http://fr.dbpedia.org/graph/', 2);"
+run_virtuoso_cmd "DB.DBA.XML_SET_NS_DECL ('abstract_graph', 'http://fr.dbpedia.org/abstract_graph/', 2);"
 
 
 ############## VIRTUOSO CONFIG
