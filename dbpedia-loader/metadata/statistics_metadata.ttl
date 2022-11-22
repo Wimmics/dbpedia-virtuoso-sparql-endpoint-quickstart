@@ -1,0 +1,291 @@
+PREFIX prov: <http://www.w3.org/ns/prov#> 
+PREFIX void: <http://rdfs.org/ns/void#> 
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+prefix rdfs: <rdfshttp://www.w3.org/2000/01/rdf-schema#>
+prefix prop-fr: <http://fr.dbpedia.org/property/>
+prefix graph-fr:  <http://fr.dbpedia.org/graph/>
+prefix abstract_graph: <http://fr.dbpedia.org/abstract_graph/>
+PREFIX xsd: <https://www.w3.org/2001/XMLSchema#>
+
+prop-fr:NbNotThing a rdf:Property;
+    rdfs:domain    void:Dataset;
+    rdfs:range  xsd:integer ;
+    rdfs:label "Number of not owl:Thing objects"@en;
+    rdfs:comment "Allows to compute the number of typed as more than a owl:Thing."@en.
+
+#prop-fr:levelPartition a rdf:Property;
+#    rdfs:subPropertyOf void:subset;
+#    rdfs:domain    void:Dataset;
+#    rdfs:range    void:Dataset;
+#    rdfs:label "partition of heriarchy level"@en;
+#    rdfs:comment "Allows to compute stats at a hierarchical level of the ontology"@en;
+
+#prop-fr:level 
+#    rdfs:domain    void:Dataset;
+#    rdfs:range  xsd:integer ;
+#    rdfs:label "ontological heriarchy level"@en;
+#    rdfs:comment "level in a given ontological"@en;
+
+<http://fr.dbpedia.org> void:subset abstract_graph:type_dbpediafr ;
+    void:subset abstract_graph:type_wikidata;
+    void:subset abstract_graph:type_dbpediafr_only;
+    void:subset abstract_graph:type_wikidata_only;
+    void:subset abstract_graph:prop-lit_dbpediafr;
+    void:subset abstract_graph:prop-lit_wikidata;
+    void:subset abstract_graph:prop-lit_dbpediafr_only;
+    void:subset abstract_graph:prop-lit_wikidata_only;
+    void:subset abstract_graph:prop-obj_dbpediafr;
+    void:subset abstract_graph:prop-obj_wikidata;
+    void:subset abstract_graph:prop-obj_dbpediafr_only;
+    void:subset abstract_graph:prop-obj_wikidata_only;
+    void:subset abstract_graph:mainclass_prop-lit_dbpediafr;
+    void:subset abstract_graph:mainclass_prop-lit_dbpediafr_only;
+    void:subset abstract_graph:mainclass_prop-lit_wikidata;
+    void:subset abstract_graph:mainclass_prop-lit_wikidata_only;
+    void:subset abstract_graph:mainclass_prop-obj_dbpediafr;
+    void:subset abstract_graph:mainclass_prop-obj_dbpediafr_only;
+    void:subset abstract_graph:mainclass_prop-obj_wikidata;
+    void:subset abstract_graph:mainclass_prop-obj_wikidata_only.
+
+##################### TYPES ABSTRACT GRAPHS
+abstract_graph:type_dbpediafr  a prov:Entity,  void:Dataset.
+abstract_graph:type_dbpediafr  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsType.sh>, <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsTypeClassPart.sh>.
+abstract_graph:type_dbpediafr  prov:wasDerivedFrom   graph-fr:dbpedia_mappings_instance-types, graph-fr:dbpedia_generic_page.
+  abstract_graph:type_dbpediafr prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity  graph-fr:dbpedia_mappings_instance-types, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about types defined into Dbpedia type set";
+       rdfs:label "Types defined in DBpedia Fr"@en;
+       prov:hadUsage    graph-fr:statistics
+    ].
+
+
+abstract_graph:type_dbpediafr_only a prov:Entity, void:Dataset.
+abstract_graph:type_dbpediafr_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsType.sh>, <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsTypeClassPart.sh>.
+abstract_graph:type_dbpediafr_only prov:wasDerivedFrom graph-fr:dbpedia_mappings_instance-types, graph-fr:dbpedia_generic_page.
+abstract_graph:type_dbpediafr_only prov:wasInfluencedBy graph-fr:dbpedia_wikidata_instance-types.
+abstract_graph:type_dbpediafr_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_instance-types, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about triples defined into Dbpedia type set but not found into Wikidata"@en;
+       rdfs:label "Triples about type only found in DBpedia Fr"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:type_wikidata a prov:Entity, void:Dataset.
+abstract_graph:type_wikidata  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsType.sh>, <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsTypeClassPart.sh>.
+abstract_graph:type_wikidata prov:wasDerivedFrom graph-fr:dbpedia_wikidata_instance-types, graph-fr:dbpedia_generic_page.
+abstract_graph:type_wikidata prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_wikidata_instance-types, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about types defined into Wikidata type set";
+       rdfs:label "Types defined in Wikidata"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:type_wikidata_only a prov:Entity, void:Dataset.
+abstract_graph:type_wikidata_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsType.sh>, <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsTypeClassPart.sh>.
+abstract_graph:type_wikidata_only prov:wasDerivedFrom graph-fr:dbpedia_wikidata_instance-types, graph-fr:dbpedia_generic_page.
+abstract_graph:type_dbpediafr_only prov:wasInfluencedBy graph-fr:dbpedia_mappings_instance-types.
+abstract_graph:type_wikidata_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_wikidata_instance-types, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics triples defined into Wikidata but not found into DBPedia Fr";
+       rdfs:label "Triples about type only found in Wikidata"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+##################### PROP LIT ABSTRACT GRAPHS
+
+abstract_graph:prop-lit_dbpediafr a prov:Entity, void:Dataset.
+abstract_graph:prop-lit_dbpediafr prov:wasDerivedFrom graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page.
+abstract_graph:prop-lit_dbpediafr  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsPropLit.sh>.
+abstract_graph:prop-lit_dbpediafr prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about properties with litterals values defined into Dbpedia Fr";
+       rdfs:label "Triples related to properties with literal values in DBpedia"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:prop-lit_dbpediafr_only a prov:Entity, void:Dataset.
+abstract_graph:prop-lit_dbpediafr_only prov:wasDerivedFrom graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page.
+abstract_graph:prop-lit_dbpediafr_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsPropLit.sh>.
+abstract_graph:type_dbpediafr_only prov:wasInfluencedBy graph-fr:dbpedia_wikidata_mappingbased-literals.
+abstract_graph:prop-lit_dbpediafr_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about properties with litterals values defined into Dbpedia Fr and not into Wikidata";
+       rdfs:label "Triples related to properties with literal values in DBpedia and not in Wikidata"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:prop-lit_wikidata a prov:Entity, void:Dataset.
+abstract_graph:prop-lit_wikidata prov:wasDerivedFrom graph-fr:dbpedia_wikidata_mappingbased-literals, graph-fr:dbpedia_generic_page.
+abstract_graph:prop-lit_wikidata  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsPropLit.sh>.
+abstract_graph:prop-lit_wikidata prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_wikidata_mappingbased-literals, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about properties with litterals values defined into Wikidata";
+       rdfs:label "Triples related to properties with literal values in DBpedia Fr"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:prop-lit_wikidata_only a prov:Entity, void:Dataset.
+abstract_graph:prop-lit_wikidata_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsPropLit.sh>.
+abstract_graph:prop-lit_wikidata_only prov:wasDerivedFrom graph-fr:dbpedia_wikidata_mappingbased-literals, graph-fr:dbpedia_generic_page.
+abstract_graph:prop-lit_wikidata_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_wikidata_mappingbased-literals, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about properties with litterals values defined into Wikidata and not into Dbpedia Fr";
+       rdfs:label "Triples related to properties with literal values in Wikidata and not in DBpedia Fr"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+##################### PROP OBJ ABSTRACT GRAPHS
+
+abstract_graph:prop-obj_dbpediafr a prov:Entity, void:Dataset.
+abstract_graph:prop-obj_dbpediafr  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsPropObj.sh>.
+abstract_graph:prop-obj_dbpediafr prov:wasDerivedFrom graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page.
+abstract_graph:prop-obj_dbpediafr prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about properties with object values defined into Dbpedia Fr";
+       rdfs:label "Triples related to properties with literal values in DBpedia"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:prop-obj_dbpediafr_only a prov:Entity, void:Dataset.
+abstract_graph:prop-obj_dbpediafr_only prov:wasDerivedFrom graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page.
+abstract_graph:prop-obj_dbpediafr_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsPropObj.sh>.
+abstract_graph:type_dbpediafr_only prov:wasInfluencedBy graph-fr:dbpedia_wikidata_mappingbased-literals.
+abstract_graph:prop-obj_dbpediafr_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about properties with object values defined into Dbpedia Fr and not into Wikidata";
+       rdfs:label "Triples related to properties with literal values in DBpedia and not in Wikidata"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:prop-obj_wikidata a prov:Entity, void:Dataset.
+abstract_graph:prop-obj_wikidata prov:wasDerivedFrom graph-fr:dbpedia_wikidata_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page.
+abstract_graph:prop-obj_wikidata  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsPropObj.sh>.
+abstract_graph:prop-obj_wikidata prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_wikidata_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about properties with object values defined into Wikidata";
+       rdfs:label "Triples related to properties with literal values in DBpedia Fr"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:prop-obj_wikidata_only a prov:Entity, void:Dataset.
+abstract_graph:prop-obj_wikidata_only prov:wasDerivedFrom graph-fr:dbpedia_wikidata_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page.
+abstract_graph:prop-obj_wikidata_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsPropObj.sh>.
+abstract_graph:type_dbpediafr_only prov:wasInfluencedBy graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned.
+abstract_graph:prop-obj_wikidata_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_wikidata_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page;  
+       rdfs:comment "This abstract graph is only used for statistics about properties with object values defined into Wikidata and not into Dbpedia Fr";
+       rdfs:label "Triples related to properties with literal values in Wikidata and not in DBpedia Fr"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+
+
+##################### MAIN CLASS ABSTRACT GRAPHS - PROP LIT
+
+abstract_graph:mainclass_prop-lit_dbpediafr a prov:Entity, void:Dataset.
+abstract_graph:mainclass_prop-lit_dbpediafr  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsMainClass.sh>.
+abstract_graph:mainclass_prop-lit_dbpediafr prov:wasDerivedFrom graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types.
+abstract_graph:mainclass_prop-lit_dbpediafr prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types;
+       rdfs:comment "This abstract graph is only used for statistics computed on the main class of the DBpedia Ontology on properties with lit value defined in DBpedia Fr";
+       rdfs:label "Main class properties with literal values stats"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:mainclass_prop-lit_dbpediafr_only a prov:Entity, void:Dataset.
+abstract_graph:mainclass_prop-lit_dbpediafr_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsMainClass.sh>.
+abstract_graph:mainclass_prop-lit_dbpediafr_only prov:wasDerivedFrom graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types.
+abstract_graph:mainclass_prop-lit_dbpediafr_only prov:wasInfluencedBy graph-fr:dbpedia_wikidata_mappingbased-literals.
+abstract_graph:mainclass_prop-lit_dbpediafr_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types;
+       rdfs:comment "This abstract graph is only used for statistics computed on the main class of the DBpedia Ontology on properties with lit value where triples only appears in DBpedia";
+       rdfs:label "Main class properties with literal values stats"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:mainclass_prop-lit_wikidata a prov:Entity, void:Dataset.
+abstract_graph:mainclass_prop-lit_wikidata  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsMainClass.sh>.
+abstract_graph:mainclass_prop-lit_wikidata prov:wasDerivedFrom graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_wikidata_mappingbased-literals.
+abstract_graph:mainclass_prop-lit_wikidata prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types;
+       rdfs:comment "This abstract graph is only used for statistics computed on the main class of the DBpedia Ontology on properties with lit value defined in Wikidata";
+       rdfs:label "Main class properties with literal values stats"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:mainclass_prop-lit_wikidata_only a prov:Entity, void:Dataset.
+abstract_graph:mainclass_prop-lit_wikidata_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsMainClass.sh>.
+abstract_graph:mainclass_prop-lit_wikidata_only prov:wasDerivedFrom graph-fr:dbpedia_wikidata_mappingbased-literals, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types.
+abstract_graph:mainclass_prop-lit_wikidata_only prov:wasInfluencedBy graph-fr:dbpedia_mappings_mappingbased-literals.
+abstract_graph:mainclass_prop-lit_wikidata_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-literals, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types;
+       rdfs:comment "This abstract graph is only used for statistics computed on the main class of the DBpedia Ontology on properties with lit value where triples only appears in DBpedia";
+       rdfs:label "Main class properties with literal values stats"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+
+
+##################### MAIN CLASS ABSTRACT GRAPHS - PROP OBJ
+
+abstract_graph:mainclass_prop-obj_dbpediafr a prov:Entity, void:Dataset.
+abstract_graph:mainclass_prop-obj_dbpediafr  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsMainClass.sh>.
+abstract_graph:mainclass_prop-obj_dbpediafr prov:wasDerivedFrom graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types.
+abstract_graph:mainclass_prop-obj_dbpediafr prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types;
+       rdfs:comment "This abstract graph is only used for statistics computed on the main class of the DBpedia Ontology on properties with lit value defined in DBpedia Fr";
+       rdfs:label "Main class properties with literal values stats"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:mainclass_prop-obj_dbpediafr_only a prov:Entity, void:Dataset.
+abstract_graph:mainclass_prop-obj_dbpediafr_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsMainClass.sh>.
+abstract_graph:mainclass_prop-obj_dbpediafr_only prov:wasDerivedFrom graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types.
+abstract_graph:mainclass_prop-obj_dbpediafr_only prov:wasInfluencedBy graph-fr:dbpedia_wikidata_mappingbased-objects-uncleaned.
+abstract_graph:mainclass_prop-obj_dbpediafr_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types;
+       rdfs:comment "This abstract graph is only used for statistics computed on the main class of the DBpedia Ontology on properties with lit value where triples only appears in DBpedia";
+       rdfs:label "Main class properties with literal values stats"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:mainclass_prop-obj_wikidata a prov:Entity, void:Dataset.
+abstract_graph:mainclass_prop-obj_wikidata  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsMainClass.sh>.
+abstract_graph:mainclass_prop-obj_wikidata prov:wasDerivedFrom graph-fr:dbpedia_wikidata_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_wikidata_mappingbased-literals.
+abstract_graph:mainclass_prop-obj_wikidata prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_wikidata_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types;
+       rdfs:comment "This abstract graph is only used for statistics computed on the main class of the DBpedia Ontology on properties with lit value defined in Wikidata";
+       rdfs:label "Main class properties with literal values stats"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
+
+abstract_graph:mainclass_prop-obj_wikidata_only a prov:Entity, void:Dataset.
+abstract_graph:mainclass_prop-obj_wikidata_only  prov:wasGeneratedBy <https://github.com/Wimmics/dbpedia-virtuoso-sparql-endpoint-quickstart/blob/master/dbpedia-loader/process/processStatsMainClass.sh>.
+abstract_graph:mainclass_prop-obj_wikidata_only prov:wasDerivedFrom graph-fr:dbpedia_wikidata_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types.
+abstract_graph:mainclass_prop-obj_wikidata_only prov:wasInfluencedBy graph-fr:dbpedia_mappings_mappingbased-objects-uncleaned.
+abstract_graph:mainclass_prop-obj_wikidata_only prov:qualifiedDerivation [
+       a prov:Derivation;                      
+       prov:entity     graph-fr:dbpedia_wikidata_mappingbased-objects-uncleaned, graph-fr:dbpedia_generic_page, graph-fr:dbpedia_mappings_instance-types;
+       rdfs:comment "This abstract graph is only used for statistics computed on the main class of the DBpedia Ontology on properties with lit value where triples only appears in DBpedia";
+       rdfs:label "Main class properties with literal values stats"@en;
+       prov:hadUsage      graph-fr:statistics;
+    ].
