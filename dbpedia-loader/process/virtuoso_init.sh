@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 . ../virtuoso_fct.sh
 
-mkdir ${STORE_DATA_DIR}/test
-cp  -R ../metatada/* ${STORE_DATA_DIR}/test/
+cp  -R ../metatada/statistics_metadata.ttl ${DATA_DIR}/lastUpdate/meta_base/statistics_metadata.ttl
 
 ########## CLEAN ALL WIKIDATA PREFIXES
-echo "wikidata prefixes"
-/bin/bash ./process/bash/clean_wikidata_prefix.sh
-echo "end wikidata prefixes"
+#echo "wikidata prefixes"
+#/bin/bash ./process/bash/clean_wikidata_prefix.sh
+#echo "end wikidata prefixes"
 
 
 ## CLEAN METADATA GRAPH
@@ -15,11 +14,13 @@ resp=$(run_virtuoso_cmd "SPARQL DROP GRAPH <${DOMAIN}/graph/metadata>;");
 ## CREATE SUBGRAPHS
 run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_CREATE ('${DOMAIN}',1);"
 run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/metadata');"
+run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/metadata_stats');"
 
 echo "[INFO] ADD META DATA"
 echo "FILE : ${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl"
 run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
 
+run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/lastUpdate/meta_base/statistics_metadata.ttl'), '', '${DOMAIN}/graph/metadata_stats');
 
 
 
