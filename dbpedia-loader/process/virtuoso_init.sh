@@ -5,9 +5,9 @@ cp -rf ../metadata/statistics_metadata.ttl ${DATA_DIR}/lastUpdate/meta_base/
 cp -rf ../metadata/dbpedia_fr-metadata.ttl ${DATA_DIR}/lastUpdate/meta_base/
 
 ########## CLEAN ALL WIKIDATA PREFIXES
-#echo "wikidata prefixes"
-#/bin/bash ./process/bash/clean_wikidata_prefix.sh
-#echo "end wikidata prefixes"
+echo "wikidata prefixes"
+/bin/bash ./process/bash/clean_wikidata_prefix.sh
+echo "end wikidata prefixes"
 
 
 ## CLEAN METADATA GRAPH
