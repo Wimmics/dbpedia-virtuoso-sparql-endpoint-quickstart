@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 . ../virtuoso_fct.sh
 
-cp  -R ../metatada/statistics_metadata.ttl ${DATA_DIR}/lastUpdate/meta_base/statistics_metadata.ttl
+cp  ../metatada/statistics_metadata.ttl ${DATA_DIR}/lastUpdate/meta_base/statistics_metadata.ttl
 
 ########## CLEAN ALL WIKIDATA PREFIXES
 #echo "wikidata prefixes"
