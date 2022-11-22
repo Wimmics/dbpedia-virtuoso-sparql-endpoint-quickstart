@@ -20,7 +20,7 @@ echo "[INFO] ADD META DATA"
 echo "FILE : ${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl"
 run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/lastUpdate/meta_base/dbpedia_fr-metadata.ttl'), '', '${DOMAIN}/graph/metadata');" 
 
-run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/lastUpdate/meta_base/statistics_metadata.ttl'), '', '${DOMAIN}/graph/metadata_stats');
+run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/lastUpdate/meta_base/statistics_metadata.ttl'), '', '${DOMAIN}/graph/metadata_stats');"
 
 
 
