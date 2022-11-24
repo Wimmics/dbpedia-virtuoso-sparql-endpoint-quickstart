@@ -1,4 +1,5 @@
-FROM openlink/virtuoso-opensource-7 
+#FROM openlink/virtuoso-opensource-7 
+FROM openlink/virtuoso-opensource-7:7.2
 
 USER root
 RUN apt-get update
