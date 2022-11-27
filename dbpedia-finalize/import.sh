@@ -52,12 +52,12 @@ run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/last
 
 
 echo "[INFO] ADD META DATA WITH DYNAMICS VALUES FROM LAST COMPUTED DUMPS "
-fn_meta=$(find . -name "metadata_used*.ttl.gz")
-run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate', '${fn_meta}', '${DOMAIN}/graph/metadata'');"
+fn_meta=$(find ${STORE_DATA_DIR}/lastUpdate/computed_dumps/ -name "metadata_used*.ttl.gz")
+run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate/computed_dumps/', '${fn_meta}', '${DOMAIN}/graph/metadata'');"
 
 echo "[INFO] ADD STATISTICS VALUES FROM LAST COMPUTED DUMPS "
-fn_stats=find . -name "statistics*.ttl.gz"
-run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate', '${fn_stats}', '${DOMAIN}/graph/statistics');"
+fn_stats=find ${STORE_DATA_DIR}/lastUpdate/computed_dumps/ -name "statistics*.ttl.gz"
+run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate/computed_dumps/', '${fn_stats}', '${DOMAIN}/graph/statistics');"
 
 
 echo "[INFO] ADD CUSTOM PREFIXES"
@@ -125,8 +125,7 @@ do
      
      run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
      run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate', '${fn}', '${DOMAIN}/graph/${final_name}');"
-     echo "ADD FILE : ${STORE_DATA_DIR}/lastUpdate/${fn}"
-
+     echo "ADD FILE : ${STORE_DATA_DIR}/lastUpdate/${fn}";
 done
 
 
