@@ -126,6 +126,7 @@ do
      run_virtuoso_cmd "DB.DBA.RDF_GRAPH_GROUP_INS ('${DOMAIN}','${DOMAIN}/graph/${final_name}');"
      run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate', '${fn}', '${DOMAIN}/graph/${final_name}');"
      echo "ADD FILE : ${STORE_DATA_DIR}/lastUpdate/${fn}";
+  fi
 done
 
 
