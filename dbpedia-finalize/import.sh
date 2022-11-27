@@ -56,7 +56,7 @@ fn_meta=$(find ${DATA_DIR}/lastUpdate/computed_dumps/ -name "metadata_used*.ttl.
 run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate/computed_dumps/', '${fn_meta}', '${DOMAIN}/graph/metadata'');"
 
 echo "[INFO] ADD STATISTICS VALUES FROM LAST COMPUTED DUMPS "
-fn_stats=find ${DATA_DIR}/lastUpdate/computed_dumps/ -name "statistics*.ttl.gz" -exec basename {} .po \;)
+fn_stats=$(find ${DATA_DIR}/lastUpdate/computed_dumps/ -name "statistics*.ttl.gz" -exec basename {} .po \;)
 run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate/computed_dumps/', '${fn_stats}', '${DOMAIN}/graph/statistics');"
 
 
