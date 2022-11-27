@@ -52,11 +52,11 @@ run_virtuoso_cmd "DB.DBA.TTLP_MT (file_to_string_output ('${STORE_DATA_DIR}/last
 
 
 echo "[INFO] ADD META DATA WITH DYNAMICS VALUES FROM LAST COMPUTED DUMPS "
-fn_meta=$(find ${STORE_DATA_DIR}/lastUpdate/computed_dumps/ -name "metadata_used*.ttl.gz")
+fn_meta=$(find ${DATA_DIR}/lastUpdate/computed_dumps/ -name "metadata_used*.ttl.gz" -exec basename {} .po \;)
 run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate/computed_dumps/', '${fn_meta}', '${DOMAIN}/graph/metadata'');"
 
 echo "[INFO] ADD STATISTICS VALUES FROM LAST COMPUTED DUMPS "
-fn_stats=find ${STORE_DATA_DIR}/lastUpdate/computed_dumps/ -name "statistics*.ttl.gz"
+fn_stats=find ${DATA_DIR}/lastUpdate/computed_dumps/ -name "statistics*.ttl.gz" -exec basename {} .po \;)
 run_virtuoso_cmd "ld_dir ('${STORE_DATA_DIR}/lastUpdate/computed_dumps/', '${fn_stats}', '${DOMAIN}/graph/statistics');"
 
 
