@@ -132,7 +132,8 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 				} 		 \
 			}.FILTER NOT EXISTS { \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_wikidata_instance-types> WHERE { \
-				 ?s a ?class \
+				 ?s a ?class . \
+				 FILTER(?class != dbo:Thing) \
 				} \
 			} \
 		} \
@@ -177,7 +178,8 @@ run_virtuoso_cmd "SPARQL PREFIX void: <http://rdfs.org/ns/void#> WITH <${DOMAIN}
 				} 		 \
 			}.FILTER NOT EXISTS { \
 				SELECT ?s ?class FROM <http://fr.dbpedia.org/graph/dbpedia_mappings_instance-types> WHERE { \
-				 ?s a ?class \
+				 ?s a ?class. \
+				 FILTER(?class != dbo:Thing) \
 				} \
 			} \
 		} \
