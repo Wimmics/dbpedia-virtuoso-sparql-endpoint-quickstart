@@ -49,7 +49,7 @@ run_virtuoso_cmd "registry_set ('dbp_category', '${DBP_CATEGORY}');"
 
 ################ INSTALL LAST DBPEDIA VAD
 echo "[INFO] Installing VAD package 'dbpedia_dav.vad'"
-vad_install('/opt/dbpedia-vad/dbpedia_dav.vad', 0);
+run_virtuoso_cmd "vad_install('/opt/dbpedia-vad/dbpedia_dav.vad', 0);"
 run_virtuoso_cmd "LOAD /opt/dbpedia-vad/sql/dbpedia_init.sql ;"
 run_virtuoso_cmd "LOAD /opt/dbpedia-vad/sql/dbpedia_local.sql ;"
 run_virtuoso_cmd "LOAD /opt/dbpedia-vad/sql/description.sql ;"
