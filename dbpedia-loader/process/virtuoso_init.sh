@@ -6,7 +6,7 @@ cp -rf ../metadata/dbpedia_fr-metadata.ttl ${DATA_DIR}/lastUpdate/meta_base/
 
 ########## CLEAN ALL WIKIDATA PREFIXES
 echo "wikidata prefixes"
-/bin/bash ./process/bash/clean_wikidata_prefix.sh
+#/bin/bash ./process/bash/clean_wikidata_prefix.sh
 echo "end wikidata prefixes"
 
 
