@@ -1,7 +1,7 @@
 PREFIX prov: <http://www.w3.org/ns/prov#> 
 PREFIX void: <http://rdfs.org/ns/void#> 
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
-prefix rdfs: <rdfshttp://www.w3.org/2000/01/rdf-schema#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix prop-fr: <http://fr.dbpedia.org/property/>
 prefix graph-fr:  <http://fr.dbpedia.org/graph/>
 prefix abstract_graph: <http://fr.dbpedia.org/abstract_graph/>
